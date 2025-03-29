@@ -33,7 +33,16 @@
 
   networking.hostName = "icetea-dispenser"; # Define your hostname.
   networking.firewall.enable = false;
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
   
+  hardware.bluetooth.enable = true; 
+  hardware.bluetooth.settings = {
+	General = {Enable = "Source,Sink,Media,Socket";};  
+  };
+
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+
   programs.nix-ld.enable = true;
   services.printing.enable = true;
   nixpkgs.config.allowUnfree = true; 

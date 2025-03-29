@@ -1,5 +1,31 @@
-{cfg, lib, ...}: 
+{cfg, lib, pkgs, ...}: 
+with lib;
 {
+
+
+  home.packages = with pkgs; [
+    mako
+    wofi
+    hyprshot
+    networkmanagerapplet
+    xdg-desktop-portal-gnome 
+    xdg-desktop-portal-hyprland
+    wl-clipboard
+  ];
+
+  # TODO: Place environment variables in  ./config/uwsm
+  home.file.".config/uwsm/env-hyprland".text = ''
+     export XDG_SESSION_TYPE=wayland
+     export GDK_BACKEND=wayland
+     export GTK_USE_PORTAL=1
+     export QT_QPA_PLATFORM=wayland;xcb
+     export QT_STYLE_OVERRIDE=kvantum
+     export QT_QPA_PLATFORM_THEME=kvantum
+     export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+     export QT_AUTO_SCREEN_SCALE_FACTOR=1
+     export MOZ_ENABLE_WAYLAND=1
+  '';
+
   # Hyprland 
   wayland.windowManager.hyprland = {
       systemd.enable = false;
@@ -104,7 +130,7 @@
         
         # Programs 
         "$terminal" = "kitty";
-        "$fileManager" = "pcmanfm";
+        "$fileManager" = "thunar";
         "$menu" = "wofi --show run";
         "$screenshot" = "hyprshot -m region -f screenshots/screenshot_$(date +'%d-%m-%y_%H-%M-%S').png";
         
