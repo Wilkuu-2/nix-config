@@ -1,4 +1,4 @@
-{config, pkgs, ...}: 
+{cfg, lib, ...}: 
 {
   # Hyprland 
   wayland.windowManager.hyprland = {
@@ -15,7 +15,11 @@
 						 "blueman-applet &"
              "hyprctl setcursor Catppuccin-Mocha-Dark-Cursors 24"
              "kdeconnect-indicator &"
-        ] ++ ["uwsm finalize QT_QPA_PLATFORM QT_PLUGIN_PATH"];
+        ] ++ [
+          "systemctl --user start hypridle.service"
+          "systemctl --user start hyprpaper.service"
+          "uwsm finalize QT_QPA_PLATFORM QT_PLUGIN_PATH"
+          ];
         general = {
           gaps_in = 3;
           gaps_out = 8;
@@ -233,4 +237,5 @@
       }
     ];
   };
-} 
+
+}
