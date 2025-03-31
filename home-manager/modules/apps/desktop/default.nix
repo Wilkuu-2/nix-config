@@ -25,6 +25,7 @@
     mpv
     openttd
     anki-bin
+    vesktop
 
     #Theme  
     qt6Packages.qt6ct

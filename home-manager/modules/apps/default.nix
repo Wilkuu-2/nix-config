@@ -18,6 +18,7 @@ with lib;
 	unzip 
 	unrar
 	xdg-user-dirs
+	zsh
 
 	# Do i need this? 
 	php 
