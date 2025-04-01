@@ -36,7 +36,7 @@
    users.users.wilkuu = {
      shell = pkgs.zsh; 
      isNormalUser = true;
-     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+     extraGroups = [ "wheel" "networkmanager" "input" "docker" "adbusers" "libvirtd" ]; # Enable ‘sudo’ for the user.
      packages = with pkgs; [
        tree
      ];
