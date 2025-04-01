@@ -32,7 +32,9 @@
   # services.xserver.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  programs.zsh.enable = true;
    users.users.wilkuu = {
+     shell = pkgs.zsh; 
      isNormalUser = true;
      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
      packages = with pkgs; [

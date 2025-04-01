@@ -136,7 +136,7 @@ menuentry 'UEFI Firmware' $menuentry_id_option 'uefi-firmware' {
 
     # Enable the Nvidia settings menu,
 	# accessible via `nvidia-settings`.
-    nvidiaSettings = false;
+    nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.production;
@@ -149,8 +149,8 @@ menuentry 'UEFI Firmware' $menuentry_id_option 'uefi-firmware' {
 
 	  sync.enable = false;
 
-    intelBusId = "PCI:1:0:0";
-    nvidiaBusId = "PCI:0:2:0";
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:1:0:0";
     }; 
   };
 }
