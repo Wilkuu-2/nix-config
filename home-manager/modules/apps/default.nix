@@ -19,6 +19,11 @@ with lib;
 	unrar
 	xdg-user-dirs
 	zsh
+	make
+	cmake 
+	gcc
+	clang
+	rustup
 
 	# Do i need this? 
 	php 

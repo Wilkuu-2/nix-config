@@ -17,6 +17,8 @@
     obsidian
     krita
     kitty
+    make
+    zotero
     
     spotify
     prismlauncher
