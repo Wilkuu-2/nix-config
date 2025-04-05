@@ -9,7 +9,7 @@
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "aesni_intel" "cryptd" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.supportedFilesystems = [ "ntfs" "btrfs" "vfat" ];
@@ -70,7 +70,6 @@ menuentry 'UEFI Firmware' $menuentry_id_option 'uefi-firmware' {
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/f1dfc6a1-55f3-4148-9f1d-2a998c3b3168"; }
-      { device = "/dev/disk/by-uuid/003a819a-e06e-45df-bef6-b3702c2ddb48"; }
     ];
 
   # Thunderbolt 
