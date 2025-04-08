@@ -19,9 +19,8 @@ with lib;
 	unrar
 	xdg-user-dirs
 	zsh
-	make
 	cmake 
-	gcc
+	( hiPrio gcc)
 	clang
 	rustup
 

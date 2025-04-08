@@ -17,8 +17,8 @@
     obsidian
     krita
     kitty
-    make
     zotero
+    syncthingtray
     
     spotify
     prismlauncher
@@ -37,4 +37,9 @@
        variant = "mocha";
     })
   ];
+
+  services.syncthing.tray = {
+    enable = true; 
+    command = "syncthingtray --wait"; 
+  }; 
 }
