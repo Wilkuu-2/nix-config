@@ -3,7 +3,7 @@
 {
 	imports = [
 	   ./apps.nix
-           ./xfce.nix
+     ./xfce.nix
 	   ./hyprland.nix
 	]; 
 
@@ -33,11 +33,12 @@
 	       pulse.enable = true; 
      };
 
-	   displayManager.sddm = {
-		enable=true; 
-		wayland.enable = true;
-		#theme = "catppuccin-mocha";
-           };
+	  displayManager.sddm = {
+      enable=true; 
+      wayland.enable = true;
+      #theme = "catppuccin-mocha";
+     };
+
 	   xserver = {
 	      enable = true; 
 	      excludePackages = with pkgs; [
@@ -46,9 +47,10 @@
 	   };
 	};
 
-        fonts.packages = with pkgs; [
+  fonts.packages = with pkgs; [
 	   noto-fonts
 	   font-awesome
 	   (nerdfonts.override {fonts = [ "Hermit" ]; })
+
 	]; 
 }
