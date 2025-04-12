@@ -21,11 +21,12 @@ with lib;
 	zsh
 	cmake 
 	( hiPrio gcc)
+  gnumake
 	clang
 	rustup
 
 	# Do i need this? 
-	php 
+	php83 
 	php83Packages.composer
 
   ]; 
