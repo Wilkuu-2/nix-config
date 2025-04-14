@@ -65,6 +65,9 @@
   # Thunderbolt 
   services.hardware.bolt.enable = true;
   powerManagement.enable = true; 
+
+  # Firmware updates 
+  services.fwupd.enable = true; 
 }
 
 
