@@ -19,6 +19,9 @@
     kitty
     zotero
     syncthingtray
+    gparted
+    eduvpn-client 
+    wireshark-qt
     
     spotify
     prismlauncher

@@ -24,6 +24,12 @@ with lib;
   gnumake
 	clang
 	rustup
+  iamb 
+  lm_sensors 
+  sshfs
+  pkg-config
+  ranger
+  file
 
 	# Do i need this? 
 	php83 
