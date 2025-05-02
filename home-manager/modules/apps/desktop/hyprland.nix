@@ -47,6 +47,7 @@ with lib;
         ] ++ [
           "systemctl --user start hypridle.service"
           "systemctl --user start hyprpaper.service"
+          "systemctl --user start hyprpolkitagent.service"
           "uwsm finalize QT_QPA_PLATFORM QT_PLUGIN_PATH"
           ];
         general = {

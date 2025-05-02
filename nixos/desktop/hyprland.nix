@@ -9,6 +9,7 @@
       hyprpicker
       hyprnotify
       hyprcursor
+      hyprpolkitagent
        waybar
        waybar-mpris
     ]; 
