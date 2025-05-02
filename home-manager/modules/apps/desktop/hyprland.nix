@@ -13,7 +13,9 @@ with lib;
     wl-clipboard
   ];
 
-  # TODO: Place environment variables in  ./config/uwsm
+
+  # Environment variables for hyprland.
+  # This can be used to configure wayland/hyprland-specific things
   home.file.".config/uwsm/env-hyprland".text = ''
      export XDG_SESSION_TYPE=wayland
      export GDK_BACKEND=wayland
@@ -24,6 +26,7 @@ with lib;
      export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
      export QT_AUTO_SCREEN_SCALE_FACTOR=1
      export MOZ_ENABLE_WAYLAND=1
+     export -n GTK_IM_MODULE
   '';
 
   # Hyprland 
