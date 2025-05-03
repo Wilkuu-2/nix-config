@@ -4,6 +4,8 @@
      ./hardware-configuration.nix
      ../../common
      ./nvidia.nix
+     ./backup.nix
+     ./firewall.nix
    ];
    boot.loader.grub = { 
         useOSProber = true;
@@ -33,7 +35,6 @@
   boot.consoleLogLevel = 0; 
 
   networking.hostName = "apocalypse"; # Define your hostname.
-  networking.firewall.enable = false;
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
   
   hardware.bluetooth.enable = true; 

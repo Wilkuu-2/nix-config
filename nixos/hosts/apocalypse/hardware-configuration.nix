@@ -33,8 +33,8 @@ menuentry 'UEFI Firmware' $menuentry_id_option 'uefi-firmware' {
 
   fileSystems."/btrfs_root" = {
       device = "/dev/mapper/cryptroot";
-      fsType = "btrfs"
-      options = [ "subvolid=5", "compress=zstd"]
+      fsType = "btrfs";
+      options = [ "subvolid=5" "compress=zstd"];
   };
 
 
