@@ -69,6 +69,20 @@
 
   # Firmware updates 
   services.fwupd.enable = true; 
+
+  services.openssh = {
+    enable = true; 
+    ports = [22]; 
+    openFirewall = false; 
+    allowSFTP = false; 
+    settings = {
+      PasswordAuthentication = false;
+      AllowUsers = ["wilkuu"];
+      X11Forwarding = false; 
+      PermitRootLogin = "no";
+      PrintMotd = true;
+    }; 
+  };
 }
 
 

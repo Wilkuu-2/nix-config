@@ -14,7 +14,7 @@
       ssh_user = "vaultmanager";
       stream_compress = "lz4";
       volume."/btrfs_root" = {
-        target = "ssh://10.100.0.1/vault/backups/apocalypse";
+        target = "ssh://10.127.9.1/vault/backups/apocalypse";
         subvolume = { 
           "@root" = { 
             snapshot_create = "always";

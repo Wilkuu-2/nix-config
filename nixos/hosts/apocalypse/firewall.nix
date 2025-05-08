@@ -1,9 +1,11 @@
 {pkgs, config, ...}:
 let 
   baseTCP = [
-    
+    22000 # Syncthng
   ]; 
   baseUDP = [
+    22000 # Syncthing
+    22027 # Syncthing 
     16555 # Wireguard
   ]; 
   baseTCPRanges = [
@@ -14,34 +16,35 @@ let
   ];
 
   secureTCP = [
-    22 80 433 5900
-  ] ++ baseTCP;  
+    22 80 433 5900 # SSH HTTP VNC
+  ];  
   
   secureUDP = [
-    
-  ] ++ baseUDP;  
+    5900 
+  ];  
 
   secureTCPRanges = [
 
-  ] ++ baseTCPRanges ; 
+  ]; 
   secureUDPRanges = [
 
-  ] ++ baseUDPRanges; 
+  ]; 
 in 
 {
-    networking.firewall {
+    networking.firewall = {
         enable = true; 
         allowedTCPPorts = baseTCP; 
         allowedUDPPorts = baseUDP; 
           allowedUDPPortRanges = baseUDPRanges;
           allowedTCPPortRanges = baseTCPRanges;
         interfaces = {
-        "wg0" = {
-          allowedTCPPorts = secureTCP; 
-          allowedUDPorts = secureUDP; 
-          allowedUDPPortRanges = secureUDPRanges;
-          allowedTCPPortRanges = secureTCPRanges;
-        };
+          "nix-laptop" = {
+            allowedTCPPorts = secureTCP; 
+            allowedUDPPorts = secureUDP; 
+            allowedUDPPortRanges = secureUDPRanges;
+            allowedTCPPortRanges = secureTCPRanges;
+          };
+       };
     };
 }
 
