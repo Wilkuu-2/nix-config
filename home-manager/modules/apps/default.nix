@@ -1,10 +1,11 @@
-{lib, pkgs, ...}:
+{lib, pkgs,inputs, ...}:
 with lib;
 {
    imports = [
      ./nvim
      ./desktop 
      ./zsh.nix
+      inputs.iamb.packages."${system}".default
    ];
 
    # Stuff that is to be sorted to its appropriate files

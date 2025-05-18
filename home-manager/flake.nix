@@ -13,11 +13,12 @@
 	url = "github:nix-community/home-manager/release-24.11";
         inputs.nixpkgs.follows = "nixpkgs";
       }; 
+      iamb.url = "github:ulyssa/iamb";
    }; 
 
 
    
-   outputs = {self, nixpkgs, nixpkgs-stable, nixpkgs-unstable, flake-utils, home-manager, ... }@inputs: 
+   outputs = {self, nixpkgs, nixpkgs-stable, nixpkgs-unstable, flake-utils, home-manager, iamb ,... }@inputs: 
       let 
           inherit (self) outputs; 
 
@@ -48,9 +49,8 @@
          # overlays = import ./overlays {inherit inputs;};
 	 homeConfigurations = {
             "wilkuu" = HomeConfiguration  {
-		extraSpecialArgs = {
-		};
-            	 
+              extraSpecialArgs = {
+              };
             }; 
          };
          inherit home-manager; 
