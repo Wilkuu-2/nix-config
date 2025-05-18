@@ -45,6 +45,9 @@
     nodePackages.intelephense
     texlive.combined.scheme-full
     texlab
+    vue-language-server
+    mermaid-cli
+    typescript-language-server
   ];
 
 }

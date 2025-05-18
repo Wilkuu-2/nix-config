@@ -31,6 +31,8 @@
     openttd
     anki-bin
     vesktop
+    inkscape
+    zathura
 
     #Theme  
     qt6Packages.qt6ct
