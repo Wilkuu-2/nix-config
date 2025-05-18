@@ -39,7 +39,8 @@
     typescript
     nodejs_22 
     rustup
-    nixd 
+    nil
+    statix
     nixfmt-rfc-style 
     pyright
     nodePackages.intelephense

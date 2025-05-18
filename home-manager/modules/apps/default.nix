@@ -1,11 +1,10 @@
-{lib, pkgs,inputs, ...}:
+{lib, pkgs, inputs, ...}:
 with lib;
 {
    imports = [
      ./nvim
      ./desktop 
      ./zsh.nix
-      inputs.iamb.packages."${system}".default
    ];
 
    # Stuff that is to be sorted to its appropriate files
@@ -25,12 +24,12 @@ with lib;
   gnumake
 	clang
 	rustup
-  iamb 
   lm_sensors 
   sshfs
   pkg-config
   ranger
   file
+  inputs.iamb.packages."${pkgs.system}".default
 
 	# Do i need this? 
 	php83 
