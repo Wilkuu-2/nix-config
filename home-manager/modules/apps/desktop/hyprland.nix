@@ -1,4 +1,4 @@
-{cfg, lib, pkgs, ...}: 
+{lib, pkgs, ...}: 
 with lib;
 {
 
@@ -135,7 +135,7 @@ with lib;
         # Programs 
         "$terminal" = "kitty";
         "$fileManager" = "thunar";
-        "$menu" = "wofi --show run";
+        "$menu" = "wofi --show drun";
         "$screenshot" = "hyprshot -m region -f screenshots/screenshot_$(date +'%d-%m-%y_%H-%M-%S').png";
         
 

@@ -30,10 +30,5 @@ with lib;
   ranger
   file
   inputs.iamb.packages."${pkgs.system}".default
-
-	# Do i need this? 
-	php83 
-	php83Packages.composer
-
   ]; 
 }
