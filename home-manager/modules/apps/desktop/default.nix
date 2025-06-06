@@ -3,6 +3,7 @@
     ./hyprland.nix 
     ./wine.nix 
     ./ghidra.nix
+    ./floorp.nix
   ];
 
   home.packages = with pkgs; [	
