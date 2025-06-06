@@ -1,5 +1,9 @@
 {lib, pkgs, ...}: with lib; {
-  imports = [ ./hyprland.nix ./wine.nix ];
+  imports = [ 
+    ./hyprland.nix 
+    ./wine.nix 
+    ./ghidra.nix
+  ];
 
   home.packages = with pkgs; [	
     speedcrunch

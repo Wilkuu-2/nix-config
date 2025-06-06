@@ -32,7 +32,7 @@ let
 in 
 {
     networking.firewall = {
-        enable = true; 
+        enable = false; 
         allowedTCPPorts = baseTCP; 
         allowedUDPPorts = baseUDP; 
           allowedUDPPortRanges = baseUDPRanges;
