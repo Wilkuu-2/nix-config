@@ -62,7 +62,6 @@
   fonts.packages = with pkgs; [
 	   noto-fonts
 	   font-awesome
-	   (nerdfonts.override {fonts = [ "Hermit" ]; })
-
+	   nerd-fonts.hurmit 
 	]; 
 }

@@ -11,15 +11,15 @@
         useOSProber = true;
    	device = "nodev";
 
-
 	efiSupport = true;
 	default = "saved";
 	memtest86.enable = true;
 	# splashImage = ./GrubBG.png;
    };
-   boot.loader.efi.canTouchEfiVariables = true;
-   boot.crashDump.enable = false; 
-   boot.plymouth = {
+ boot.loader.efi.canTouchEfiVariables = true;
+ boot.initrd.systemd.enable = true;
+ boot.crashDump.enable = false; 
+ boot.plymouth = {
 	enable = true;
 	theme = "bgrt";
    };
