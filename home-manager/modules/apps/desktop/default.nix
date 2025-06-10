@@ -10,7 +10,7 @@
     speedcrunch
     thunderbird
     element-desktop 
-    filelight
+    kdePackages.filelight
     libreoffice 
     evince
     obsidian

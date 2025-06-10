@@ -1,10 +1,11 @@
-{pkgs, config}: {
+{pkgs, config, ...}: {
   programs.floorp = { 
-    enabled = true; 
+    enable = true; 
     nativeMessagingHosts = [ pkgs.uget-integrator ]; 
   };
 
   home.packages = with pkgs; [
     uget
+    uget-integrator 
   ];
 }
