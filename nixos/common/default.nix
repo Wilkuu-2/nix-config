@@ -11,8 +11,6 @@
       ./services.nix
     ];
 
-
-
   nix.settings.experimental-features = ["nix-command" "flakes"]; 
   time.timeZone = "Europe/Amsterdam"; # Set timezone
 
@@ -61,6 +59,12 @@
      usbutils 
      lz4 
   ];
+
+  systemd.oomd = {
+    enable = true;
+    enableUserSlices = true;
+    enableRootSlice = true;
+  };
 
 
   

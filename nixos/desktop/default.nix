@@ -9,21 +9,21 @@
 
 	programs = {
 	   dconf.enable = true; 
-           thunar = {
-	   	enable = true; 
-                plugins = with pkgs.xfce; [
-		    thunar-archive-plugin
-                    thunar-media-tags-plugin
-		    thunar-volman
-		];
-           };
+     thunar = {
+	   	  enable = true; 
+        plugins = with pkgs.xfce; [
+          thunar-archive-plugin
+          thunar-media-tags-plugin
+          thunar-volman
+		  ];
+    };
 	};
-	  # Enable CUPS to print documents.
-	  services.printing.enable = true;
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
 
 
-	  # Enable touchpad support (enabled default in most desktopManager).
-	  services.libinput.enable = true;
+  # Enable touchpad support (enabled default in most desktopManager).
+  services.libinput.enable = true;
 	
 	services = {
 	   blueman.enable = true; 
