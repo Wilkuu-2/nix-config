@@ -1,5 +1,8 @@
-{ pkgs, config, ...}:
-{
+{ pkgs, config, lib,...}:
+let
+ts_ls=pkgs.typescript-language-server;
+vue_ls=pkgs.vue-language-server;
+in {
   programs.neovim = {
     enable = true; 
      defaultEditor = true;
@@ -22,8 +25,8 @@
   '';
 
   home.file."./.config/nvim/lua/wilkuu/nix.lua".text = ''
-    return {
-      vue_ts_plugin = "/home/wilkuu/.npm/@vue/typescript-plugin",
+    return { 
+      vue_ts_plugin = "${lib.getBin vue_ls}/lib/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin/"
     } 
   '';
 
@@ -42,13 +45,12 @@
     nil
     statix
     nixfmt-rfc-style 
+    # phpactor
     pyright
     nodePackages.intelephense
     texlive.combined.scheme-full
     texlab
-    vue-language-server
     mermaid-cli
-    typescript-language-server
-  ];
+  ] ++ [ ts_ls  vue_ls];
 
 }
