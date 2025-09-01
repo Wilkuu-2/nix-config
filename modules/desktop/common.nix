@@ -24,7 +24,8 @@
       kitty
       # qalculate
       networkmanagerapplet
-      surf # A basic browser in case we don't want to import a larger browser
+      # disabled because it imports a unsafe package
+      # surf # A basic browser in case we don't want to import a larger browser
     ];
 
 
