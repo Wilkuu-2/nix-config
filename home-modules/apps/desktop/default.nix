@@ -70,7 +70,7 @@ in
     })
     (lib.mkIf cfg.connectivity.enable {
       home.packages = with pkgs; [
-        libsForQt5.kdeconnect-kde
+        kdePackages.kdeconnect-kde
         syncthingtray
         eduvpn-client 
       ];
