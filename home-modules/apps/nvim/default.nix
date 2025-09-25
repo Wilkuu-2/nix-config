@@ -55,6 +55,7 @@ in {
       texlive.combined.scheme-medium
       texlab
       mermaid-cli
+      deno
     ] ++ [ ts_ls  vue_ls];
 
   };

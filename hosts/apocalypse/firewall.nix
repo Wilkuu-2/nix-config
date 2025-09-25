@@ -2,11 +2,13 @@
 let 
   baseTCP = [
     22000 # Syncthng
+    5352 # Zeroconf for spotifyd 
   ]; 
   baseUDP = [
     22000 # Syncthing
     22027 # Syncthing 
     16555 # Wireguard
+    5353 # Mdns (Spotify) 
   ]; 
   baseTCPRanges = [
     { from = 1714; to = 1764; } # KDE-CONNECT 
@@ -32,7 +34,7 @@ let
 in 
 {
     networking.firewall = {
-        enable = false; 
+        enable = true; 
         allowedTCPPorts = baseTCP; 
         allowedUDPPorts = baseUDP; 
           allowedUDPPortRanges = baseUDPRanges;

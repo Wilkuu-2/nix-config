@@ -102,8 +102,6 @@ in
     })
     (lib.mkIf cfg.connectivity.enable {
       home.packages = with pkgs; [
-        libsForQt5.kdeconnect-kde
-        syncthingtray
         eduvpn-client 
       ];
       services.syncthing = {
@@ -117,6 +115,18 @@ in
       ];
 
       services.playerctld.enable = true; 
+      services.spotifyd = {
+        enable = true; 
+        settings = {
+          global = {
+            device_name = "Apocalypse Nix"; 
+          }; 
+          discovery = {
+            zeroconf_port = 5352; 
+          };
+          # FIXME: Add a hook for notifications
+        }; 
+      };
     })
     (lib.mkIf cfg.games.enable {
       home.packages = with pkgs; [

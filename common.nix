@@ -16,6 +16,12 @@
     enableUserSlices = true;
     enableSystemSlice = true;
     enableRootSlice = true;
+    extraConfig = {
+      SwapUsedLimit="50%"; 
+      DefaultMemoryPressureLimit="50%";
+      DefaultMemoryPressureDurationSec=20;
+
+    };
   };
 
   nix.gc = {
@@ -53,6 +59,8 @@
     gnumake
     clang
     rustup
+
+    # D
   ];
   
   # This option defines the first version of NixOS you have installed on this particular machine,  

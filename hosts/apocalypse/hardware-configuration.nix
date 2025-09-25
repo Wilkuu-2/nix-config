@@ -19,6 +19,10 @@ menuentry 'UEFI Firmware' $menuentry_id_option 'uefi-firmware' {
  fwsetup
 }
   ''; 
+
+  boot.extraModprobeConfig = '' 
+  options thinkpad_acpi fan_control=1
+  ''; 
   
   boot.initrd.luks.devices = {
     "cryptroot".device = "/dev/disk/by-uuid/d2c3c197-3d75-4da2-a098-207030a91b62";

@@ -1,4 +1,4 @@
- {lib, ...}: 
+ {lib, pkgs, ...}: 
  { 
    imports = [
      ./hardware-configuration.nix
@@ -93,6 +93,13 @@
       PermitRootLogin = "no";
       PrintMotd = true;
     }; 
+  };
+
+   # Winbox setup.
+  programs.winbox = {
+    enable = true;
+    openFirewall = true;
+    package = pkgs.winbox;
   };
 }
 
