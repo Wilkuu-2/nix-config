@@ -51,6 +51,7 @@ in
     (lib.mkIf cfg.base.enable {
       home.packages = with pkgs; [
         lm_sensors 
+        nix-output-monitor
       ];
       homeapps.zsh.enable = true; 
       homeapps.nvim.enable = true; 
@@ -123,6 +124,13 @@ in
           }; 
           discovery = {
             zeroconf_port = 5352; 
+          };
+          audio = {
+            backend="pulse";
+          };
+          ## Fixes spotifyd for some reason 
+          networking.hosts = {
+            "0.0.0.0" = ["apresolve.spotify.com"]; 
           };
           # FIXME: Add a hook for notifications
         }; 
