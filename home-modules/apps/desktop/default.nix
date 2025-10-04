@@ -85,7 +85,8 @@ in
       home.packages = with pkgs; [
         ani-cli
         vlc
-        spotify
+        # Spotify (The proprietary frontend)
+        riff 
       ];
     })
     (lib.mkIf cfg.games.enable {

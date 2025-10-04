@@ -63,6 +63,9 @@
     # D
   ];
   
+  networking.hosts = {
+    "0.0.0.0" = ["apresolve.spotify.com"]; 
+  };
   # This option defines the first version of NixOS you have installed on this particular machine,  
   # DO NOT CHANGE UNLESS USING NIXOS-INSTALL
   system.stateVersion = "24.11"; # Did you read the comment?

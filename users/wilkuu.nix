@@ -1,11 +1,12 @@
 {pkgs, lib, config,...}: {
    imports = [./user-common.nix];
    programs.zsh.enable = true;
+   programs.adb.enable = true;
    users.users.wilkuu = {
      shell = pkgs.zsh; 
      isNormalUser = true;
      initialPassword = "PleazeChangeThis123"; 
-     extraGroups = [ "wheel" "networkmanager" "input" "docker" "adbusers" "libvirtd" ]; # Enable ‘sudo’ for the user.
+     extraGroups = [ "wheel" "adbusers" "networkmanager" "input" "docker" "adbusers" "libvirtd" ]; # Enable ‘sudo’ for the user.
      packages = with pkgs; [
        home-manager
      ];

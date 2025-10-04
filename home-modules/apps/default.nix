@@ -120,6 +120,7 @@ in
         enable = true; 
         settings = {
           global = {
+            use-mpris = true; 
             device_name = "Apocalypse Nix"; 
           }; 
           discovery = {
@@ -129,9 +130,6 @@ in
             backend="pulse";
           };
           ## Fixes spotifyd for some reason 
-          networking.hosts = {
-            "0.0.0.0" = ["apresolve.spotify.com"]; 
-          };
           # FIXME: Add a hook for notifications
         }; 
       };
