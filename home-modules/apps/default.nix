@@ -105,9 +105,9 @@ in
       home.packages = with pkgs; [
         eduvpn-client 
       ];
-      services.syncthing = {
-        enable = true; 
-      }; 
+      # services.syncthing = {
+      #   enable = true; 
+      # }; 
     })
     (lib.mkIf cfg.multimedia.enable {
       home.packages = with pkgs; [

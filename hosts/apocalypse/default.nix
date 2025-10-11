@@ -11,6 +11,7 @@
   addons = { 
     desktop.hyprland.enable = true; 
     desktop.xfce.enable = true; 
+    steam.enable = true; 
 
     virtualisation.guest = false; 
     virtualisation.host = true; 

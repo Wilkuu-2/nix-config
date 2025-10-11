@@ -59,21 +59,21 @@ menuentry 'UEFI Firmware' $menuentry_id_option 'uefi-firmware' {
       fsType = "btrfs";
       options = [ "noatime" "compress=zstd" "subvol=/"];
     };
-  fileSystems."/store1" = 
-    { device = "/dev/disk/by-uuid/6A2E2BFF2E2BC2C5";
-      fsType = "ntfs-3g" ;
-      options = ["rw" "uid=1000" "gid=100"];
-    };
+  # fileSystems."/store1" = 
+  #   { device = "/dev/disk/by-uuid/6A2E2BFF2E2BC2C5";
+  #     fsType = "ntfs-3g" ;
+  #     options = ["rw" "uid=1000" "gid=100"];
+  #   };
   fileSystems."/win_games" = 
     { device = "/dev/disk/by-uuid/6A680789680752ED";
       fsType = "ntfs-3g" ;
       options = ["rw" "uid=1000" "gid=100"];
     };
-  fileSystems."/windows" = {
-      device = "/dev/disk/by-uuid/7AFA6C84FA6C3E8F";
-      fsType = "ntfs-3g";
-      options = ["rw" "uid=1000" "gid=100"];
-  };
+  # fileSystems."/windows" = {
+  #     device = "/dev/disk/by-uuid/7AFA6C84FA6C3E8F";
+  #     fsType = "ntfs-3g";
+  #     options = ["rw" "uid=1000" "gid=100"];
+  # };
 
   swapDevices =
     [ { device = "/dev/mapper/cryptswap"; }

@@ -6,7 +6,7 @@
      shell = pkgs.zsh; 
      isNormalUser = true;
      initialPassword = "PleazeChangeThis123"; 
-     extraGroups = [ "wheel" "adbusers" "networkmanager" "input" "docker" "adbusers" "libvirtd" ]; # Enable ‘sudo’ for the user.
+     extraGroups = [ "wheel" "adbusers" "networkmanager" "input" "docker" "adbusers" "libvirtd" "libvirt"]; # Enable ‘sudo’ for the user.
      packages = with pkgs; [
        home-manager
      ];

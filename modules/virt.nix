@@ -13,7 +13,9 @@ in
       environment.systemPackages = with pkgs; [ 
         qemu 
       ]; 
+      programs.virt-manager.enable = true;
       virtualisation = {
+        spiceUSBRedirection.enable = true; 
         docker.enable = true;
         libvirtd = {
           enable = true;
@@ -28,7 +30,6 @@ in
       
     })
     (lib.mkIf cfg.guest {
-      virtualisation.spiceUSBRedirection.enable = true; 
       services.spice-vdagentd.enable = true; 
     })
   ]);

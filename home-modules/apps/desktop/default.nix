@@ -71,7 +71,6 @@ in
     (lib.mkIf cfg.connectivity.enable {
       home.packages = with pkgs; [
         kdePackages.kdeconnect-kde
-        syncthingtray
         eduvpn-client 
       ];
       services.syncthing = { 

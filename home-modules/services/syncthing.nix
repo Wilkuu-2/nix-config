@@ -1,7 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib ,... }:
 {
-  services.syncthing = {
-    enable = true; 
+  config = lib.mkIf config.homeapps.presets.connectivity.enable  {  
+    services.syncthing = {
+      enable = true; 
+    };
   };  
 }
 

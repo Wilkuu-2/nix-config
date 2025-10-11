@@ -17,6 +17,7 @@ in {
     ./x11.nix
     ./wayland.nix
     ./wms
+    ./steam.nix
   ];  
   options.addons.desktop = with types; {
       wmMeta = mkOption {
