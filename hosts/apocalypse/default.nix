@@ -17,6 +17,7 @@
     virtualisation.host = true; 
 
     vpn.mullvad.enable = true; 
+    vpn.eduvpn.enable = true; 
     gpg.enable = true;
   };
 
@@ -83,7 +84,7 @@
   services.fwupd.enable = true; 
 
   services.openssh = {
-    enable = true; 
+    enable = false; 
     ports = [22]; 
     openFirewall = false; 
     allowSFTP = false; 

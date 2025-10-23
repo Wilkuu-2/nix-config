@@ -13,7 +13,7 @@
       ];
       programs.gamescope = {
         enable = true;
-        capSysNice = true;
+        capSysNice = false; # This needs to be false as to make nested steam stuff work in it. 
       }; 
       programs.steam = {
         enable = true; 
