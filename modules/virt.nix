@@ -22,8 +22,6 @@ in
           qemu = {
             swtpm.enable = true; 
             vhostUserPackages = with pkgs; [ virtiofsd ];
-            ovmf.enable = true; 
-            ovmf.packages = [ pkgs.OVMFFull.fd ];
           };
         };
       };   

@@ -1,0 +1,15 @@
+keys: 
+  - &admin_wilkuu age1hsxrd9shau86k7zz9wfdeplldyg5c2al6umnr7rn6tf7ewus64uswufr0a
+  - &server_apocalypse age19cw4x4ycrdhfdkwvp009czmvfhucpdtn8lme4ja0rvq7er87z3wsd2fxz7 
+
+creation_rules: 
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    age: 
+      - *admin_wilkuu
+      - *server_apocalypse 
+  - path_regex: secrets/apocalypse/[^/]+\.(yaml|json|env|ini)$
+    age: 
+      - *admin_wilkuu
+      - *server_apocalypse 
+

@@ -33,8 +33,10 @@ let
   ]; 
 in 
 {
+    networking.nftables.enable = false; 
     networking.firewall = {
-        enable = false; 
+        enable = false;
+        checkReversePath = false; 
         allowedTCPPorts = baseTCP; 
         allowedUDPPorts = baseUDP; 
           allowedUDPPortRanges = baseUDPRanges;
@@ -47,6 +49,11 @@ in
             allowedTCPPortRanges = secureTCPRanges;
           };
        };
+       trustedInterfaces = [
+          "docker0" 
+          "br-*" 
+          "veth*"
+       ];
     };
 }
 

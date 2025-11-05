@@ -1,9 +1,14 @@
-{pkgs, lib, ...}: {
-  
+{pkgs, lib, inputs,...}: {
   boot.loader.systemd-boot.enable = true; 
   boot.loader.efi.canTouchEfiVariables = true;
+  imports = ["${inputs.nixpkgs}/nixos/modules/virtualisation/libvirtd.nix"];
 
-  addons.desktop.hyprland.enable = true; 
+  networking.hostName = "cookie_vm"; # Define your hostname.
+  networking.networkmanager.enable = true; 
+  programs.nix-ld.enable = true;
+
+
+  addons.desktop.hyprland.enable = false; 
   addons.desktop.xfce.enable = true; 
   addons.virtualisation.guest = true; 
   virtualisation.vmVariant = {

@@ -1,4 +1,4 @@
-{pkgs, lib, ...}: {
+{pkgs, lib, inputs, config,...}: {
   imports = [
     ./modules
   ]; 
@@ -10,6 +10,11 @@
     };
   };
   time.timeZone = "Europe/Amsterdam"; # Set timezone
+
+  sops.defaultSopsFile = ./secrets/secrets.yaml;
+  sops.age.sshKeyPaths = ["/etc/ssh_host_ed25519_key"]; 
+  sops.age.keyFile = "/var/lib/sops-nix/key.txt"; 
+  sops.age.generateKey = true; 
 
   systemd.oomd = {
     enable = true;
@@ -41,6 +46,10 @@
     ranger
     file
     lm_sensors 
+
+    # Needed for getting credentials
+    age
+    sops 
   
     bashInteractive
     coreutils
@@ -51,7 +60,8 @@
     usbutils
     vim
 
-    # Dev stuff, move later
+    # TODO: Dev stuff, move later
+    # This could really make the image smaller 
     git
     pkg-config
     cmake 
@@ -59,8 +69,6 @@
     gnumake
     clang
     rustup
-
-    # D
   ];
   
   networking.hosts = {

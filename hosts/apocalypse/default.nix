@@ -61,7 +61,6 @@
 
   programs.nix-ld.enable = true;
   services.printing.enable = true;
-  # nix.config.allowUnfree = true; 
 
 
 	services.resolved = {
@@ -95,13 +94,6 @@
       PermitRootLogin = "no";
       PrintMotd = true;
     }; 
-  };
-
-   # Winbox setup.
-  programs.winbox = {
-    enable = true;
-    openFirewall = true;
-    package = pkgs.winbox;
   };
 }
 

@@ -11,8 +11,9 @@ with lib;
       xdg-desktop-portal-hyprland
       wl-clipboard
       brightnessctl
-      lxqt.lxqt-policykit
     ];
+
+    services.hyprpolkitagent.enable = true; 
 
     homeprogs.waybar.enable = true;
     homeprogs.mako.enable = true;
@@ -39,14 +40,13 @@ with lib;
         settings = {
           exec-once = map (s: "uwsm app -- " + s) [
                "kitty &"
-               "lxqt-policykit-agent &"
                "waybar &"
                "nm-applet &"
                "blueman-tray &"
                "blueman-applet &"
                "hyprctl setcursor Catppuccin-Mocha-Dark-Cursors 24"
                "kdeconnect-indicator &"
-               "fcitx5 -d"
+               # "fcitx5 -d"
           ] ++ [
             "systemctl --user start hypridle.service"
             "systemctl --user start hyprpaper.service"

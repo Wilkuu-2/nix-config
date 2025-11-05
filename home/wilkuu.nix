@@ -1,6 +1,4 @@
 { config ,pkgs, hostconfig, ... }: {
-   
-
    imports = [../home-modules];
 
    homeapps.presets.full.enable = true; 
@@ -16,6 +14,7 @@
     };
    };
      
+   homesv.vdirsyncer.enable = true;
 
    home.username = "wilkuu";
    home.homeDirectory = "/home/wilkuu";
