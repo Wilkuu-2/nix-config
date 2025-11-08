@@ -6,6 +6,9 @@
      ./backup.nix
      ./firewall.nix
    ];
+
+  ## TODO REMOVE LATER TO PREVENT ELI FROM BUILDING REMOTELY
+  boot.binfmt.emulatedSystems = ["aarch64-linux"]; 
   
   ## Addons for this system
   addons = { 
@@ -19,6 +22,12 @@
     vpn.mullvad.enable = true; 
     vpn.eduvpn.enable = true; 
     gpg.enable = true;
+
+    remote_builder = {
+      enable = true; 
+      allowedKeyFiles = [../../secrets/eli.pub];
+      openFirewall = true; 
+    }; 
   };
 
    boot.loader.grub = { 
@@ -83,7 +92,7 @@
   services.fwupd.enable = true; 
 
   services.openssh = {
-    enable = false; 
+    enable = true; 
     ports = [22]; 
     openFirewall = false; 
     allowSFTP = false; 

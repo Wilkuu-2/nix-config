@@ -5,6 +5,7 @@
     ./gpg.nix
     ./btrfs.nix
     ./vpn.nix
+    ./remote-builder.nix
   ];
 
 }

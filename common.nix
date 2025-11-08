@@ -34,6 +34,11 @@
     dates = "weekly"; 
     options = "--delete-older-than 30d";
   };
+  systemd.services.nix-daemon.serviceConfig = {
+    MemoryAccounting = true;
+    MemoryMax = "90%";
+    OOMScoreAdjust = 500;
+  };
 
   environment.systemPackages = with pkgs; [
     htop

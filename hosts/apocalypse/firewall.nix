@@ -33,9 +33,9 @@ let
   ]; 
 in 
 {
-    networking.nftables.enable = false; 
+    networking.nftables.enable = true; 
     networking.firewall = {
-        enable = false;
+        enable = true;
         checkReversePath = false; 
         allowedTCPPorts = baseTCP; 
         allowedUDPPorts = baseUDP; 

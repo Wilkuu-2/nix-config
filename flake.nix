@@ -29,7 +29,6 @@
           ./common.nix
           ./hosts/apocalypse
           ./users/wilkuu.nix
-          ./users/remote-build.nix
           inputs.home-manager.nixosModules.default
           inputs.sops-nix.nixosModules.sops 
         ];
