@@ -14,6 +14,11 @@
        url = "github:nix-community/home-manager";
        inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    tatuin = {
+      url = "github:Wilkuu-2/tatuin/flake";
+      inputs.nixpkgs.follows = "nixpkgs"; 
+    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
