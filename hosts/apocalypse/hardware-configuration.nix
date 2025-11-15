@@ -25,8 +25,9 @@ menuentry 'UEFI Firmware' $menuentry_id_option 'uefi-firmware' {
   ''; 
   
   boot.initrd.luks.devices = {
-    "cryptroot".device = "/dev/disk/by-uuid/d2c3c197-3d75-4da2-a098-207030a91b62";
-    "cryptswap".device = "/dev/disk/by-uuid/fd6a5644-a33c-40af-ae48-42db1a5997ac";
+    "cryptroot".device  = "/dev/disk/by-uuid/d2c3c197-3d75-4da2-a098-207030a91b62";
+    "cryptswap".device  = "/dev/disk/by-uuid/fd6a5644-a33c-40af-ae48-42db1a5997ac";
+    "cryptstore".device = "/dev/disk/by-uuid/b5fb2feb-cbec-4c16-8efe-c08a3cbe05c5";
   };
 
   fileSystems."/" =
@@ -41,24 +42,32 @@ menuentry 'UEFI Firmware' $menuentry_id_option 'uefi-firmware' {
       options = [ "subvolid=5" "compress=zstd"];
   };
 
-
   fileSystems."/snapshots" =
     { device = "/dev/mapper/cryptroot";
       fsType = "btrfs";
       options = [ "subvol=@snapshots" "compress=zstd" ];
     };
   
+  # TODO: Mount efi and boot separately
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/6E1A-07F4";
+  { 
+      device = "/dev/disk/by-uuid/6E1A-07F4";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
-    };
+  };
 
   fileSystems."/store2" = 
-    { device = "/dev/disk/by-uuid/5368282f-c09d-44cf-9cf2-e69a2d415da6";
+  { 
+      device = "/dev/mapper/cryptstore";
       fsType = "btrfs";
-      options = [ "noatime" "compress=zstd" "subvol=/"];
-    };
+      options = [ "noatime" "compress=zstd" "subvol=store"];
+  };
+
+  fileSystems."/store2/.snapshots" = {
+      device = "/dev/mapper/cryptstore"; 
+      fsType = "btrfs";
+      options = [ "noatime" "compress=zstd" "subvol=store"];
+  };
   # fileSystems."/store1" = 
   #   { device = "/dev/disk/by-uuid/6A2E2BFF2E2BC2C5";
   #     fsType = "ntfs-3g" ;

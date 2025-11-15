@@ -21,6 +21,8 @@ in
            accent = "pink";
            variant = "mocha";
         })
+
+        nheko 
       ];
     })
     (lib.mkIf cfg.email.enable {
