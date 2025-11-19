@@ -1,9 +1,20 @@
-{pkgs, config ,...}: {
-  imports = [./theming.nix ./apps ./desktop ./services ];
+{
+  pkgs,
+  config,
+  input,
+  ...
+}:
+{
+  imports = [
+    ./theming.nix
+    ./apps
+    ./desktop
+    ./services
+  ];
 
   sops = {
-    age.keyFile = "/home/${config.home.username}/.config/sops/age/keys.txt"; 
-    defaultSopsFile = ../secrets/secrets.yaml; 
+    age.keyFile = "/home/${config.home.username}/.config/sops/age/keys.txt";
+    defaultSopsFile = ../secrets/secrets.yaml;
   };
 
-} 
+}

@@ -1,29 +1,35 @@
-{pkgs, inputs, config, lib, ...}: 
-let 
-  cfg = config.homesv.vdirsyncer; 
-in 
-{ 
+{
+  pkgs,
+  inputs,
+  config,
+  lib,
+  ...
+}:
+let
+  cfg = config.homesv.vdirsyncer;
+in
+{
   options.homesv.vdirsyncer = {
-    enable = lib.mkEnableOption "Enable syncing via vdirsyncer"; 
-    user = lib.mkOption {  default = config.home.username; };
-    server = lib.mkOption { default= "https://webdav.wilkuu.xyz/dav.php"; };
+    enable = lib.mkEnableOption "Enable syncing via vdirsyncer";
+    user = lib.mkOption { default = config.home.username; };
+    server = lib.mkOption { default = "https://webdav.wilkuu.xyz/dav.php"; };
   };
   config = lib.mkIf cfg.enable {
     sops.secrets.webdav_uname = {
       sopsFile = ../../secrets/secrets.yaml;
-      key="${cfg.user}/webdav/username";
-    }; 
+      key = "${cfg.user}/webdav/username";
+    };
     sops.secrets.webdav_pass = {
       sopsFile = ../../secrets/secrets.yaml;
-      key="${cfg.user}/webdav/password";
-    }; 
+      key = "${cfg.user}/webdav/password";
+    };
     services.vdirsyncer = {
-      enable = true; 
+      enable = true;
       frequency = "*:0/5"; # About once in 5 minutes
-    }; 
+    };
 
     systemd.user.services.vdirsyncer.unitConfig.After = [ "sops-nix.service" ];
-    
+
     sops.templates."vdirsyncer_config_${cfg.user}" = {
       content = ''
         [general]
@@ -67,8 +73,9 @@ in
       '';
     };
     home.file.".config/vdirsyncer/config" = {
-      source = config.lib.file.mkOutOfStoreSymlink config.sops.templates."vdirsyncer_config_${cfg.user}".path;
+      source =
+        config.lib.file.mkOutOfStoreSymlink
+          config.sops.templates."vdirsyncer_config_${cfg.user}".path;
     };
   };
-} 
-
+}

@@ -1,39 +1,44 @@
-{lib, pkgs, inputs, config, ...}:
+{
+  lib,
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
 with lib;
 let
-cfg = config.homeapps.presets;
-in 
+  cfg = config.homeapps.presets;
+in
 {
-   imports = [
-     ./nvim
-     ./desktop 
-     ./zsh.nix
-   ];
+  imports = [
+    ./nvim
+    ./desktop
+    ./zsh.nix
+  ];
 
   options.homeapps.presets = {
-    base.enable = lib.mkOption { 
-      type = lib.types.bool; 
-      default = true; 
-        description ="Enable basics for home-config";
-    } ;
-    full.enable = lib.mkEnableOption  "Enable everything" ;
+    base.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable basics for home-config";
+    };
+    full.enable = lib.mkEnableOption "Enable everything";
     email.enable = lib.mkEnableOption "Enable email-related config";
     browser.enable = lib.mkEnableOption "Enable the browser (librewolf)";
     comms.enable = lib.mkEnableOption "Enable communication-related config";
-    utils.enable = lib.mkEnableOption "Enable utilities" ;
-    note-taking.enable = lib.mkEnableOption "Enable note taking apps"; 
-    art.enable = lib.mkEnableOption "Enable art apps config"; 
-    work.enable = lib.mkEnableOption "Enable research-related config"; 
-    dev.enable = lib.mkEnableOption "Enable development apps"; 
-    connectivity.enable = lib.mkEnableOption "Enable connectivity"; 
-    multimedia.enable = lib.mkEnableOption "Enable multimedia apps"; 
-    games.enable = lib.mkEnableOption "Enable games"; 
+    utils.enable = lib.mkEnableOption "Enable utilities";
+    note-taking.enable = lib.mkEnableOption "Enable note taking apps";
+    art.enable = lib.mkEnableOption "Enable art apps config";
+    work.enable = lib.mkEnableOption "Enable research-related config";
+    dev.enable = lib.mkEnableOption "Enable development apps";
+    connectivity.enable = lib.mkEnableOption "Enable connectivity";
+    multimedia.enable = lib.mkEnableOption "Enable multimedia apps";
+    games.enable = lib.mkEnableOption "Enable games";
   };
-  
 
   config = lib.mkMerge [
     (lib.mkIf cfg.full.enable {
-      homeapps.presets = { 
+      homeapps.presets = {
         base.enable = true;
         email.enable = true;
         browser.enable = true;
@@ -50,11 +55,11 @@ in
     })
     (lib.mkIf cfg.base.enable {
       home.packages = with pkgs; [
-        lm_sensors 
+        lm_sensors
         nix-output-monitor
       ];
-      homeapps.zsh.enable = true; 
-      homeapps.nvim.enable = true; 
+      homeapps.zsh.enable = true;
+      homeapps.nvim.enable = true;
     })
     (lib.mkIf cfg.email.enable {
       home.packages = with pkgs; [
@@ -68,11 +73,11 @@ in
     (lib.mkIf cfg.utils.enable {
       home.packages = with pkgs; [
         htop
-        btop 
-        nmap 
+        btop
+        nmap
         dig
-        ripgrep 
-        unzip 
+        ripgrep
+        unzip
         unrar
         sshfs
         xdg-user-dirs
@@ -82,17 +87,18 @@ in
       ];
     })
     (lib.mkIf cfg.note-taking.enable {
-      home.packages = with pkgs; [ ];
-      # Todo force synthing to be on here 
+      home.packages = [ ];
+      # Todo force synthing to be on here
     })
     (lib.mkIf cfg.work.enable {
       home.packages = with pkgs; [
+        inputs.tatuin.packages.${pkgs.system}.default
       ];
     })
     (lib.mkIf cfg.dev.enable {
       home.packages = with pkgs; [
-        cmake 
-        ( hiPrio gcc)
+        cmake
+        (hiPrio gcc)
         gnumake
         clang
         rustup
@@ -103,11 +109,11 @@ in
     })
     (lib.mkIf cfg.connectivity.enable {
       home.packages = with pkgs; [
-        eduvpn-client 
+        eduvpn-client
       ];
       # services.syncthing = {
-      #   enable = true; 
-      # }; 
+      #   enable = true;
+      # };
     })
     (lib.mkIf cfg.multimedia.enable {
       home.packages = with pkgs; [
@@ -115,23 +121,23 @@ in
         playerctl
       ];
 
-      services.playerctld.enable = true; 
+      services.playerctld.enable = true;
       services.spotifyd = {
-        enable = true; 
+        enable = true;
         settings = {
           global = {
-            use-mpris = true; 
-            device_name = "Apocalypse Nix"; 
-          }; 
+            use-mpris = true;
+            device_name = "Apocalypse Nix";
+          };
           discovery = {
-            zeroconf_port = 5352; 
+            zeroconf_port = 5352;
           };
           audio = {
-            backend="pulse";
+            backend = "pulse";
           };
-          ## Fixes spotifyd for some reason 
+          ## Fixes spotifyd for some reason
           # FIXME: Add a hook for notifications
-        }; 
+        };
       };
     })
     (lib.mkIf cfg.games.enable {

@@ -1,7 +1,12 @@
-{pkgs, config, lib, ...}: 
 {
-  home.packages = with pkgs; [ 
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+{
+  home.packages = with pkgs; [
     wineWowPackages.waylandFull
     winetricks
-  ]; 
+  ];
 }

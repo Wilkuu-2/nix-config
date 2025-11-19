@@ -1,26 +1,32 @@
-{ pkgs, config, lib,...}:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 let
-ts_ls=pkgs.typescript-language-server;
-vue_ls=pkgs.vue-language-server;
-in {
+  ts_ls = pkgs.typescript-language-server;
+  vue_ls = pkgs.vue-language-server;
+in
+{
   options.homeapps.nvim = {
-    enable = lib.mkEnableOption "Enables neovim configuration"; 
+    enable = lib.mkEnableOption "Enables neovim configuration";
   };
 
-  config = lib.mkIf config.homeapps.nvim.enable { 
+  config = lib.mkIf config.homeapps.nvim.enable {
     programs.neovim = {
-      enable = true; 
-       defaultEditor = true;
-       viAlias = true; 
-       vimAlias = true; 
-       vimdiffAlias = true;
-       withPython3 = true; 
-       withNodeJs = true; 
-       withRuby = true; 
-    
-       coc.enable = false; 
-       plugins = [
-       ];
+      enable = true;
+      defaultEditor = true;
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      withPython3 = true;
+      withNodeJs = true;
+      withRuby = true;
+
+      coc.enable = false;
+      plugins = [
+      ];
     };
 
     home.file."./.config/nvim/lua/wilkuu/init.lua".text = ''
@@ -36,28 +42,34 @@ in {
 
     home.sessionPath = [
       "/home/wilkuu/.npm/bin/"
-    ]; 
+    ];
 
-    home.packages = with pkgs; [
-      lua
-      lua-language-server
-      gopls 
-      go
-      typescript
-      nodejs_22 
-      rustup
-      nil
-      statix
-      nixfmt-rfc-style 
-      # phpactor
-      pyright
-      nodePackages.intelephense
-      texlive.combined.scheme-medium
-      texlab
-      mermaid-cli
-      ltex-ls
-      deno
-    ] ++ [ ts_ls  vue_ls];
+    home.packages =
+      with pkgs;
+      [
+        lua
+        lua-language-server
+        gopls
+        go
+        typescript
+        nodejs_22
+        rustup
+        nil
+        statix
+        nixfmt-rfc-style
+        # phpactor
+        pyright
+        nodePackages.intelephense
+        texlive.combined.scheme-medium
+        texlab
+        mermaid-cli
+        ltex-ls
+        deno
+      ]
+      ++ [
+        ts_ls
+        vue_ls
+      ];
 
   };
 }

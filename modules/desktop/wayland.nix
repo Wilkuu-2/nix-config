@@ -1,12 +1,18 @@
-{pkgs, lib, config, ...}: {
-  options.addons.desktop.wayland.enable = lib.mkEnableOption "Enable wayland" ;
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
+  options.addons.desktop.wayland.enable = lib.mkEnableOption "Enable wayland";
   config = lib.mkIf config.addons.desktop.wayland.enable {
     services.displayManager.sddm.wayland.enable = true;
 
-    xdg.portal = { 
+    xdg.portal = {
       enable = true;
       extraPortals = [
-        pkgs.xdg-desktop-portal-gtk 
+        pkgs.xdg-desktop-portal-gtk
       ];
     };
   };

@@ -1,4 +1,8 @@
-{pkgs, hostconfig, ...}: {
-  imports = [./wayland ./hyprland.nix];
+{ pkgs, hostconfig, ... }:
+{
+  imports = [
+    ./wayland
+    ./hyprland.nix
+  ];
 
 }

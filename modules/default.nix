@@ -1,6 +1,12 @@
-{pkgs, lib, config ,...}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
   imports = [
-    ./desktop 
+    ./desktop
     ./virt.nix
     ./gpg.nix
     ./btrfs.nix

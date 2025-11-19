@@ -1,4 +1,10 @@
-{config ,pkgs, lib, ...}: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   options.homeapps.zsh = {
     enable = lib.mkEnableOption "Enable ZSH shell";
   };
@@ -6,10 +12,10 @@
   config = lib.mkIf config.homeapps.zsh.enable {
 
     programs.zsh = {
-      enable = true; 
+      enable = true;
       enableCompletion = true;
       oh-my-zsh = {
-        enable = true; 
+        enable = true;
         theme = "clean";
       };
       plugins = [
@@ -24,6 +30,6 @@
           };
         }
       ];
-    }; 
+    };
   };
 }

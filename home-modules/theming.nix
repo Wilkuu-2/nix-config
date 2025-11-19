@@ -1,45 +1,49 @@
-{ hostconfig, pkgs, lib,... }:
+{
+  hostconfig,
+  pkgs,
+  lib,
+  ...
+}:
 let
- catppuccin_gtk = pkgs.catppuccin-gtk.override {
-    accents = ["pink"];
+  catppuccin_gtk = pkgs.catppuccin-gtk.override {
+    accents = [ "pink" ];
     size = "compact";
-    tweaks = ["black"];
+    tweaks = [ "black" ];
     variant = "mocha";
-    };
+  };
 in
 {
-  config = lib.mkIf hostconfig.addons.desktop.enable { 
-    #Gtk Theming 
+  config = lib.mkIf hostconfig.addons.desktop.enable {
+    #Gtk Theming
     gtk = {
-       enable=true; 
-       theme  = {
-       package= catppuccin_gtk;
-       name="catppuccin-mocha-pink-compact+black";
-       }; 
+      enable = true;
+      theme = {
+        package = catppuccin_gtk;
+        name = "catppuccin-mocha-pink-compact+black";
+      };
       iconTheme = {
-        package =  pkgs.catppuccin-papirus-folders;
+        package = pkgs.catppuccin-papirus-folders;
         name = "Papirus-Dark";
-       };
+      };
     };
-
 
     home.pointerCursor = {
       gtk.enable = true;
       package = pkgs.catppuccin-cursors.mochaDark;
       name = "catppuccin-mocha-dark-cursors";
       size = 32;
-    }; 
+    };
 
     qt = {
-      enable = true; 
+      enable = true;
       platformTheme.name = "qtct";
-      style.name="kvantum";
+      style.name = "kvantum";
     };
 
-    xdg.configFile."Kvantum/kvantum.kvconfig".source = (pkgs.formats.ini {}).generate "kvantum.kvconfig" {
-      General.theme = "Catppuccin-Mocha-Pink";
-    };
+    xdg.configFile."Kvantum/kvantum.kvconfig".source =
+      (pkgs.formats.ini { }).generate "kvantum.kvconfig"
+        {
+          General.theme = "Catppuccin-Mocha-Pink";
+        };
   };
 }
-
-
