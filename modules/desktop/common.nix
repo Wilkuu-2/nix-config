@@ -56,18 +56,18 @@
     };
 
     # fcitx is broken for now
-    # i18n.inputMethod = {
-    #   type = "fcitx5";
-    #   enable = true;
-    #   fcitx5.addons = with pkgs; [
-    #     fcitx5-gtk
-    #     fcitx5-lua
-    #     fcitx5-mozc
-    #     catppuccin-fcitx5
-    #     fcitx5-table-other
-    #     kdePackages.fcitx5-qt
-    #   ];
-    # };
+    i18n.inputMethod = {
+      type = "fcitx5";
+      enable = true;
+      fcitx5.addons = with pkgs; [
+        fcitx5-gtk
+        fcitx5-lua
+        fcitx5-mozc
+        catppuccin-fcitx5
+        fcitx5-table-other
+        kdePackages.fcitx5-qt
+      ];
+    };
 
     fonts.packages = with pkgs; [
       noto-fonts

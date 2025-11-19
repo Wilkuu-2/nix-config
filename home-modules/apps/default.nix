@@ -57,6 +57,13 @@ in
       home.packages = with pkgs; [
         lm_sensors
         nix-output-monitor
+        ripgrep 
+        unzip 
+        iputils 
+        inetutils
+        htop
+        git
+        tree
       ];
       homeapps.zsh.enable = true;
       homeapps.nvim.enable = true;
@@ -71,19 +78,23 @@ in
       ];
     })
     (lib.mkIf cfg.utils.enable {
+      homesv.direnv.enable = true;
       home.packages = with pkgs; [
-        htop
         btop
         nmap
         dig
-        ripgrep
-        unzip
         unrar
         sshfs
         xdg-user-dirs
         zsh
-        ranger
         file
+        bat 
+        jq
+      ];
+    })
+    (lib.mkIf cfg.browser.enable {
+      home.packages = with pkgs; [
+        lynx 
       ];
     })
     (lib.mkIf cfg.note-taking.enable {
@@ -93,18 +104,14 @@ in
     (lib.mkIf cfg.work.enable {
       home.packages = with pkgs; [
         inputs.tatuin.packages.${pkgs.system}.default
+        todoman
       ];
     })
     (lib.mkIf cfg.dev.enable {
-      home.packages = with pkgs; [
-        cmake
-        (hiPrio gcc)
-        gnumake
-        clang
-        rustup
-        pkg-config
-      ];
-      homeapps.nvim.enable = true;
+      homeapps.nvim = { 
+        enable = true; 
+        lsp = true;
+      };
       homesv.direnv.enable = true;
     })
     (lib.mkIf cfg.connectivity.enable {
@@ -127,7 +134,7 @@ in
         settings = {
           global = {
             use-mpris = true;
-            device_name = "Apocalypse Nix";
+            device_name = "${hostconfig.networking.hostName} spotifyd";
           };
           discovery = {
             zeroconf_port = 5352;

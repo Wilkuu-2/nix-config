@@ -7,7 +7,6 @@
 {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  imports = [ "${inputs.nixpkgs}/nixos/modules/virtualisation/libvirtd.nix" ];
 
   networking.hostName = "cookie_vm"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -23,5 +22,11 @@
       cores = 3;
       graphics = true;
     };
+  };
+
+  fileSystems."/" = {
+    device = "none";
+    fsType = "tmpfs";
+    options = [ "defaults" "size=2G" "mode=755" ];
   };
 }

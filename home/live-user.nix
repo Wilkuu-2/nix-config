@@ -2,9 +2,14 @@
 {
   imports = [ ../home-modules ];
 
-  homeapps.presets = {
-    browser.enable = true;
-    utils.enable = true;
+  homeapps = { 
+    nvim.enable = true; 
+    nvim.lsp = false;
+
+    presets = {
+      browser.enable = true;
+      utils.enable = true;
+    };
   };
 
   home.username = "live-user";

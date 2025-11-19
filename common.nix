@@ -34,7 +34,7 @@
     enableUserSlices = true;
     enableSystemSlice = true;
     enableRootSlice = true;
-    extraConfig = {
+    settings.OOM = {
       SwapUsedLimit = "50%";
       DefaultMemoryPressureLimit = "50%";
       DefaultMemoryPressureDurationSec = 20;
@@ -77,16 +77,6 @@
     pciutils
     usbutils
     vim
-
-    # TODO: Dev stuff, move later
-    # This could really make the image smaller
-    git
-    pkg-config
-    cmake
-    (hiPrio gcc)
-    gnumake
-    clang
-    rustup
   ];
 
   networking.hosts = {

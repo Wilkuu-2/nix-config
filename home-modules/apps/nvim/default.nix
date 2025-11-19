@@ -11,6 +11,7 @@ in
 {
   options.homeapps.nvim = {
     enable = lib.mkEnableOption "Enables neovim configuration";
+    lsp = lib.mkEnableOption "Enables LSP Support and the needed servers";  
   };
 
   config = lib.mkIf config.homeapps.nvim.enable {
@@ -44,7 +45,7 @@ in
       "/home/wilkuu/.npm/bin/"
     ];
 
-    home.packages =
+    home.packages = lib.mkIf config.homeapps.nvim.lsp (
       with pkgs;
       [
         lua
@@ -69,7 +70,6 @@ in
       ++ [
         ts_ls
         vue_ls
-      ];
-
+      ]);
   };
 }
