@@ -33,27 +33,29 @@ let
   ]; 
 in 
 {
-    networking.nftables.enable = true; 
-    networking.firewall = {
-        enable = true;
-        checkReversePath = false; 
-        allowedTCPPorts = baseTCP; 
-        allowedUDPPorts = baseUDP; 
-          allowedUDPPortRanges = baseUDPRanges;
-          allowedTCPPortRanges = baseTCPRanges;
-        interfaces = {
-          "nix-laptop" = {
-            allowedTCPPorts = secureTCP; 
-            allowedUDPPorts = secureUDP; 
-            allowedUDPPortRanges = secureUDPRanges;
-            allowedTCPPortRanges = secureTCPRanges;
-          };
-       };
-       trustedInterfaces = [
-          "docker0" 
-          "br-*" 
-          "veth*"
-       ];
+  networking.nftables.enable = true;
+  networking.firewall = {
+    enable = true;
+    checkReversePath = false;
+    allowedTCPPorts = baseTCP;
+    allowedUDPPorts = baseUDP;
+    allowedUDPPortRanges = baseUDPRanges;
+    allowedTCPPortRanges = baseTCPRanges;
+    interfaces = {
+      "nix-laptop" = {
+        allowedTCPPorts = secureTCP;
+        allowedUDPPorts = secureUDP;
+        allowedUDPPortRanges = secureUDPRanges;
+        allowedTCPPortRanges = secureTCPRanges;
+      };
     };
-}
+    trustedInterfaces = [
+      "docker0"
+      "br-*"
+      "veth*"
+      "vnet*"
+      "virbr*"
+    ];
 
+  };
+}
