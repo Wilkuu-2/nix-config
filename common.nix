@@ -77,6 +77,7 @@
     pciutils
     usbutils
     vim
+    tmux
   ];
 
   networking.hosts = {
