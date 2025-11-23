@@ -29,6 +29,24 @@ in
             variant = "mocha";
           })
         ];
+        # Use fcitx 
+        i18n.inputMethod = {
+          type = "fcitx5";
+          enable = true;
+          fcitx5 = { 
+            waylandFrontend = true;
+            addons = with pkgs; [
+              fcitx5-gtk
+              fcitx5-lua
+              fcitx5-mozc
+              fcitx5-table-other
+              fcitx5-gtk
+            ];
+          };
+        };
+
+        # Install the theme for fcitx 
+        home.file."/.local/share/fcitx5/themes".source = "${pkgs.catppuccin-fcitx5}/share/fcitx5/themes";
       })
       (lib.mkIf cfg.email.enable {
         home.packages = with pkgs; [
