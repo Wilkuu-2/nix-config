@@ -35,7 +35,7 @@
           };
           system = "x86_64-linux";
           modules = [
-            ./common.nix
+            ./modules
             ./hosts/apocalypse
             ./users/wilkuu.nix
             inputs.home-manager.nixosModules.default
@@ -50,7 +50,7 @@
           };
           system = "x86_64-linux";
           modules = [
-            ./common.nix
+            ./modules
             ./hosts/full-iso
             ./users/live-user.nix
             inputs.home-manager.nixosModules.default
@@ -63,7 +63,7 @@
           };
           system = "x86_64-linux";
           modules = [
-            ./common.nix
+            ./modules
             ./hosts/test_vm
             ./users/live-user.nix
             inputs.home-manager.nixosModules.default
@@ -76,7 +76,7 @@
           };
           system = "x86_64-linux"; 
           modules = [
-            ./common.nix 
+            ./modules 
             ./hosts/test_vm 
             ./users/live-user.nix
             ({lib, ...}: {
