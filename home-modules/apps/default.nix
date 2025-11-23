@@ -3,6 +3,7 @@
   pkgs,
   inputs,
   config,
+  hostconfig, 
   ...
 }:
 with lib;
@@ -35,7 +36,6 @@ in
     multimedia.enable = lib.mkEnableOption "Enable multimedia apps";
     games.enable = lib.mkEnableOption "Enable games";
   };
-
   config = lib.mkMerge [
     (lib.mkIf cfg.full.enable {
       homeapps.presets = {

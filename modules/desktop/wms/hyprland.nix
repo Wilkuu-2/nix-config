@@ -45,6 +45,7 @@ in
           xdg-desktop-portal-gnome
           xdg-desktop-portal-hyprland
           wl-clipboard
+          hyprland-qt-support
         ];
       }
     ]

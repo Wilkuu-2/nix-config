@@ -42,18 +42,6 @@
             inputs.sops-nix.nixosModules.sops
           ];
         };
-        test_vm = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-          };
-          system = "x86_64-linux";
-          modules = [
-            ./common.nix
-            ./hosts/test_vm
-            ./users/wilkuu.nix
-            inputs.home-manager.nixosModules.default
-          ];
-        };
         full-iso = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
@@ -66,8 +54,39 @@
             ./hosts/full-iso
             ./users/live-user.nix
             inputs.home-manager.nixosModules.default
+            inputs.sops-nix.nixosModules.sops
           ];
         };
+        vm-desktop = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
+          system = "x86_64-linux";
+          modules = [
+            ./common.nix
+            ./hosts/test_vm
+            ./users/live-user.nix
+            inputs.home-manager.nixosModules.default
+            inputs.sops-nix.nixosModules.sops
+          ];
+        };
+        vm-shell = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
+          system = "x86_64-linux"; 
+          modules = [
+            ./common.nix 
+            ./hosts/test_vm 
+            ./users/live-user.nix
+            ({lib, ...}: {
+              addons.desktop.hyprland.enable = lib.mkForce false;
+              addons.desktop.xfce.enable = lib.mkForce false;
+            })
+            inputs.home-manager.nixosModules.default
+            inputs.sops-nix.nixosModules.sops
+          ];
+        }; 
       };
     };
 }
