@@ -30,7 +30,14 @@
       kitty
       # qalculate
       networkmanagerapplet
-      catppuccin-sddm
+      (catppuccin-sddm.override {
+        flavor = "mocha";
+        accent = "pink"; 
+        font   = "Noto Sans";
+        fontSize = "11"; 
+        background = "${../sddm_bg.png}"; 
+        loginBackground = true; 
+      })
       # disabled because it imports a unsafe package
       # surf # A basic browser in case we don't want to import a larger browser
     ];
@@ -51,7 +58,7 @@
 
       displayManager.sddm = {
         enable = true;
-        theme = "catppuccin-mocha";
+        theme = "catppuccin-mocha-pink";
       };
     };
 
