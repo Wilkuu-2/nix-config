@@ -27,13 +27,6 @@
       # packages."x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
 
-      overlays = { 
-        stable_overlays = import ./overlays/stable_overrides.nix {
-          inherit nixpkgs; 
-          inherit nixpkgs-stable;
-        };
-      };
-
       nixosConfigurations = {
         apocalypse = nixpkgs.lib.nixosSystem {
           specialArgs = {
