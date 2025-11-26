@@ -30,6 +30,7 @@
       kitty
       # qalculate
       networkmanagerapplet
+      catppuccin-sddm
       # disabled because it imports a unsafe package
       # surf # A basic browser in case we don't want to import a larger browser
     ];
@@ -50,11 +51,9 @@
 
       displayManager.sddm = {
         enable = true;
-        #theme = "catppuccin-mocha";
+        theme = "catppuccin-mocha";
       };
-
     };
-
 
     fonts.packages = with pkgs; [
       noto-fonts
