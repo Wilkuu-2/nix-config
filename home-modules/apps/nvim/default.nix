@@ -30,11 +30,6 @@ in
       ];
     };
 
-    home.file."./.config/nvim/lua/wilkuu/init.lua".text = ''
-      require("wilkuu.set")
-      require("wilkuu.remap")
-    '';
-
     home.file."./.config/nvim/lua/wilkuu/nix.lua".text = ''
       return { 
         vue_ts_plugin = "${lib.getBin vue_ls}/lib/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin/"
