@@ -112,6 +112,9 @@ in
         enable = true; 
         lsp = true;
       };
+      home.packages = with pkgs; [
+        man-pages
+      ];
       homesv.direnv.enable = true;
     })
     (lib.mkIf cfg.connectivity.enable {
