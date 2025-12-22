@@ -25,8 +25,8 @@
   home-manager.users.live-user = {
     imports = [ ../home-modules ];
 
-    homeapps = { 
-      nvim.enable = true; 
+    homeapps = {
+      nvim.enable = true;
       nvim.lsp = false;
 
       presets = {

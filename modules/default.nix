@@ -1,7 +1,5 @@
 {
   pkgs,
-  lib,
-  config,
   inputs,
   ...
 }:
@@ -17,10 +15,10 @@
   ];
 
   nixpkgs.overlays = [
-      (import ../overlays/stable_overrides.nix {
-          nixpkgs-stable = inputs.nixpkgs-stable;
-          inherit pkgs;
-      })
+    (import ../overlays/stable_overrides.nix {
+      nixpkgs-stable = inputs.nixpkgs-stable;
+      inherit pkgs;
+    })
   ];
 
   nix.settings.experimental-features = [
@@ -36,7 +34,6 @@
     };
   };
   time.timeZone = "Europe/Amsterdam"; # Set timezone
-
 
   sops.defaultSopsFile = ./secrets/secrets.yaml;
   sops.age.sshKeyPaths = [ "/etc/ssh_host_ed25519_key" ];

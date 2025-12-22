@@ -21,25 +21,31 @@
     };
 
     treefmt-nix = {
-      url = "github:numtide/treefmt-nix"; 
+      url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs =
-    { self, nixpkgs, nixpkgs-stable, treefmt-nix, ... }@inputs: let
-      lib = nixpkgs.lib; 
+    {
+      self,
+      nixpkgs,
+      treefmt-nix,
+      ...
+    }@inputs:
+    let
+      lib = nixpkgs.lib;
       systems = [
         "x86_64-linux"
         "aarch64-linux"
-      ]; 
-      forAllSystems = f: (lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system }));
-      treefmtEval = forAllSystems (pkgs: treefmt-nix.lib.evalModule pkgs ./modules/treefmt.nix); 
-    in 
+      ];
+      forAllSystems = f: (lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system}));
+      treefmtEval = forAllSystems (pkgs: treefmt-nix.lib.evalModule pkgs ./modules/treefmt.nix);
+    in
     {
       # packages."x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
       packages = (
-        forAllSystems (pkgs:  {
+        forAllSystems (_pkgs: {
 
         })
       );
@@ -100,19 +106,22 @@
           specialArgs = {
             inherit inputs;
           };
-          system = "x86_64-linux"; 
+          system = "x86_64-linux";
           modules = [
-            ./modules 
-            ./hosts/test_vm 
+            ./modules
+            ./hosts/test_vm
             ./users/live-user.nix
-            ({lib, ...}: {
-              addons.desktop.hyprland.enable = lib.mkForce false;
-              addons.desktop.xfce.enable = lib.mkForce false;
-            })
+            (
+              { lib, ... }:
+              {
+                addons.desktop.hyprland.enable = lib.mkForce false;
+                addons.desktop.xfce.enable = lib.mkForce false;
+              }
+            )
             inputs.home-manager.nixosModules.default
             inputs.sops-nix.nixosModules.sops
           ];
-        }; 
+        };
       };
     };
 }

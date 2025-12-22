@@ -1,7 +1,5 @@
 {
   pkgs,
-  lib,
-  config,
   ...
 }:
 {
@@ -49,6 +47,6 @@
     home.homeDirectory = "/home/wilkuu";
     home.stateVersion = "24.11";
     programs.home-manager.enable = true;
-  }; 
+  };
 
 }

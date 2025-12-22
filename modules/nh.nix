@@ -1,9 +1,11 @@
-{pkgs, lib, config, ... }: let 
+{ lib, config, ... }:
+let
   conf = config.addons.nh;
-in {
+in
+{
   options.addons.nh = {
     enable = lib.mkOption {
-      default = true; 
+      default = true;
       description = "Enable nix cli helper";
     };
 
@@ -11,7 +13,7 @@ in {
       default = "/home/wilkuu/nix-config/";
       description = "Flake location for nh to use";
     };
-  }; 
+  };
 
   config = {
     programs.nh = {

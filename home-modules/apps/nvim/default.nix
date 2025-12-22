@@ -11,7 +11,7 @@ in
 {
   options.homeapps.nvim = {
     enable = lib.mkEnableOption "Enables neovim configuration";
-    lsp = lib.mkEnableOption "Enables LSP Support and the needed servers";  
+    lsp = lib.mkEnableOption "Enables LSP Support and the needed servers";
   };
 
   config = lib.mkIf config.homeapps.nvim.enable {
@@ -65,6 +65,7 @@ in
       ++ [
         ts_ls
         vue_ls
-      ]);
+      ]
+    );
   };
 }

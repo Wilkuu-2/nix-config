@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ ... }:
 let
   baseTCP = [
     22000 # Syncthng

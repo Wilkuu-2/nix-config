@@ -29,11 +29,11 @@ in
             variant = "mocha";
           })
         ];
-        # Use fcitx 
+        # Use fcitx
         i18n.inputMethod = {
           type = "fcitx5";
           enable = true;
-          fcitx5 = { 
+          fcitx5 = {
             waylandFrontend = true;
             addons = with pkgs; [
               fcitx5-gtk
@@ -45,7 +45,7 @@ in
           };
         };
 
-        # Install the theme for fcitx 
+        # Install the theme for fcitx
         home.file."/.local/share/fcitx5/themes".source = "${pkgs.catppuccin-fcitx5}/share/fcitx5/themes";
       })
       (lib.mkIf cfg.email.enable {

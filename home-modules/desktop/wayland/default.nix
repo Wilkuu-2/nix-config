@@ -1,4 +1,4 @@
-{ pkgs, hostconfig, ... }:
+{ ... }:
 {
   imports = [
     ./waybar.nix

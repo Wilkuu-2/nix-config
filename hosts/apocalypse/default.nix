@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -106,7 +106,7 @@
   };
 
   services.thinkfan = {
-    enable = true; 
+    enable = true;
     levels = [
       [
         0
@@ -114,7 +114,7 @@
         55
       ]
       [
-        1 
+        1
         48
         60
       ]
@@ -124,8 +124,8 @@
         65
       ]
       [
-        3 
-        55 
+        3
+        55
         67
       ]
       [
@@ -144,7 +144,7 @@
         72
       ]
       [
-        7 
+        7
         66
         85
       ]

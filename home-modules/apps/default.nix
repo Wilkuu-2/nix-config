@@ -3,7 +3,7 @@
   pkgs,
   inputs,
   config,
-  hostconfig, 
+  hostconfig,
   ...
 }:
 with lib;
@@ -57,9 +57,9 @@ in
       home.packages = with pkgs; [
         lm_sensors
         nix-output-monitor
-        ripgrep 
-        unzip 
-        iputils 
+        ripgrep
+        unzip
+        iputils
         inetutils
         htop
         git
@@ -88,13 +88,13 @@ in
         xdg-user-dirs
         zsh
         file
-        bat 
+        bat
         jq
       ];
     })
     (lib.mkIf cfg.browser.enable {
       home.packages = with pkgs; [
-        lynx 
+        lynx
       ];
     })
     (lib.mkIf cfg.note-taking.enable {
@@ -108,8 +108,8 @@ in
       ];
     })
     (lib.mkIf cfg.dev.enable {
-      homeapps.nvim = { 
-        enable = true; 
+      homeapps.nvim = {
+        enable = true;
         lsp = true;
       };
       home.packages = with pkgs; [
