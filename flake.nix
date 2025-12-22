@@ -19,13 +19,40 @@
       url = "github:Wilkuu-2/tatuin/flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix"; 
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { self, nixpkgs, nixpkgs-stable, ... }@inputs:
+    { self, nixpkgs, nixpkgs-stable, treefmt-nix, ... }@inputs: let
+      lib = nixpkgs.lib; 
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ]; 
+      forAllSystems = f: (lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system }));
+      treefmtEval = forAllSystems (pkgs: treefmt-nix.lib.evalModule pkgs ./modules/treefmt.nix); 
+    in 
     {
       # packages."x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+      packages = (
+        forAllSystems (pkgs:  {
+
+        })
+      );
+      # for `nix fmt`
+      formatter = (
+        forAllSystems (pkgs: treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.wrapper)
+      );
+      # for `nix flake check`
+      checks = (
+        forAllSystems (pkgs: {
+          formatting = treefmtEval.${pkgs.system}.config.build.check self;
+        })
+      );
 
       nixosConfigurations = {
         apocalypse = nixpkgs.lib.nixosSystem {
