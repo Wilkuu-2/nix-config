@@ -53,10 +53,16 @@
     };
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
+  # Because NH is enabled, this needs to be disabled.
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "weekly";
+  #   options = "--delete-older-than 30d";
+  # };
+  zramSwap = {
+    enable = true; 
+    algorithm = "lz4";
+    memoryPercent = 50; 
   };
   systemd.services.nix-daemon.serviceConfig = {
     MemoryAccounting = true;
@@ -82,7 +88,7 @@
 
     bashInteractive
     coreutils
-    utillinux
+    util-linux
     iproute2
     iputils
     pciutils
