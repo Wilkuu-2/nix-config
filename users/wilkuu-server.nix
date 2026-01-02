@@ -30,7 +30,7 @@
     imports = [ ../home-modules ];
 
     homeapps.presets = lib.genAttrs
-      ["base" "utils" "dev" "browser"]  
+      ["base" "utils" "browser"]  
       (_: {enable = true; });
     # homeapps.vnc = true;
 

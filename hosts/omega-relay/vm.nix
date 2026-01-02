@@ -14,6 +14,7 @@
 in {
   virtualisation.vmVariant = {
     addons.virtualisation.isTestVM = true; 
+    addons.virtualisation.guest = true;
     fileSystems."/" = {
       device = "none";
       fsType = "tmpfs";
@@ -23,16 +24,14 @@ in {
         "mode=755"
       ];
     };
-   virtualization = {
+   virtualisation = {
       forwardPorts = [
-        (tcpFromHost 80 8080)
-        (tcpFromHost 22 8022)
+        # (tcpFromHost 80 8080)
+        # (tcpFromHost 22 8022)
       ]; 
-      virtualisation = {
-        memorySize = 2048; # Use 2048MiB memory.
-        cores = 3;
-        graphics = true;
-      };
+      memorySize = 2048; # Use 2048MiB memory.
+      cores = 3;
+      graphics = false;
     };
   }; 
 }

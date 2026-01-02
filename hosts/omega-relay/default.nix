@@ -8,7 +8,6 @@
     desktop.hyprland.enable = lib.mkForce false; 
     desktop.xfce.enable = lib.mkForce false; 
     
-    virtialisation.guest = config.addons.virtualization.isTestVM; 
     gpg.enable = true;
   };
 
