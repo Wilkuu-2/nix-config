@@ -1,0 +1,53 @@
+{ ... }:
+let
+  baseTCP = [
+    20 22 433
+  ];
+  baseUDP = [
+    16555 # Wireguard
+  ];
+  baseTCPRanges = [
+  ];
+
+  baseUDPRanges = [
+  ];
+
+  secureTCP = [
+  ];
+
+  secureUDP = [
+  ];
+
+  secureTCPRanges = [
+  ];
+
+  secureUDPRanges = [
+  ];
+in
+{
+  networking.nftables.enable = true;
+  networking.firewall = {
+    enable = true;
+    checkReversePath = false;
+    allowedTCPPorts = baseTCP;
+    allowedUDPPorts = baseUDP;
+    allowedUDPPortRanges = baseUDPRanges;
+    allowedTCPPortRanges = baseTCPRanges;
+    interfaces = {
+      "wg-home" = {
+        allowedTCPPorts = secureTCP;
+        allowedUDPPorts = secureUDP;
+        allowedUDPPortRanges = secureUDPRanges;
+        allowedTCPPortRanges = secureTCPRanges;
+      };
+    };
+    trustedInterfaces = [
+      "docker0"
+      "br-*"
+      "veth*"
+      "vnet*"
+      "virbr*"
+    ];
+
+  };
+}

@@ -102,6 +102,20 @@
             inputs.sops-nix.nixosModules.sops
           ];
         };
+        omega-relay = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs; 
+          };
+          system = "x86_64-linux";
+          modules = [
+            ./modules
+            ./hosts/omega-relay
+            ./users/wilkuu-server.nix
+            inputs.home-manager.nixosModules.default
+            inputs.sops-nix.nixosModules.sops.nix
+          ]; 
+
+        }; 
         vm-shell = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;

@@ -5,7 +5,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "cookie_vm"; # Define your hostname.
+  networking.hostName = "omega-relay"; # Define your hostname.
   networking.networkmanager.enable = true;
   programs.nix-ld.enable = true;
 

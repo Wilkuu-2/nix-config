@@ -7,7 +7,7 @@
   # Pass host config to HM (Common config)
   # TODO: Move this somewhere else.
   home-manager = {
-    useUserPackages = true;
+    # useUserPackages = true;
     useGlobalPkgs = true;
     backupFileExtension = "bak";
 
