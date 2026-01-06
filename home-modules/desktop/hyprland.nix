@@ -15,6 +15,7 @@ with lib;
       networkmanagerapplet
       wl-clipboard
       brightnessctl
+      hyprsunset
     ];
 
     services.hyprpolkitagent.enable = true;
@@ -295,6 +296,30 @@ with lib;
             outline_thickness = 5;
             placeholder_text = "<span foreground=\"##cad3f5\">Password...</span>";
             shadow_passes = 2;
+          }
+        ];
+      };
+    };
+    services.hyprsunset = {
+      enable = true;
+      settings = {
+        max-gamma = 140;
+        profile = [
+          { # Morning 
+            time = "07:00";
+            identity = true; 
+            # temperature = 6500;
+            # gamme = 1;
+          }
+          { # Evening 
+            time = "19:00";
+            temperature = 4000; 
+            gamma = 0.6;
+          }
+          { # Night 
+            time = "22:00";
+            temperature = 3000; 
+            gamma = 0.4;
           }
         ];
       };
