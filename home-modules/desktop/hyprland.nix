@@ -34,7 +34,6 @@ with lib;
       export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
       export QT_AUTO_SCREEN_SCALE_FACTOR=1
       export MOZ_ENABLE_WAYLAND=1
-      export -n GTK_IM_MODULE
     '';
 
     # Hyprland
@@ -258,10 +257,10 @@ with lib;
       settings = {
         ipc = "on";
         splash = false;
-        splash_offset = 2.0;
+        splash_offset = 2;
 
         preload = [ "${./wallpaper.png}" ];
-        wallpaper = [ ",${./wallpaper.png}" ];
+        wallpaper = [ ",${./wallpaper.png}," ];
       };
     };
 
@@ -309,7 +308,7 @@ with lib;
             time = "07:00";
             identity = true; 
             # temperature = 6500;
-            # gamme = 1;
+            gamme = 1;
           }
           { # Evening 
             time = "19:00";
