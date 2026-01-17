@@ -22,6 +22,7 @@ with lib;
 
     homeprogs.waybar.enable = true;
     homeprogs.mako.enable = true;
+    homeprogs.mako.systemdWantedBy = [ "hyprland-session.target" ]; 
     # Environment variables for hyprland.
     # This can be used to configure wayland/hyprland-specific things
     home.file.".config/uwsm/env-hyprland".text = ''
