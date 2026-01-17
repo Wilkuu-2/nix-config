@@ -38,7 +38,7 @@ with lib;
 
     # Hyprland
     wayland.windowManager.hyprland = {
-      systemd.enable = false;
+      systemd.enable = true;
       enable = true;
       xwayland.enable = true;
       settings = {
@@ -252,6 +252,9 @@ with lib;
       };
     };
 
+    systemd.user.services.hyprpaper = {
+      Install.WantedBy = [ "hyprland-session.target"];
+    };
     services.hyprpaper = {
       enable = true;
       settings = {
@@ -301,6 +304,7 @@ with lib;
     };
     services.hyprsunset = {
       enable = true;
+      systemdTarget = "hyprland-session.target"; 
       settings = {
         max-gamma = 140;
         profile = [
@@ -324,25 +328,28 @@ with lib;
       };
     };
 
-    services.hypridle.enable = true;
-    services.hypridle.settings = {
-      general = {
-        lock_cmd = "pidof hyprlock || hyprlock";
-        before_sleep_cmd = "loginctl lock-session";
-        ignore_dbus_inhibit = false;
-        after_sleep_cmd = "hyprctl_dispatch dpms on";
+    services.hypridle = { 
+      enable = true;
+      systemdTarget = "hyprland-session.target"; 
+      settings = {
+        general = {
+          lock_cmd = "pidof hyprlock || hyprlock";
+          before_sleep_cmd = "loginctl lock-session";
+          ignore_dbus_inhibit = false;
+          after_sleep_cmd = "hyprctl_dispatch dpms on";
+        };
+        listener = [
+          {
+            timeout = 120;
+            on-timeout = "hyprlock";
+          }
+          {
+            timeout = 300;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
       };
-      listener = [
-        {
-          timeout = 120;
-          on-timeout = "hyprlock";
-        }
-        {
-          timeout = 300;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-      ];
     };
   };
 }

@@ -67,7 +67,14 @@ in
         ];
       })
       (lib.mkIf cfg.note-taking.enable {
-        home.packages = with pkgs; [ obsidian ];
+        home.packages = with pkgs; [ 
+          obsidian 
+          kdePackages.kdepim-runtime
+          ] ++ (with pkgs.kdePackages; [ 
+          zanshin 
+          kdepim-runtime 
+          akonadi-calendar
+        ]);
         # Todo force synthing to be on here
       })
       (lib.mkIf cfg.art.enable {
