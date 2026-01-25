@@ -10,7 +10,7 @@
   ## TODO REMOVE LATER TO PREVENT ELI FROM BUILDING REMOTELY
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   networking.hosts = {
-    "127.0.0.1" = ["omega-relay.local"];
+    "127.0.0.1" = [ "omega-relay.local" ];
   };
 
   ## Addons for this system

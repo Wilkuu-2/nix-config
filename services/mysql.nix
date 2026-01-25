@@ -30,14 +30,15 @@ let
       )
     else
       " -- Ommitted user ${name}";
-  
+
   add-unix-user-clauses =
-    name: ''
-          -- Clauses for user ${name}
-          ALTER USER IF EXISTS '${name}'@'localhost' IDENTIFIED BY unix_socket'; 
-          CREATE USER IF NOT EXISTS '${name}'@'localhost' IDENTIFIED BY unix_socket';  
-        ''
-        + (lib.concatMapAttrsStringSep "\n" (priviledge_clause name) (create_users_ensure name));
+    name:
+    ''
+      -- Clauses for user ${name}
+      ALTER USER IF EXISTS '${name}'@'localhost' IDENTIFIED BY unix_socket'; 
+      CREATE USER IF NOT EXISTS '${name}'@'localhost' IDENTIFIED BY unix_socket';  
+    ''
+    + (lib.concatMapAttrsStringSep "\n" (priviledge_clause name) (create_users_ensure name));
 
 in
 {
@@ -87,10 +88,10 @@ in
         default = { };
       };
     unix_users = lib.mkOption {
-      type = lib.types.listOf lib.types.str; 
+      type = lib.types.listOf lib.types.str;
       description = "Users that can identify using the unix socket";
-      default = []; 
-      example = ["wakapi"];
+      default = [ ];
+      example = [ "wakapi" ];
     };
   };
   # config.sops.secrets = lib.mkIf cfg.enable {
@@ -100,7 +101,12 @@ in
   # };
   config.sops.templates."init-mysql" = {
     owner = config.systemd.services.mysql.serviceConfig.User;
-    content = (lib.concatLines ((builtins.attrValues (builtins.mapAttrs add-user-clauses cfg.users)) ++ (map add-unix-user-clauses cfg.unix_users)));
+    content = (
+      lib.concatLines (
+        (builtins.attrValues (builtins.mapAttrs add-user-clauses cfg.users))
+        ++ (map add-unix-user-clauses cfg.unix_users)
+      )
+    );
   };
 
   config.services.mysql = {

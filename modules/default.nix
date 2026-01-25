@@ -60,9 +60,9 @@
   #   options = "--delete-older-than 30d";
   # };
   zramSwap = {
-    enable = true; 
+    enable = true;
     algorithm = "lz4";
-    memoryPercent = 50; 
+    memoryPercent = 50;
   };
   systemd.services.nix-daemon.serviceConfig = {
     MemoryAccounting = true;

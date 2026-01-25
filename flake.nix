@@ -9,7 +9,7 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     disko = {
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -110,7 +110,7 @@
         };
         omega-relay = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs; 
+            inherit inputs;
           };
           system = "x86_64-linux";
           modules = [
@@ -120,9 +120,9 @@
             inputs.home-manager.nixosModules.default
             disko.nixosModules.disko
             inputs.sops-nix.nixosModules.sops
-          ]; 
+          ];
 
-        }; 
+        };
         vm-shell = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;

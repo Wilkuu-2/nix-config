@@ -9,7 +9,7 @@
   programs.adb.enable = true;
   users.users.wilkuu = {
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keyFiles = [../certs/wilkuu_rsa.pub ];
+    openssh.authorizedKeys.keyFiles = [ ../certs/wilkuu_rsa.pub ];
     isNormalUser = true;
     initialPassword = "PleazeChangeThis123";
     extraGroups = [
@@ -30,9 +30,9 @@
   home-manager.users.wilkuu = {
     imports = [ ../home-modules ];
 
-    homeapps.presets = lib.genAttrs
-      ["base" "utils" "browser"]  
-      (_: {enable = true; });
+    homeapps.presets = lib.genAttrs [ "base" "utils" "browser" ] (_: {
+      enable = true;
+    });
     # homeapps.vnc = true;
 
     # services.wayvnc = {
