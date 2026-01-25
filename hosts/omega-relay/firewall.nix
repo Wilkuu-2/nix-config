@@ -1,7 +1,7 @@
 { ... }:
 let
   baseTCP = [
-    20 22 433
+    20 22 25 80 143 443 993 465 
   ];
   baseUDP = [
     16555 # Wireguard

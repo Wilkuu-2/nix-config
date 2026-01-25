@@ -9,6 +9,11 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -31,6 +36,7 @@
       self,
       nixpkgs,
       treefmt-nix,
+      disko,
       ...
     }@inputs:
     let
@@ -112,6 +118,7 @@
             ./users/wilkuu-server.nix
             ./hosts/omega-relay
             inputs.home-manager.nixosModules.default
+            disko.nixosModules.disko
             inputs.sops-nix.nixosModules.sops
           ]; 
 
