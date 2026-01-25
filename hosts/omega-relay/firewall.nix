@@ -1,4 +1,4 @@
-{ ... }:
+{ config,... }:
 let
   baseTCP = [
     20
@@ -20,6 +20,7 @@ let
   ];
 
   secureTCP = [
+    # config.wilkuu.services.mysql.port
   ];
 
   secureUDP = [
@@ -54,6 +55,7 @@ in
       "veth*"
       "vnet*"
       "virbr*"
+      "lo"
     ];
 
   };

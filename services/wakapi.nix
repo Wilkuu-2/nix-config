@@ -64,10 +64,11 @@ in
         };
       };
 
+      systemd.services.wakapi.after = ["mysql.service"];
       services.wakapi = {
         enable = true;
         stateDir = cfg.dataDir;
-        passwordSaltFile = config.sops.secrets.wakapi/password_salt;
+        passwordSaltFile = config.sops.secrets."wakapi/password_salt".path;
         settings = {
           server = {
             port = 3111;
@@ -83,10 +84,9 @@ in
             datetime_format = "Mon, 02 Jan 2006 15:04";
           };
           db = {
-            socket = "/var/lib/mysql/mysql.sock";
+            socket = "/run/mysqld/mysqld.sock";
             name = "wakapi";
             dialect = "mysql";
-            charset = "utf8mb4";
           };
           security = {
             insecure_cookies = false;

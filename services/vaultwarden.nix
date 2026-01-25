@@ -61,7 +61,7 @@ in
 
       services.vaultwarden = {
         enable = cfg.enable;
-        backupDir = "/srv/data/vaultwarden";
+        backupDir = cfg.backupDir;
         config = {
           DOMAIN = cfg.domain;
           ROCKET_ADDRESS = "127.0.0.1";

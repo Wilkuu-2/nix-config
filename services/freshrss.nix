@@ -54,6 +54,7 @@ in
         enableACME = cfg.doACME;
       };
 
+      systemd.services.freshrss.after = ["mysql.service"];
       wilkuu.services.mysql = {
         enable = true;
         users."freshrss" = {
@@ -80,7 +81,7 @@ in
         virtualHost = cfg.domain;
         database = {
           passFile = config.sops.secrets."fresh-rss/db_pass".path;
-          host = "localhost";
+          host = "127.0.0.1";
           port = config.wilkuu.services.mysql.port;
           name = "freshrss";
           user = "freshrss";

@@ -35,10 +35,10 @@ let
     name:
     ''
       -- Clauses for user ${name}
-      ALTER USER IF EXISTS '${name}'@'localhost' IDENTIFIED BY unix_socket'; 
-      CREATE USER IF NOT EXISTS '${name}'@'localhost' IDENTIFIED BY unix_socket';  
+      ALTER USER IF EXISTS '${name}'@'localhost' IDENTIFIED VIA unix_socket; 
+      CREATE USER IF NOT EXISTS '${name}'@'localhost' IDENTIFIED VIA unix_socket;  
     ''
-    + (lib.concatMapAttrsStringSep "\n" (priviledge_clause name) (create_users_ensure name));
+    + (lib.concatMapAttrsStringSep "\n" (priviledge_clause "'${name}'@'localhost'") (create_users_ensure name));
 
 in
 {
@@ -105,7 +105,8 @@ in
       lib.concatLines (
         (builtins.attrValues (builtins.mapAttrs add-user-clauses cfg.users))
         ++ (map add-unix-user-clauses cfg.unix_users)
-      )
+        ++ ["FLUSH PRIVILEGES;"]
+      ) 
     );
   };
 
@@ -116,6 +117,7 @@ in
     package = pkgs.mariadb;
     settings = {
       mysqld = {
+        # socket="/var/lib/mysql/mysql.sock";
         log_error = "/var/log/mysql_err.log";
         log_warnings = 2;
       };

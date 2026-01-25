@@ -33,6 +33,7 @@ in
     users.groups.uptimekuma = { };
 
     systemd.services.uptime-kuma.serviceConfig.User = "uptimekuma";
+    systemd.services.uptime-kuma.after = ["mysql.service"];
 
     # sops.secrets =
     #   (lib.genAttrs (map toSops secrets)
@@ -69,7 +70,7 @@ in
         UPTIME_KUMA_PORT = "3111";
         UPTIME_KUMA_HOST = "127.0.0.1";
         UPTIME_KUMA_DB_TYPE = "sqlite";
-        UPTIME_KUMA_DB_SOCKET = "/var/lib/mysql/mysql.sock";
+        UPTIME_KUMA_DB_SOCKET = "/run/mysqld/mysqld.sock";
       };
     };
   });
