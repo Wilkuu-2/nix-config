@@ -1,14 +1,31 @@
 { config, lib, ... }:
+let
+  cfg = config.hosts.omega-relay;
+in 
 {
-  config = lib.mkIf (!config.addons.virtualisation.isTestVM) ({
+  options.hosts.omega-relay = with lib; {
+    root_device = mkOption {
+      type = types.path; 
+      default = "/dev/sda"; 
+      example = "/dev/sda"; 
+      description = "Root device for disko and grub";
+    }; 
+
+    do_disko = mkOption {
+      type = types.bool; 
+      default = !config.addons.virtualisation.isTestVM; 
+      description = "Whenever to do disko or not."; 
+    }; 
+  };  
+  config = lib.mkIf (cfg.do_disko) ({
     services.btrfs.autoScrub = {
       enable = true;
       interval = "weekly";
     };
 
-    boot.loader.grub.device = "/dev/sda";
+    boot.loader.grub.device = cfg.root_device;
     # Workaround
-    boot.loader.grub.devices = lib.mkForce [ "/dev/sda" ];
+    boot.loader.grub.devices = lib.mkForce [ cfg.root_device ];
     boot.loader.efi.canTouchEfiVariables = false;
 
     # TODO: Mount points
@@ -17,7 +34,7 @@
     disko.devices = {
       disk = {
         main-disk = {
-          device = "/dev/sda";
+          device = cfg.root_device;
           type = "disk";
           content = {
             type = "gpt";

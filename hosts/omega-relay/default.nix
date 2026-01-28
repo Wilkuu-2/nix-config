@@ -9,6 +9,7 @@
     ./firewall.nix
     ./disko.nix
     ./vm.nix
+    ./hardware-configuration.nix
     ../../services/mysql.nix
     ../../services/email.nix
     ../../services/vaultwarden.nix
