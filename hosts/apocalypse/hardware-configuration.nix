@@ -144,7 +144,7 @@
 
   # Copied from nix wiki to save on battery life.
   services.tlp = {
-     enable = false;
+    enable = false;
   };
   #   settings = {
   #     CPU_SCALING_GOVERNOR_ON_AC = "performance";

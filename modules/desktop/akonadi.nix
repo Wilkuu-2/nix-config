@@ -1,8 +1,9 @@
-{pkgs, config, ...}: {
+{ ... }:
+{
   programs.kde-pim = {
-    enable = true; 
-    kmail = false; 
-    merkuro = false; 
-    kontact = false; 
-  }; 
+    enable = true;
+    kmail = false;
+    merkuro = false;
+    kontact = false;
+  };
 }

@@ -1,4 +1,4 @@
-{ nixpkgs-stable, ... }:
-(_final: prev: {
+{ ... }:
+(_final: _prev: {
 
 })

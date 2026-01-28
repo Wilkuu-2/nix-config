@@ -22,7 +22,7 @@ with lib;
 
     homeprogs.waybar.enable = true;
     homeprogs.mako.enable = true;
-    homeprogs.mako.systemdWantedBy = [ "hyprland-session.target" ]; 
+    homeprogs.mako.systemdWantedBy = [ "hyprland-session.target" ];
     # Environment variables for hyprland.
     # This can be used to configure wayland/hyprland-specific things
     home.file.".config/uwsm/env-hyprland".text = ''
@@ -254,7 +254,7 @@ with lib;
     };
 
     systemd.user.services.hyprpaper = {
-      Install.WantedBy = [ "hyprland-session.target"];
+      Install.WantedBy = lib.mkForce [ "hyprland-session.target" ];
     };
     services.hyprpaper = {
       enable = true;
@@ -305,33 +305,36 @@ with lib;
     };
     services.hyprsunset = {
       enable = true;
-      systemdTarget = "hyprland-session.target"; 
+      systemdTarget = "hyprland-session.target";
       settings = {
         max-gamma = 140;
         profile = [
-          { # Morning 
+          {
+            # Morning
             time = "07:00";
-            identity = true; 
+            identity = true;
             # temperature = 6500;
             gamme = 1;
           }
-          { # Evening 
+          {
+            # Evening
             time = "19:00";
-            temperature = 4000; 
+            temperature = 4000;
             gamma = 0.6;
           }
-          { # Night 
+          {
+            # Night
             time = "22:00";
-            temperature = 3000; 
+            temperature = 3000;
             gamma = 0.4;
           }
         ];
       };
     };
 
-    services.hypridle = { 
+    services.hypridle = {
       enable = true;
-      systemdTarget = "hyprland-session.target"; 
+      systemdTarget = "hyprland-session.target";
       settings = {
         general = {
           lock_cmd = "pidof hyprlock || hyprlock";
