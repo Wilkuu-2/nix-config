@@ -42,6 +42,7 @@ let
   ];
 in
 {
+  environment.etc.hosts.mode = "0700";
   networking.nftables.enable = true;
   networking.firewall = {
     enable = false;
