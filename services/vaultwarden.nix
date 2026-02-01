@@ -61,9 +61,9 @@ in
 
       services.vaultwarden = {
         enable = cfg.enable;
-        backupDir = cfg.backupDir;
+        # backupDir = cfg.backupDir;
         config = {
-          DOMAIN = cfg.domain;
+          DOMAIN = "${if cfg.doACME then "https" else "http"}://${cfg.domain}";
           ROCKET_ADDRESS = "127.0.0.1";
           ROCKET_PORT = "3222";
           SIGNUPS_DOMAINS_WHITELIST = (lib.concatStringsSep "," cfg.signupWhitelist);

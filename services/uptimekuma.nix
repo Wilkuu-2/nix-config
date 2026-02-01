@@ -33,7 +33,7 @@ in
     users.groups.uptimekuma = { };
 
     systemd.services.uptime-kuma.serviceConfig.User = "uptimekuma";
-    systemd.services.uptime-kuma.after = ["mysql.service"];
+    systemd.services.uptime-kuma.after = [ "mysql.service" ];
 
     # sops.secrets =
     #   (lib.genAttrs (map toSops secrets)

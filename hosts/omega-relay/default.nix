@@ -68,7 +68,7 @@
         doACME = !isVM;
       };
       wakapi = {
-        enable = true;
+        enable = false;
         domain = if isVM then "wakapi.omega-relay.local" else "wakapi.wilkuu.xyz";
         doACME = !isVM;
       };

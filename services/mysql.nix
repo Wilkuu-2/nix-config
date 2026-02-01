@@ -26,7 +26,7 @@ let
           ALTER USER IF EXISTS '${name}'@'%' IDENTIFIED BY '${ucfg.sopsPlaceholder}'; 
           CREATE USER IF NOT EXISTS '${name}'@'%' IDENTIFIED BY '${ucfg.sopsPlaceholder}';  
         ''
-        + (lib.concatMapAttrsStringSep "\n" (priviledge_clause name) (create_users_ensure name))
+        + (lib.concatMapAttrsStringSep "\n" (priviledge_clause "'name'@'%'") (create_users_ensure name))
       )
     else
       " -- Ommitted user ${name}";
@@ -38,7 +38,9 @@ let
       ALTER USER IF EXISTS '${name}'@'localhost' IDENTIFIED VIA unix_socket; 
       CREATE USER IF NOT EXISTS '${name}'@'localhost' IDENTIFIED VIA unix_socket;  
     ''
-    + (lib.concatMapAttrsStringSep "\n" (priviledge_clause "'${name}'@'localhost'") (create_users_ensure name));
+    + (lib.concatMapAttrsStringSep "\n" (priviledge_clause "'${name}'@'localhost'") (
+      create_users_ensure name
+    ));
 
 in
 {
@@ -99,14 +101,14 @@ in
   #     sopsFile = ../secrets/${config.networking.hostName}/secrets.yaml;
   #   };
   # };
-  config.sops.templates."init-mysql" = {
+  config.sops.templates."init-mysql" = lib.mkIf cfg.enable {
     owner = config.systemd.services.mysql.serviceConfig.User;
     content = (
       lib.concatLines (
         (builtins.attrValues (builtins.mapAttrs add-user-clauses cfg.users))
         ++ (map add-unix-user-clauses cfg.unix_users)
-        ++ ["FLUSH PRIVILEGES;"]
-      ) 
+        ++ [ "FLUSH PRIVILEGES;" ]
+      )
     );
   };
 

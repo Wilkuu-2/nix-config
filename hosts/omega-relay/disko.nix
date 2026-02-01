@@ -1,22 +1,22 @@
 { config, lib, ... }:
 let
   cfg = config.hosts.omega-relay;
-in 
+in
 {
   options.hosts.omega-relay = with lib; {
     root_device = mkOption {
-      type = types.path; 
-      default = "/dev/sda"; 
-      example = "/dev/sda"; 
+      type = types.path;
+      default = "/dev/sda";
+      example = "/dev/sda";
       description = "Root device for disko and grub";
-    }; 
+    };
 
     do_disko = mkOption {
-      type = types.bool; 
-      default = !config.addons.virtualisation.isTestVM; 
-      description = "Whenever to do disko or not."; 
-    }; 
-  };  
+      type = types.bool;
+      default = !config.addons.virtualisation.isTestVM;
+      description = "Whenever to do disko or not.";
+    };
+  };
   config = lib.mkIf (cfg.do_disko) ({
     services.btrfs.autoScrub = {
       enable = true;

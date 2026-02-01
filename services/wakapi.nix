@@ -64,7 +64,7 @@ in
         };
       };
 
-      systemd.services.wakapi.after = ["mysql.service"];
+      systemd.services.wakapi.after = [ "mysql.service" ];
       services.wakapi = {
         enable = true;
         stateDir = cfg.dataDir;

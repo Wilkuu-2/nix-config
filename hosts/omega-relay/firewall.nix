@@ -1,4 +1,4 @@
-{ config,... }:
+{ ... }:
 let
   baseTCP = [
     20
@@ -33,6 +33,14 @@ let
   ];
 in
 {
+  systemd.network.enable = true;
+  systemd.network.networks."10-uplink" = {
+    matchConfig.Name = "ens1";
+    networkConfig.DHCP = "ipv4";
+  };
+
+  networking.useDHCP = false;
+  networking.useNetworkd = true;
   networking.nftables.enable = true;
   networking.firewall = {
     enable = true;

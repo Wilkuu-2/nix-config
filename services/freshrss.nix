@@ -54,7 +54,7 @@ in
         enableACME = cfg.doACME;
       };
 
-      systemd.services.freshrss.after = ["mysql.service"];
+      systemd.services.freshrss.after = [ "mysql.service" ];
       wilkuu.services.mysql = {
         enable = true;
         users."freshrss" = {
