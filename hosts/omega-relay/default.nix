@@ -41,13 +41,13 @@
     in
     {
       stalwart = {
-        enable = true;
+        enable = false;
         domain = if isVM then "mail.omega-relay.local" else "mail.wilkuu.xyz";
         doACME = !isVM;
       };
 
       vaultwarden = {
-        enable = true;
+        enable = false;
         signupWhitelist = [
           "wilkuu.xyz"
           "omega-relay.local"
@@ -57,13 +57,13 @@
         doACME = !isVM;
       };
       uptimekuma = {
-        enable = true;
+        enable = false;
         domain = if isVM then "uptime.omega-relay.local" else "uptime.wilkuu.xyz";
         dataDir = "/srv/data/uptimekuma";
         doACME = !isVM;
       };
       freshrss = {
-        enable = true;
+        enable = false;
         domain = if isVM then "rss.omega-relay.local" else "rss.wilkuu.xyz";
         doACME = !isVM;
       };

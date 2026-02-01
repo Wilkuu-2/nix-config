@@ -35,9 +35,15 @@ in
 {
   systemd.network.enable = true;
   systemd.network.networks."10-uplink" = {
-    matchConfig.Name = "ens1";
+    matchConfig.Name = "eth*";
     networkConfig.DHCP = "ipv4";
+    linkConfig.RequiredForOnline="routable";
   };
+  systemd.network.networks."99-fallback" = {
+    matchConfig.Type = "ether";
+    networkConfig.DHCP = "ipv4";
+    linkConfig.RequiredForOnline="routable";
+  }
 
   networking.useDHCP = false;
   networking.useNetworkd = true;
