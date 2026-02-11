@@ -93,28 +93,40 @@ in
                 uri: (makeHttpRedirect "${cfg.domain}${uri}") cfg.doACME
               ));
           })
-        )) //
-        { ${cfg.domain} = {
-	      addSSL = cfg.doACME;
-	      enableACME = cfg.doACME;
-	      serverName = "${cfg.domain}";
-	      locations."/" = {
-		proxyPass = "http://localhost:3080";
-		recommendedProxySettings = true;
-	      };
-        };};
+        ))
+        // {
+          ${cfg.domain} = {
+            addSSL = cfg.doACME;
+            enableACME = cfg.doACME;
+            serverName = "${cfg.domain}";
+            locations."/" = {
+              proxyPass = "http://localhost:3080";
+              recommendedProxySettings = true;
+            };
+          };
+        };
 
       services.stalwart = {
         enable = true;
         dataDir = cfg.dataDir;
         openFirewall = false;
-        credentials = (lib.genAttrs secrets toCredfilePath) // (let 
-		acme_dir = config.security.acme.certs.${cfg.domain}.directory;
-		cert_path = file: "${acme_dir}/${file}";
-	in (if cfg.doACME then {
-		"tls_cert.pem" = cert_path "cert.pem";
-		"tls_key.pem"  = cert_path  "key.pem";
-	} else {}));
+        credentials =
+          (lib.genAttrs secrets toCredfilePath)
+          // (
+            let
+              acme_dir = config.security.acme.certs.${cfg.domain}.directory;
+              cert_path = file: "${acme_dir}/${file}";
+            in
+            (
+              if cfg.doACME then
+                {
+                  "tls_cert.pem" = cert_path "cert.pem";
+                  "tls_key.pem" = cert_path "key.pem";
+                }
+              else
+                { }
+            )
+          );
 
         settings = {
           server.listener = {
@@ -156,17 +168,17 @@ in
             url = "protocol + \"://${cfg.domain}\"";
           };
 
-	  session.connect = {
-		hostname = "config_get('server.hostname')";
-	  };
+          session.connect = {
+            hostname = "config_get('server.hostname')";
+          };
 
-	  server.hostname = "${cfg.domain}";  
+          server.hostname = "${cfg.domain}";
 
-	  certificate."nix_${cfg.domain}" = lib.mkIf cfg.doACME {
-		cert = toStalwartCred "tls_cert.pem"; 
-		private-key = toStalwartCred "tls_key.pem";
-		default = true; 
-	  };  
+          certificate."nix_${cfg.domain}" = lib.mkIf cfg.doACME {
+            cert = toStalwartCred "tls_cert.pem";
+            private-key = toStalwartCred "tls_key.pem";
+            default = true;
+          };
         };
       };
     }

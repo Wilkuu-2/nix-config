@@ -67,12 +67,12 @@ in
     services.uptime-kuma = {
       enable = true;
       settings = {
-        UPTIME_KUMA_PORT        = "3111";
-        UPTIME_KUMA_HOST        = "127.0.0.1";
-        UPTIME_KUMA_DB_TYPE     = "sqlite";
+        UPTIME_KUMA_PORT = "3111";
+        UPTIME_KUMA_HOST = "127.0.0.1";
+        UPTIME_KUMA_DB_TYPE = "sqlite";
         #UPTIME_KUMA_DB_SOCKET   = "/run/mysqld/mysqld.sock";
-	#UPTIME_KUMA_DB_USERNAME = config.systemd.services.uptime-kuma.serviceConfig.User;
-	#UPTIME_KUMA_DB_NAME     = "uptimekuma"; 
+        #UPTIME_KUMA_DB_USERNAME = config.systemd.services.uptime-kuma.serviceConfig.User;
+        #UPTIME_KUMA_DB_NAME     = "uptimekuma";
       };
     };
   });

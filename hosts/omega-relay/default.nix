@@ -24,13 +24,12 @@
     desktop.xfce.enable = lib.mkForce false;
 
     gpg.enable = true;
-    virtualisation.guest = true; 
+    virtualisation.guest = true;
   };
   boot.loader.grub = {
     enable = true;
     efiSupport = false;
   };
-
 
   environment.systemPackages = with pkgs; [
     lynx
@@ -77,22 +76,22 @@
     };
 
   services.fail2ban = {
-    enable = true; 
+    enable = true;
     maxretry = 5;
     ignoreIP = [
-      "192.168.80.0/24" 
       "192.168.80.0/24"
-    ]; 
-    bantime = "24h"; 
+      "192.168.80.0/24"
+    ];
+    bantime = "24h";
     bantime-increment = {
       enable = true; # Enable increment of bantime after each violation
       formula = "ban.Time * math.exp(float(ban.Count+1)*banFactor)/math.exp(1*banFactor)";
       # multipliers = "1 2 4 8 16 32 64";
       maxtime = "168h"; # Do not ban for more than 1 week
       overalljails = true; # Calculate the bantime based on all the violations
-    }; 
+    };
   };
-	
+
   # TODO: Make a nginx module
   security.acme = lib.mkIf (!config.addons.virtualisation.isTestVM) {
     acceptTerms = true;
@@ -109,10 +108,10 @@
         enableACME = !isVM;
         addSSL = !isVM;
         root = "/srv/www/wilkuu.xyz/";
-	locations."/" = {
-		index = "index.html";
-		tryFiles = "$uri $uri/ =404";
-	};
+        locations."/" = {
+          index = "index.html";
+          tryFiles = "$uri $uri/ =404";
+        };
       };
     };
 
