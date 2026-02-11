@@ -52,7 +52,7 @@ in
         rustup
         nil
         statix
-        nixfmt-rfc-style
+        nixfmt
         # phpactor
         pyright
         nodePackages.intelephense

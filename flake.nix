@@ -56,7 +56,7 @@
       # for `nix flake check`
       checks = (
         forAllSystems (pkgs: {
-          formatting = treefmtEval.${pkgs.system}.config.build.check self;
+          formatting = treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.check self;
         })
       );
 
@@ -85,39 +85,6 @@
             ./modules
             ./hosts/full-iso
             ./users/live-user.nix
-            inputs.home-manager.nixosModules.default
-            inputs.sops-nix.nixosModules.sops
-          ];
-        };
-        vm-desktop = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-          };
-          system = "x86_64-linux";
-          modules = [
-            ./modules
-            ./hosts/test_vm
-            ./users/live-user.nix
-            inputs.home-manager.nixosModules.default
-            inputs.sops-nix.nixosModules.sops
-          ];
-        };
-        vm-shell = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-          };
-          system = "x86_64-linux";
-          modules = [
-            ./modules
-            ./hosts/test_vm
-            ./users/live-user.nix
-            (
-              { lib, ... }:
-              {
-                addons.desktop.hyprland.enable = lib.mkForce false;
-                addons.desktop.xfce.enable = lib.mkForce false;
-              }
-            )
             inputs.home-manager.nixosModules.default
             inputs.sops-nix.nixosModules.sops
           ];
