@@ -33,7 +33,7 @@ in
       secrets = [ "user_admin_password" ];
       toSops = (sname: "stalwart/${sname}");
       toCredfilePath = (name: config.sops.secrets.${toSops name}.path);
-      toStalwartCred = name: "%{file:/run/credentials/stalwart-mail.service/${name}}%";
+      toStalwartCred = name: "%{file:/run/credentials/${config.systemd.services.stalwart.name}/${name}}%";
 
       basicListener = proto: port: tls: {
         bind = [ "[::]:${toString port}" ];
@@ -63,10 +63,10 @@ in
 
       # Need this bc otherwise sops will complain for some reason
       users = {
-        groups.stalwart-mail = { };
-        users.stalwart-mail = {
+        groups.stalwart = { };
+        users.stalwart = {
           isSystemUser = true;
-          group = "stalwart-mail";
+          group = "stalwart";
         };
       };
 
@@ -93,39 +93,37 @@ in
                 uri: (makeHttpRedirect "${cfg.domain}${uri}") cfg.doACME
               ));
           })
-        ))
-        //
+        )) //
+        { ${cfg.domain} = {
+	      addSSL = cfg.doACME;
+	      enableACME = cfg.doACME;
+	      serverName = "${cfg.domain}";
+	      locations."/" = {
+		proxyPass = "http://localhost:3080";
+		recommendedProxySettings = true;
+	      };
+        };};
 
-          (lib.genAttrs
-            (map (x: "${x}${cfg.domain}") [
-              ""
-              "autodiscover."
-              "autoconfig."
-            ])
-            (domain: {
-              addSSL = cfg.doACME;
-              enableACME = cfg.doACME;
-              serverName = "${domain}";
-              locations."/" = {
-                proxyPass = "http://localhost:3080";
-                recommendedProxySettings = true;
-              };
-            })
-          );
-
-      services.stalwart-mail = {
+      services.stalwart = {
         enable = true;
         dataDir = cfg.dataDir;
         openFirewall = false;
-        credentials = lib.genAttrs secrets toCredfilePath;
+        credentials = (lib.genAttrs secrets toCredfilePath) // (let 
+		acme_dir = config.security.acme.certs.${cfg.domain}.directory;
+		cert_path = file: "${acme_dir}/${file}";
+	in (if cfg.doACME then {
+		"tls_cert.pem" = cert_path "cert.pem";
+		"tls_key.pem"  = cert_path  "key.pem";
+	} else {}));
+
         settings = {
           server.listener = {
             smtp = basicListener "smtp" 25 false;
             submission = basicListener "smtp" 465 true;
             imaptls = basicListener "imap" 993 true;
             imap = basicListener "imap" 143 true;
-            webdav = basicListener "http" 3080 false;
-            jmap = basicListener "http" 3080 false;
+            # webdav = basicListener "http" 3080 false;
+            # jmap = basicListener "http" 3080 false;
             http = basicListener "http" 3080 false;
           };
 
@@ -155,8 +153,20 @@ in
 
           http = {
             use-x-forwarded = true;
-            url = "protocol + \"${cfg.domain}\"";
+            url = "protocol + \"://${cfg.domain}\"";
           };
+
+	  session.connect = {
+		hostname = "config_get('server.hostname')";
+	  };
+
+	  server.hostname = "${cfg.domain}";  
+
+	  certificate."nix_${cfg.domain}" = lib.mkIf cfg.doACME {
+		cert = toStalwartCred "tls_cert.pem"; 
+		private-key = toStalwartCred "tls_key.pem";
+		default = true; 
+	  };  
         };
       };
     }

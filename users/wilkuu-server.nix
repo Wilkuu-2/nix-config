@@ -6,10 +6,9 @@
 {
   imports = [ ./user-common.nix ];
   programs.zsh.enable = true;
-  programs.adb.enable = true;
   users.users.wilkuu = {
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keyFiles = [ ../certs/wilkuu_rsa.pub ];
+    openssh.authorizedKeys.keyFiles = [ ../certs/wilkuu_rsa.pub ../certs/pi_ed25519.pub];
     isNormalUser = true;
     initialPassword = "PleazeChangeThis123";
     extraGroups = [

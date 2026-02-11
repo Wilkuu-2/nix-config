@@ -5,7 +5,6 @@
 {
   imports = [ ./user-common.nix ];
   programs.zsh.enable = true;
-  programs.adb.enable = true;
   users.users.wilkuu = {
     shell = pkgs.zsh;
     isNormalUser = true;

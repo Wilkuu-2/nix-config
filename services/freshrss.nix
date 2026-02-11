@@ -59,6 +59,7 @@ in
         enable = true;
         users."freshrss" = {
           sopsPlaceholder = config.sops.placeholder."fresh-rss/db_pass";
+	  host = "localhost";
         };
         databases."freshrss" = {
           enable = true;

@@ -23,10 +23,10 @@ let
       (
         ''
           -- Clauses for user ${name}
-          ALTER USER IF EXISTS '${name}'@'%' IDENTIFIED BY '${ucfg.sopsPlaceholder}'; 
-          CREATE USER IF NOT EXISTS '${name}'@'%' IDENTIFIED BY '${ucfg.sopsPlaceholder}';  
+          ALTER USER IF EXISTS '${name}'@'${ucfg.host}' IDENTIFIED BY '${ucfg.sopsPlaceholder}'; 
+          CREATE USER IF NOT EXISTS '${name}'@'${ucfg.host}' IDENTIFIED BY '${ucfg.sopsPlaceholder}';  
         ''
-        + (lib.concatMapAttrsStringSep "\n" (priviledge_clause "'name'@'%'") (create_users_ensure name))
+        + (lib.concatMapAttrsStringSep "\n" (priviledge_clause "'${name}'@'${ucfg.host}'") (create_users_ensure name))
       )
     else
       " -- Ommitted user ${name}";
@@ -84,6 +84,10 @@ in
               allowedRanges = mkOption {
                 type = types.listOf types.str;
               };
+	      host = mkOption {
+		type = types.str; 
+		default = "%"; 
+	      };
             };
           }
         );

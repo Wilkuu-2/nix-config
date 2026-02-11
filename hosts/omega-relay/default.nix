@@ -24,11 +24,13 @@
     desktop.xfce.enable = lib.mkForce false;
 
     gpg.enable = true;
+    virtualisation.guest = true; 
   };
   boot.loader.grub = {
     enable = true;
     efiSupport = false;
   };
+
 
   environment.systemPackages = with pkgs; [
     lynx
@@ -41,29 +43,29 @@
     in
     {
       stalwart = {
-        enable = false;
+        enable = true;
         domain = if isVM then "mail.omega-relay.local" else "mail.wilkuu.xyz";
         doACME = !isVM;
       };
 
       vaultwarden = {
-        enable = false;
+        enable = true;
         signupWhitelist = [
           "wilkuu.xyz"
           "omega-relay.local"
         ];
         backupDir = "/srv/data/vaultwarden";
-        domain = if isVM then "vaultwarden.omega-relay.local" else "vaultwarden.wilkuu.xyz";
+        domain = if isVM then "bitwarden.omega-relay.local" else "bitwarden.wilkuu.xyz";
         doACME = !isVM;
       };
       uptimekuma = {
-        enable = false;
+        enable = true;
         domain = if isVM then "uptime.omega-relay.local" else "uptime.wilkuu.xyz";
         dataDir = "/srv/data/uptimekuma";
         doACME = !isVM;
       };
       freshrss = {
-        enable = false;
+        enable = true;
         domain = if isVM then "rss.omega-relay.local" else "rss.wilkuu.xyz";
         doACME = !isVM;
       };
@@ -74,10 +76,27 @@
       };
     };
 
+  services.fail2ban = {
+    enable = true; 
+    maxretry = 5;
+    ignoreIP = [
+      "192.168.80.0/24" 
+      "192.168.80.0/24"
+    ]; 
+    bantime = "24h"; 
+    bantime-increment = {
+      enable = true; # Enable increment of bantime after each violation
+      formula = "ban.Time * math.exp(float(ban.Count+1)*banFactor)/math.exp(1*banFactor)";
+      # multipliers = "1 2 4 8 16 32 64";
+      maxtime = "168h"; # Do not ban for more than 1 week
+      overalljails = true; # Calculate the bantime based on all the violations
+    }; 
+  };
+	
   # TODO: Make a nginx module
   security.acme = lib.mkIf (!config.addons.virtualisation.isTestVM) {
     acceptTerms = true;
-    defaults.email = "jakub@wilkuu.xyz";
+    defaults.email = "jstachurski9991@gmail.com";
   };
   services.nginx =
     let
@@ -89,11 +108,11 @@
       virtualHosts."${domain}" = {
         enableACME = !isVM;
         addSSL = !isVM;
-        locations."/" = {
-          root = "/srv/www/wilkuu.xyz/";
-          index = "index.html";
-          tryFiles = "$uri $uri/ =404";
-        };
+        root = "/srv/www/wilkuu.xyz/";
+	locations."/" = {
+		index = "index.html";
+		tryFiles = "$uri $uri/ =404";
+	};
       };
     };
 
