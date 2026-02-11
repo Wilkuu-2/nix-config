@@ -257,12 +257,12 @@ with lib;
       Install.WantedBy = lib.mkForce [ "hyprland-session.target" ];
     };
 
-    # TODO: Put the default wallpaper somewhere else. 
+    # TODO: Put the default wallpaper somewhere else.
     home.file.defaultWallpaper = {
       source = ./wallpaper.png;
-      target = "Pictures/Wallpapers/wallpaper.png"; 
-      enable = true; 
-    };  
+      target = "Pictures/Wallpapers/wallpaper.png";
+      enable = true;
+    };
 
     services.hyprpaper = {
       enable = true;
@@ -272,12 +272,12 @@ with lib;
         splash_offset = 2;
 
         # preload = [ "${./wallpaper.png}" ];
-        wallpaper = [ 
-          { 
+        wallpaper = [
+          {
             monitor = "";
-            path    = "${config.home.homeDirectory}/${config.home.file.defaultWallpaper.target}"; 
+            path = "${config.home.homeDirectory}/${config.home.file.defaultWallpaper.target}";
             fit_mode = "cover";
-          } 
+          }
         ];
       };
     };

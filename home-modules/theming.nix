@@ -38,7 +38,7 @@ in
       enable = true;
       kde.settings = {
 
-      }; 
+      };
       style.package = pkgs.catppuccin-qt5ct;
 
       # style.name = "kvantum";
