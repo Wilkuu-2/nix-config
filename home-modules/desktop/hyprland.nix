@@ -15,12 +15,14 @@ with lib;
       networkmanagerapplet
       wl-clipboard
       brightnessctl
+      hyprsunset
     ];
 
     services.hyprpolkitagent.enable = true;
 
     homeprogs.waybar.enable = true;
     homeprogs.mako.enable = true;
+    homeprogs.mako.systemdWantedBy = [ "hyprland-session.target" ];
     # Environment variables for hyprland.
     # This can be used to configure wayland/hyprland-specific things
     home.file.".config/uwsm/env-hyprland".text = ''
@@ -33,12 +35,11 @@ with lib;
       export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
       export QT_AUTO_SCREEN_SCALE_FACTOR=1
       export MOZ_ENABLE_WAYLAND=1
-      export -n GTK_IM_MODULE
     '';
 
     # Hyprland
     wayland.windowManager.hyprland = {
-      systemd.enable = false;
+      systemd.enable = true;
       enable = true;
       xwayland.enable = true;
       settings = {
@@ -252,15 +253,32 @@ with lib;
       };
     };
 
+    systemd.user.services.hyprpaper = {
+      Install.WantedBy = lib.mkForce [ "hyprland-session.target" ];
+    };
+
+    # TODO: Put the default wallpaper somewhere else.
+    home.file.defaultWallpaper = {
+      source = ./wallpaper.png;
+      target = "Pictures/Wallpapers/wallpaper.png";
+      enable = true;
+    };
+
     services.hyprpaper = {
       enable = true;
       settings = {
         ipc = "on";
         splash = false;
-        splash_offset = 2.0;
+        splash_offset = 2;
 
-        preload = [ "${./wallpaper.png}" ];
-        wallpaper = [ ",${./wallpaper.png}" ];
+        # preload = [ "${./wallpaper.png}" ];
+        wallpaper = [
+          {
+            monitor = "";
+            path = "${config.home.homeDirectory}/${config.home.file.defaultWallpaper.target}";
+            fit_mode = "cover";
+          }
+        ];
       };
     };
 
@@ -299,26 +317,57 @@ with lib;
         ];
       };
     };
-
-    services.hypridle.enable = true;
-    services.hypridle.settings = {
-      general = {
-        lock_cmd = "pidof hyprlock || hyprlock";
-        before_sleep_cmd = "loginctl lock-session";
-        ignore_dbus_inhibit = false;
-        after_sleep_cmd = "hyprctl_dispatch dpms on";
+    services.hyprsunset = {
+      enable = true;
+      systemdTarget = "hyprland-session.target";
+      settings = {
+        max-gamma = 140;
+        profile = [
+          {
+            # Morning
+            time = "07:00";
+            identity = true;
+            # temperature = 6500;
+            gamme = 1;
+          }
+          {
+            # Evening
+            time = "19:00";
+            temperature = 4000;
+            gamma = 0.6;
+          }
+          {
+            # Night
+            time = "22:00";
+            temperature = 3000;
+            gamma = 0.4;
+          }
+        ];
       };
-      listener = [
-        {
-          timeout = 120;
-          on-timeout = "hyprlock";
-        }
-        {
-          timeout = 300;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-      ];
+    };
+
+    services.hypridle = {
+      enable = true;
+      systemdTarget = "hyprland-session.target";
+      settings = {
+        general = {
+          lock_cmd = "pidof hyprlock || hyprlock";
+          before_sleep_cmd = "loginctl lock-session";
+          ignore_dbus_inhibit = false;
+          after_sleep_cmd = "hyprctl_dispatch dpms on";
+        };
+        listener = [
+          {
+            timeout = 120;
+            on-timeout = "hyprlock";
+          }
+          {
+            timeout = 300;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
+      };
     };
   };
 }

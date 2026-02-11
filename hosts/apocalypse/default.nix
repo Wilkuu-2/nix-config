@@ -17,6 +17,7 @@
   addons = {
     desktop.hyprland.enable = true;
     desktop.xfce.enable = true;
+    desktop.cosmic.enable = true;
     steam.enable = true;
 
     virtualisation.guest = false;
@@ -27,7 +28,7 @@
     gpg.enable = true;
 
     remote_builder = {
-      enable = true;
+      enable = false;
       allowedKeyFiles = [ ../../secrets/eli.pub ];
       openFirewall = true;
     };
@@ -78,10 +79,12 @@
 
   services.resolved = {
     enable = true;
-    dnssec = "false";
-    domains = [ "~." ];
-    fallbackDns = [ ];
-    dnsovertls = "opportunistic";
+    settings.Resolve = {
+      DNSSEC = "false";
+      Domains = [ "~." ];
+      FallbackDns = [ "8.8.8.8" ];
+      DNSOverTLS = "opportunistic";
+    };
   };
 
   networking.useDHCP = lib.mkDefault true;

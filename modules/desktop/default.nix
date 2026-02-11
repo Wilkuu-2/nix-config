@@ -22,6 +22,7 @@ in
     ./wayland.nix
     ./wms
     ./steam.nix
+    ./akonadi.nix
   ];
   options.addons.desktop = with types; {
     wmMeta = mkOption {

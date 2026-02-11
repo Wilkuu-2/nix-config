@@ -36,8 +36,12 @@ in
 
     qt = {
       enable = true;
-      platformTheme.name = "qtct";
-      style.name = "kvantum";
+      kde.settings = {
+
+      };
+      style.package = pkgs.catppuccin-qt5ct;
+
+      # style.name = "kvantum";
     };
 
     xdg.configFile."Kvantum/kvantum.kvconfig".source =

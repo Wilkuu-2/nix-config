@@ -10,7 +10,7 @@ in
   options.homesv.vdirsyncer = {
     enable = lib.mkEnableOption "Enable syncing via vdirsyncer";
     user = lib.mkOption { default = config.home.username; };
-    server = lib.mkOption { default = "https://webdav.wilkuu.xyz/dav.php"; };
+    server = lib.mkOption { default = "https://mail.wilkuu.xyz/dav/"; };
   };
   config = lib.mkIf cfg.enable {
     sops.secrets.webdav_uname = {
@@ -45,7 +45,7 @@ in
 
         [storage contacts_remote]
         type = "carddav"
-        auth = "digest"
+        auth = "basic"
         url = "${cfg.server}"
         username = "${config.sops.placeholder.webdav_uname}"
         password = "${config.sops.placeholder.webdav_pass}"
@@ -64,7 +64,7 @@ in
 
         [storage calendar_remote]
         type = "caldav"
-        auth = "digest"
+        auth = "basic"
         url = "${cfg.server}"
         username = "${config.sops.placeholder.webdav_uname}"
         password = "${config.sops.placeholder.webdav_pass}"
