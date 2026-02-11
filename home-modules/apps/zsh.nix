@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  hostconfig,
   ...
 }:
 {
@@ -10,13 +11,24 @@
   };
 
   config = lib.mkIf config.homeapps.zsh.enable {
-
     programs.zsh = {
       enable = true;
       enableCompletion = true;
+      syntaxHighlighting.enable = true; 
+      autosuggestion.enable =true;
       oh-my-zsh = {
         enable = true;
-        theme = "clean";
+        theme = "dst";
+        plugins = [
+          "kitty"
+          "rust" 
+          "screen" 
+          "systemd" 
+          "tmux" 
+          "nmap" 
+          "npm"
+          "ssh" 
+        ];
       };
       plugins = [
         {
