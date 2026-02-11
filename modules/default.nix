@@ -12,6 +12,7 @@
     ./vpn.nix
     ./remote-builder.nix
     ./nh.nix
+    ./motd.nix
   ];
 
   nixpkgs.overlays = [
