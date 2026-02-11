@@ -100,7 +100,6 @@ in
       (lib.mkIf cfg.dev.enable {
         home.packages = with pkgs; [
           hugo
-          wireshark-qt
         ];
       })
       (lib.mkIf cfg.connectivity.enable {

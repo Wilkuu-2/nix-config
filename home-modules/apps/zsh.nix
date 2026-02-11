@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  hostconfig,
   ...
 }:
 {
@@ -14,20 +13,20 @@
     programs.zsh = {
       enable = true;
       enableCompletion = true;
-      syntaxHighlighting.enable = true; 
-      autosuggestion.enable =true;
+      syntaxHighlighting.enable = true;
+      autosuggestion.enable = true;
       oh-my-zsh = {
         enable = true;
         theme = "dst";
         plugins = [
           "kitty"
-          "rust" 
-          "screen" 
-          "systemd" 
-          "tmux" 
-          "nmap" 
+          "rust"
+          "screen"
+          "systemd"
+          "tmux"
+          "nmap"
           "npm"
-          "ssh" 
+          "ssh"
         ];
       };
       plugins = [
