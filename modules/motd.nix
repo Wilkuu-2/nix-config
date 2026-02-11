@@ -33,6 +33,21 @@ let
     fi
     $1
   '';
+
+  filesystems = {
+    "omega-relay" = {
+      root = "/";
+    };
+    "apocalypse" = {
+      root = "/";
+      store = "/store2";
+      ntfs = "/win_games";
+    };
+    "_default" = {
+      root = "/";
+    };
+  };
+  current_fses = filesystems.${config.networking.hostName} or filesystems."_default";
 in
 {
   environment.systemPackages = with pkgs; [
@@ -65,11 +80,7 @@ in
                 {one:.02} , {five:.02} , {fifteen:.02}
         '';
       };
-      filesystems = {
-        root = "/";
-        store = "/store2";
-        ntfs = "/win_games";
-      };
+      filesystems = current_fses;
       memory = {
         swap_pos = "beside";
       };
