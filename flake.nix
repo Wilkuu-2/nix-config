@@ -10,6 +10,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,6 +36,7 @@
       self,
       nixpkgs,
       treefmt-nix,
+      disko,
       ...
     }@inputs:
     let
@@ -88,6 +94,21 @@
             inputs.home-manager.nixosModules.default
             inputs.sops-nix.nixosModules.sops
           ];
+        };
+        omega-relay = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
+          system = "x86_64-linux";
+          modules = [
+            ./modules
+            ./users/wilkuu-server.nix
+            ./hosts/omega-relay
+            inputs.home-manager.nixosModules.default
+            disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
+          ];
+
         };
       };
     };

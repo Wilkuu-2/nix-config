@@ -11,6 +11,7 @@ in
   options.addons.virtualisation = {
     host = lib.mkEnableOption "Allow to host vm's and containers";
     guest = lib.mkEnableOption "Enable guest agents";
+    isTestVM = lib.mkEnableOption "Enabled if the system is a test VM";
   };
 
   config = lib.mkMerge ([
@@ -34,6 +35,7 @@ in
     })
     (lib.mkIf cfg.guest {
       services.spice-vdagentd.enable = true;
+      services.qemuGuest.enable = true;
     })
   ]);
 }
