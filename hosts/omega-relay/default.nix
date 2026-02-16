@@ -16,6 +16,7 @@
     ../../services/uptimekuma.nix
     ../../services/freshrss.nix
     ../../services/wakapi.nix
+    ../../services/continuwuity.nix
   ];
 
   addons = {
@@ -44,6 +45,18 @@
       stalwart = {
         enable = true;
         domain = if isVM then "mail.omega-relay.local" else "mail.wilkuu.xyz";
+        doACME = !isVM;
+      };
+      continuwuity = {
+        enable = true;
+        allowRegistration = false;
+        allowFederation = !isVM;
+        trustedServers = [
+          "matrix.org"
+          "utwente.io"
+        ];
+        fdqn = if isVM then "omega-relay.local" else "wilkuu.xyz";
+        host-domain = if isVM then "matrix.omega-relay.local" else "matrix.wilkuu.xyz";
         doACME = !isVM;
       };
 
