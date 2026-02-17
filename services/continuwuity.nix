@@ -47,31 +47,31 @@ in
       enable = cfg.enable;
       package = pkgs.matrix-continuwuity;
       settings.global = {
-        # Hosted at cfg.domain, server fdqn is fdqn. 
+        # Hosted at cfg.domain, server fdqn is fdqn.
         server_name = cfg.fdqn;
-        # Remove the trans flag, it is a nice feature but not my style. 
+        # Remove the trans flag, it is a nice feature but not my style.
         new_user_displayname_suffix = "";
-        
+
         # Configure matrix stuffs
         allow_registration = cfg.allowRegistration;
         allow_encryption = true;
         allow_federation = cfg.allowFederation;
         trusted_servers = cfg.trustedServers;
 
-        # Host the server on a unix-socket and use nginx to connect to that socket. 
+        # Host the server on a unix-socket and use nginx to connect to that socket.
         address = null;
         unix_socket_path = "/run/continuwuity/continuwuity.sock";
         unix_socket_perms = 660;
-      
-        # You can run this once to create a user called harbinger which is admin. 
-        # This might not be needed to bootstrap c10y in the later versions. 
+
+        # You can run this once to create a user called harbinger which is admin.
+        # This might not be needed to bootstrap c10y in the later versions.
         # It will crash c10y if the user already exists (Idk what the workaround is)
         # admin_execute = [
         #   "users create-user harbinger"
         #   "users make-user-admin harbinger"
         # ];
 
-        # well-known setup 
+        # well-known setup
         well_known = {
           client = "https://${cfg.host-domain}";
           server = "${cfg.host-domain}:443";
@@ -85,11 +85,11 @@ in
         socket = "http://unix://${config.services.matrix-continuwuity.settings.global.unix_socket_path}";
       in
       {
-        # well-known discovery 
-        # TODO: Might need to enforce https here, if it already is not. 
+        # well-known discovery
+        # TODO: Might need to enforce https here, if it already is not.
         ${cfg.fdqn}.locations."/.well_known/matrix/".proxyPass = socket;
-        
-        # The matrix server 
+
+        # The matrix server
         ${cfg.host-domain} = {
           enableACME = cfg.doACME;
           forceSSL = cfg.doACME;
