@@ -89,7 +89,7 @@ in
                 "mail-v1.xml"
                 "autoconfig/mail"
               ])
-              // (lib.genAttrs [ "/.well_known/caldav" "/.well_known/webdav" ] (
+              // (lib.genAttrs [ "/.well-known/caldav" "/.well-known/webdav" ] (
                 uri: (makeHttpRedirect "${cfg.domain}${uri}") cfg.doACME
               ));
           })
