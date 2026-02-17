@@ -29,6 +29,10 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    continuwuity = {
+      url = "git+https://forgejo.ellis.link/continuwuation/continuwuity?rev=55ccfdb9733347f1985206e782d6fd89e46c15c3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

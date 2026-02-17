@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }:
 let
@@ -45,7 +46,7 @@ in
   config = lib.mkIf cfg.enable {
     services.matrix-continuwuity = {
       enable = cfg.enable;
-      package = pkgs.matrix-continuwuity;
+      package = inputs.continuwuity.packages.${pkgs.stdenv.hostPlatform.system}.default;
       settings.global = {
         # Hosted at cfg.domain, server fdqn is fdqn.
         server_name = cfg.fdqn;
