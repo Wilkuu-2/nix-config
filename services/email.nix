@@ -11,6 +11,12 @@ in
       example = "mail.wilkuu.xyz";
       description = "Domain for http connections.";
     };
+    additionalDomains = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      example = [ "mail.wilkuu.xyz" ];
+      description = "Domain for http connections.";
+    };
     wellKnownDomains = mkOption {
       type = types.listOf types.str;
       default = [ "${hostname}.local" ];
@@ -58,7 +64,7 @@ in
     in
     {
       networking.hosts = {
-        "127.0.0.1" = [ cfg.domain ];
+        "127.0.0.1" = ([ cfg.domain ] ++ cfg.additionalDomains);
       };
 
       # Need this bc otherwise sops will complain for some reason
@@ -80,31 +86,27 @@ in
       );
 
       services.nginx.virtualHosts =
-        (lib.genAttrs cfg.wellKnownDomains (
-          (_wdomain: {
-            locations =
-              (proxyWellKnown [
-                "jmap"
-                "mta-sts.txt"
-                "mail-v1.xml"
-                "autoconfig/mail"
-              ])
-              // (lib.genAttrs [ "/.well-known/caldav" "/.well-known/webdav" ] (
-                uri: (makeHttpRedirect "${cfg.domain}${uri}") cfg.doACME
-              ));
-          })
-        ))
-        // {
-          ${cfg.domain} = {
-            addSSL = cfg.doACME;
-            enableACME = cfg.doACME;
-            serverName = "${cfg.domain}";
-            locations."/" = {
-              proxyPass = "http://localhost:3080";
-              recommendedProxySettings = true;
-            };
+        (lib.genAttrs cfg.wellKnownDomains (_wdomain: {
+          locations =
+            (proxyWellKnown [
+              "jmap"
+              "mta-sts.txt"
+              "mail-v1.xml"
+              "autoconfig/mail"
+            ])
+            // (lib.genAttrs [ "/.well-known/caldav/" "/.well-known/webdav/" ] (
+              uri: (makeHttpRedirect "${cfg.domain}${uri}") cfg.doACME
+            ));
+        }))
+        // (lib.genAttrs ([ cfg.domain ] ++ cfg.additionalDomains) (domain: {
+          addSSL = cfg.doACME;
+          enableACME = cfg.doACME;
+          serverName = "${domain}";
+          locations."/" = {
+            proxyPass = "http://localhost:3080";
+            recommendedProxySettings = true;
           };
-        };
+        }));
 
       services.stalwart = {
         enable = true;
@@ -112,21 +114,19 @@ in
         openFirewall = false;
         credentials =
           (lib.genAttrs secrets toCredfilePath)
-          // (
-            let
-              acme_dir = config.security.acme.certs.${cfg.domain}.directory;
-              cert_path = file: "${acme_dir}/${file}";
-            in
-            (
-              if cfg.doACME then
-                {
-                  "tls_cert.pem" = cert_path "cert.pem";
-                  "tls_key.pem" = cert_path "key.pem";
-                }
-              else
-                { }
-            )
-          );
+          // (builtins.foldl' (a: b: a // b) ({ }) (
+            map (
+              domain:
+              let
+                acme_dir = config.security.acme.certs.${domain}.directory;
+                cert_path = file: "${acme_dir}/${file}";
+              in
+              {
+                "tls_${domain}_cert.pem" = cert_path "cert.pem";
+                "tls_${domain}_key.pem" = cert_path "key.pem";
+              }
+            ) ([ cfg.domain ] ++ cfg.additionalDomains)
+          ));
 
         settings = {
           server.listener = {
@@ -174,11 +174,21 @@ in
 
           server.hostname = "${cfg.domain}";
 
-          certificate."nix_${cfg.domain}" = lib.mkIf cfg.doACME {
-            cert = toStalwartCred "tls_cert.pem";
-            private-key = toStalwartCred "tls_key.pem";
-            default = true;
-          };
+          certificate = (
+            lib.mkIf (cfg.doACME) (
+              lib.genAttrs (map (d: "nix_${d}") ([ cfg.domain ] ++ cfg.additionalDomains)) (
+                _name:
+                let
+                  domain = lib.string.removePrefix "nix_" domain;
+                in
+                {
+                  cert = toStalwartCred "tls_${domain}_cert.pem";
+                  private-key = toStalwartCred "tls_${domain}_key.pem";
+                  default = (domain == cfg.domain);
+                }
+              )
+            )
+          );
         };
       };
     }
