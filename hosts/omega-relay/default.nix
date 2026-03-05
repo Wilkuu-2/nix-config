@@ -98,7 +98,7 @@
     maxretry = 5;
     ignoreIP = [
       "192.168.80.0/24"
-      "192.168.80.0/24"
+      "192.168.88.0/24"
     ];
     bantime = "24h";
     bantime-increment = {

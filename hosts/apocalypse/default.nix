@@ -13,6 +13,12 @@
     "127.0.0.1" = [ "omega-relay.local" ];
   };
 
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "lock";
+    HandleLidSwitchDocked = "ignore";
+  };
+
   ## Addons for this system
   addons = {
     desktop.hyprland.enable = true;
