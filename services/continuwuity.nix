@@ -88,7 +88,7 @@ in
       {
         # well-known discovery
         # TODO: Might need to enforce https here, if it already is not.
-        ${cfg.fdqn}.locations."/.well_known/matrix/".proxyPass = socket;
+        ${cfg.fdqn}.locations."/.well-known/matrix/".proxyPass = socket;
 
         # The matrix server
         ${cfg.host-domain} = {

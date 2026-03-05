@@ -45,6 +45,11 @@
       stalwart = {
         enable = true;
         domain = if isVM then "mail.omega-relay.local" else "mail.wilkuu.xyz";
+        wellKnownDomains = [
+          "wilkuu.xyz"
+          "wilkuu.nl"
+        ];
+        additionalDomains = [ "mail.wilkuu.nl" ];
         doACME = !isVM;
       };
       continuwuity = {
@@ -93,7 +98,7 @@
     maxretry = 5;
     ignoreIP = [
       "192.168.80.0/24"
-      "192.168.80.0/24"
+      "192.168.88.0/24"
     ];
     bantime = "24h";
     bantime-increment = {
