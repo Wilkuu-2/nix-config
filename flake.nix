@@ -20,10 +20,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    tatuin = {
-      url = "github:Wilkuu-2/tatuin/flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # tatuin = {
+    #   url = "github:Wilkuu-2/tatuin/flake";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";

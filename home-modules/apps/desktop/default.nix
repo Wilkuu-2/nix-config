@@ -95,6 +95,7 @@ in
         home.packages = with pkgs; [
           libreoffice-qt6-fresh
           zotero
+          planify
         ];
       })
       (lib.mkIf cfg.dev.enable {
