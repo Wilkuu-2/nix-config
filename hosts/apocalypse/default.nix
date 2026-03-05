@@ -13,6 +13,12 @@
     "127.0.0.1" = [ "omega-relay.local" ];
   };
 
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchExternalPower = "lock";
+    HandleLidSwitchDocked = "ignore";
+  };
+
   ## Addons for this system
   addons = {
     desktop.hyprland.enable = true;
@@ -28,8 +34,11 @@
     gpg.enable = true;
 
     remote_builder = {
-      enable = false;
-      allowedKeyFiles = [ ../../secrets/eli.pub ];
+      enable = true;
+      allowedKeyFiles = [
+        ../../secrets/omega-relay_hostkey_ed25519.pub
+        ../../secrets/eli.pub
+      ];
       openFirewall = true;
     };
   };
