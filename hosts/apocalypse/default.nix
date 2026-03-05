@@ -34,8 +34,11 @@
     gpg.enable = true;
 
     remote_builder = {
-      enable = false;
-      allowedKeyFiles = [ ../../secrets/eli.pub ];
+      enable = true;
+      allowedKeyFiles = [
+        ../../secrets/omega-relay_hostkey_ed25519.pub
+        ../../secrets/eli.pub
+      ];
       openFirewall = true;
     };
   };

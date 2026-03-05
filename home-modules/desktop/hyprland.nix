@@ -243,8 +243,8 @@ with lib;
           " ,XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-"
         ];
 
-        windowrulev2 = [
-          "suppressevent maximize, class:.*" # You'll probably like this.
+        windowrule = [
+          "match:class .*, suppress_event maximize" # You'll probably like this.
         ];
 
         source = [

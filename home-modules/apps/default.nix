@@ -1,7 +1,6 @@
 {
   lib,
   pkgs,
-  inputs,
   config,
   hostconfig,
   ...
@@ -103,7 +102,7 @@ in
     })
     (lib.mkIf cfg.work.enable {
       home.packages = with pkgs; [
-        inputs.tatuin.packages.${pkgs.stdenv.hostPlatform.system}.default
+        # inputs.tatuin.packages.${pkgs.stdenv.hostPlatform.system}.default
         todoman
       ];
     })
