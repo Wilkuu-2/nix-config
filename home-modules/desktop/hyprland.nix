@@ -333,14 +333,14 @@ with lib;
           {
             # Evening
             time = "19:00";
-            temperature = 4000;
-            gamma = 0.6;
+            temperature = 5000;
+            gamma = 0.9;
           }
           {
             # Night
             time = "22:00";
-            temperature = 3000;
-            gamma = 0.4;
+            temperature = 3500;
+            gamma = 0.8;
           }
         ];
       };
