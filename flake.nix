@@ -50,8 +50,24 @@
         "x86_64-linux"
         "aarch64-linux"
       ];
+      # Allows code to execute for all used architectures
       forAllSystems = f: (lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system}));
-      treefmtEval = forAllSystems (pkgs: treefmt-nix.lib.evalModule pkgs ./modules/treefmt.nix);
+
+      # Treefmt has a bunch of long paths that we want to bundle.
+      treefmtStuff = forAllSystems (
+        pkgs:
+        let
+          treefmt = treefmt-nix.lib.evalModule pkgs ./modules/treefmt.nix;
+        in
+        {
+          formatter = treefmt.config.build.wrapper;
+          formatCheck = {
+            formatting = treefmt.config.build.check self;
+          };
+        }
+      );
+      # Convenient extractor which generates an attrset of system: attribute, with the attribute being picked from treefmtStuff by name.
+      treefmtExtract = name: (builtins.mapAttrs (_system: conf: conf."${name}") (treefmtStuff));
     in
     {
       # packages."x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
@@ -61,15 +77,9 @@
         })
       );
       # for `nix fmt`
-      formatter = (
-        forAllSystems (pkgs: treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.wrapper)
-      );
+      formatter = treefmtExtract "formatter";
       # for `nix flake check`
-      checks = (
-        forAllSystems (pkgs: {
-          formatting = treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.check self;
-        })
-      );
+      checks = treefmtExtract "formatCheck";
 
       nixosConfigurations = {
         apocalypse = nixpkgs.lib.nixosSystem {
