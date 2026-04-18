@@ -30,8 +30,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     continuwuity = {
-      url = "git+https://forgejo.ellis.link/continuwuation/continuwuity?rev=2c7233812b6838a6942ca57d5304ed843ce2bb05";
+      url = "github:continuwuity/continuwuity?tag=5.7.0";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.treefmt-nix.follows = "treefmt-nix";
     };
   };
 

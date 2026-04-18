@@ -72,6 +72,21 @@ in
         #   "users make-user-admin harbinger"
         # ];
 
+	url_preview_domain_explicit_allowlist = [
+          "i.imgur.com"
+          "cdn.discordapp.com"
+          "ooye.elisaado.com"
+          "media.tenor.com"
+          "media1.tenor.com"
+	  "tenor.com"
+          "giphy.com"
+          "cdn.nest.rip"
+          "ssd-cdn.nest.rip"
+          "i.github.com"
+          "github.com"
+	  "wilkuu.xyz"
+        ];
+
         # well-known setup
         well_known = {
           client = "https://${cfg.host-domain}";
