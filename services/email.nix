@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 let
   cfg = config.wilkuu.services.stalwart;
   hostname = config.networking.hostName;
@@ -69,41 +74,48 @@ in
           recommendedProxySettings = true;
         }));
 
-      makeHttpRedirect = target: https: {
-        return = "302 ${if https then "https" else "http"}://${target}";
-      };
+      makeHTTPRedirectBody = target: https: "302 ${if https then "https" else "http"}://${target}";
 
       # TODO: Move to a util
       # TODO: Make it so the user can define the method for each origin.
-      nginxDomainRegex = domain: "~^https://${lib.escapeRegex domain}";
+      nginxDomainRegex = domain: "~^https://${lib.replaceString "." "\\." domain}";
       nginxCorsMap = name: domains: ''
-        map $http_origin $cors_${name} {
-          default ""; 
-        ${lib.concatLines (builtins.map (d: "    ${nginxDomainRegex d} $http_origin;") domains)}
-        } 
+        	# Create a map for CORS for ${name}
+          map $http_origin $cors_${name} {
+            default "";
+          ${lib.concatLines (builtins.map (d: "    ${nginxDomainRegex d} $http_origin;") domains)}
+          }
       '';
       read_only_methods = "GET, OPTIONS";
-      rest_methods = read_only_methods + "POST, PUT, DELETE";
-      webdav_methods = "PROPFIND, PROPPATCH ,COPY, LOCK, UNLOCK, MKCOL, MOVE";
-      all_methods = rest_methods + webdav_methods;
+      rest_methods = read_only_methods + "," + "POST, PUT, DELETE";
+      webdav_methods = "PROPFIND, PROPPATCH, COPY, LOCK, UNLOCK, MKCOL, MOVE";
+      all_methods = rest_methods + ", " + webdav_methods;
 
       # Source https://enable-cors.org/server_nginx.html feat. ClankGPT
-      nginxCorsBlock = name: _allowed_methods: ''
-        if $cors_${name} != "" {
-          add_header 'Vary' 'Origin' always;
-          add_header 'Access-Control-Allow-Origin' $cors_${name} always; 
-          add_header 'Access-Control-Allow-Methods' '$allowed_methods'; 
-          add_header 'Access-Control-Allow-Credentials' 'true always';
-          add_header 'Access-Control-Allow-Headers' 'DNT, User-Agent, X-Requested-With, If-Modified-Since,Cache-Control,Content-Type,Range,Authorization'; 
-        }
-        if ($request_method = OPTIONS) {
-          add_header 'Access-Control-Max-Age' 86400;
-          add_header 'Content-Type' 'text/plain; charset=utf-8';
-          add_header 'Content-Length' 0;
-          return 204; 
-        }
-      '';
+      nginxCorsInclude =
+        name: allowed_methods:
+        pkgs.writeText "nginx-cors-${name}-headers" ''
+                	# Adds cors headers
+                  if ($request_method = OPTIONS) {
+          		add_header 'Vary' 'Origin' always;
+          		add_header 'Access-Control-Allow-Origin' $cors_${name};
+          		add_header 'Access-Control-Allow-Methods' '${allowed_methods}';
+          		add_header 'Access-Control-Allow-Credentials' 'true';
+          		add_header 'Access-Control-Allow-Headers' 'DNT, User-Agent, X-Requested-With, If-Modified-Since,Cache-Control,Content-Type,Range,Authorization';
 
+          	  	add_header 'Access-Control-Max-Age' 86400;
+          	  	add_header 'Content-Type' 'text/plain; charset=utf-8';
+          	  	add_header 'Content-Length' 0;
+                    	return 204;
+                  }
+                  add_header 'Vary' 'Origin' always;
+          	add_header 'Access-Control-Allow-Origin' $cors_${name};
+          	add_header 'Access-Control-Allow-Methods' '${allowed_methods}';
+          	add_header 'Access-Control-Allow-Credentials' 'true';
+          	add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization';
+        '';
+
+      stalwart_cors_headers = nginxCorsInclude "stalwart" all_methods;
     in
     {
       networking.hosts = {
@@ -136,9 +148,12 @@ in
               "mail-v1.xml"
               "autoconfig/mail"
             ])
-            // (lib.genAttrs [ "/.well-known/caldav/" "/.well-known/webdav/" "/.well-known/jmap" ] (
-              uri: (makeHttpRedirect "${cfg.domain}${uri}") cfg.doACME
-            ));
+            // (lib.genAttrs [ "/.well-known/caldav/" "/.well-known/webdav/" "/.well-known/jmap" ] (uri: {
+              extraConfig = ''
+                	  	   include ${stalwart_cors_headers};
+                	      	   return ${makeHTTPRedirectBody "${cfg.domain}${uri}" cfg.doACME};
+                		'';
+            }));
         }))
         // (lib.genAttrs ([ cfg.domain ] ++ cfg.additionalDomains) (domain: {
           addSSL = cfg.doACME;
@@ -148,10 +163,10 @@ in
             proxyPass = "http://localhost:3080";
             proxyWebsockets = true;
             recommendedProxySettings = true;
-            extraConfig = nginxCorsBlock "stalwart" all_methods;
+            extraConfig = "include ${stalwart_cors_headers};";
           };
         }));
-      services.nginx.appendHttpConfig = nginxCorsMap "stalwart" cfg.corsDomains;
+      services.nginx.commonHttpConfig = nginxCorsMap "stalwart" cfg.corsDomains;
 
       services.stalwart = {
         inherit (cfg) stateVersion dataDir enable; # Note set this to something else if you were to copy this module.
