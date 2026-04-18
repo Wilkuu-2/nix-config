@@ -55,7 +55,6 @@ in
         nixfmt
         # phpactor
         pyright
-        nodePackages.intelephense
         texlive.combined.scheme-medium
         texlab
         mermaid-cli

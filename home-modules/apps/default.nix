@@ -73,7 +73,7 @@ in
     })
     (lib.mkIf cfg.comms.enable {
       home.packages = with pkgs; [
-        iamb
+        # iamb # does not compile for some reason
       ];
     })
     (lib.mkIf cfg.utils.enable {

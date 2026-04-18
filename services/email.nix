@@ -31,6 +31,18 @@ in
       default = "/srv/data/stalwart";
       example = "/srv/data/stalwart";
     };
+    stateVersion = mkOption {
+      type = types.str;
+      description = "The nixos version which is the version you started stalwart for the first time.";
+      example = "25.11";
+      default = "25.11";
+    };
+    corsDomains = mkOption {
+      type = types.listOf types.str;
+      description = "List of domains that are permitted by cors";
+      example = [ ];
+      default = [ ];
+    };
   };
 
   config = lib.mkIf cfg.enable (
@@ -61,6 +73,37 @@ in
         return = "302 ${if https then "https" else "http"}://${target}";
       };
 
+      # TODO: Move to a util
+      # TODO: Make it so the user can define the method for each origin.
+      nginxDomainRegex = domain: "~^https://${lib.escapeRegex domain}";
+      nginxCorsMap = name: domains: ''
+        map $http_origin $cors_${name} {
+          default ""; 
+        ${lib.concatLines (builtins.map (d: "    ${nginxDomainRegex d} $http_origin;") domains)}
+        } 
+      '';
+      read_only_methods = "GET, OPTIONS";
+      rest_methods = read_only_methods + "POST, PUT, DELETE";
+      webdav_methods = "PROPFIND, PROPPATCH ,COPY, LOCK, UNLOCK, MKCOL, MOVE";
+      all_methods = rest_methods + webdav_methods;
+
+      # Source https://enable-cors.org/server_nginx.html feat. ClankGPT
+      nginxCorsBlock = name: _allowed_methods: ''
+        if $cors_${name} != "" {
+          add_header 'Vary' 'Origin' always;
+          add_header 'Access-Control-Allow-Origin' $cors_${name} always; 
+          add_header 'Access-Control-Allow-Methods' '$allowed_methods'; 
+          add_header 'Access-Control-Allow-Credentials' 'true always';
+          add_header 'Access-Control-Allow-Headers' 'DNT, User-Agent, X-Requested-With, If-Modified-Since,Cache-Control,Content-Type,Range,Authorization'; 
+        }
+        if ($request_method = OPTIONS) {
+          add_header 'Access-Control-Max-Age' 86400;
+          add_header 'Content-Type' 'text/plain; charset=utf-8';
+          add_header 'Content-Length' 0;
+          return 204; 
+        }
+      '';
+
     in
     {
       networking.hosts = {
@@ -89,12 +132,11 @@ in
         (lib.genAttrs cfg.wellKnownDomains (_wdomain: {
           locations =
             (proxyWellKnown [
-              "jmap"
               "mta-sts.txt"
               "mail-v1.xml"
               "autoconfig/mail"
             ])
-            // (lib.genAttrs [ "/.well-known/caldav/" "/.well-known/webdav/" ] (
+            // (lib.genAttrs [ "/.well-known/caldav/" "/.well-known/webdav/" "/.well-known/jmap" ] (
               uri: (makeHttpRedirect "${cfg.domain}${uri}") cfg.doACME
             ));
         }))
@@ -104,13 +146,15 @@ in
           serverName = "${domain}";
           locations."/" = {
             proxyPass = "http://localhost:3080";
+            proxyWebsockets = true;
             recommendedProxySettings = true;
+            extraConfig = nginxCorsBlock "stalwart" all_methods;
           };
         }));
+      services.nginx.appendHttpConfig = nginxCorsMap "stalwart" cfg.corsDomains;
 
       services.stalwart = {
-        enable = true;
-        dataDir = cfg.dataDir;
+        inherit (cfg) stateVersion dataDir enable; # Note set this to something else if you were to copy this module.
         openFirewall = false;
         credentials =
           (lib.genAttrs secrets toCredfilePath)

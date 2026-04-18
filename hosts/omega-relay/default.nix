@@ -51,6 +51,10 @@
         ];
         additionalDomains = [ "mail.wilkuu.nl" ];
         doACME = !isVM;
+        corsDomains = [
+          "qtab.wilkuu.nl"
+          "qtab-dev.wilkuu.nl"
+        ];
       };
       continuwuity = {
         enable = true;

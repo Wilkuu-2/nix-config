@@ -4,23 +4,16 @@
   lib,
   ...
 }:
-let
-  catppuccin_gtk = pkgs.catppuccin-gtk.override {
-    accents = [ "pink" ];
-    size = "compact";
-    tweaks = [ "black" ];
-    variant = "mocha";
-  };
-in
 {
   config = lib.mkIf hostconfig.addons.desktop.enable {
     #Gtk Theming
     gtk = {
       enable = true;
-      theme = {
-        package = catppuccin_gtk;
-        name = "catppuccin-mocha-pink-compact+black";
-      };
+      # theme = {
+      #   package = catppuccin_gtk;
+      #   name = "catppuccin-mocha-pink-compact+black";
+      # };
+      gtk4.theme = null;
       iconTheme = {
         package = pkgs.catppuccin-papirus-folders;
         name = "Papirus-Dark";
