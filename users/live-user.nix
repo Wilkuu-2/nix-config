@@ -27,11 +27,11 @@
 
     homeapps = {
       nvim.enable = true;
-      nvim.lsp = false;
 
       presets = {
         browser.enable = true;
         utils.enable = true;
+        dev.enable = true;
       };
     };
 

@@ -55,10 +55,9 @@
     enableSystemSlice = true;
     enableRootSlice = true;
     settings.OOM = {
-      SwapUsedLimit = "50%";
-      DefaultMemoryPressureLimit = "50%";
+      SwapUsedLimit = "40%";
+      DefaultMemoryPressureLimit = "80%";
       DefaultMemoryPressureDurationSec = 20;
-
     };
   };
 

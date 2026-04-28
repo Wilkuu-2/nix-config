@@ -70,12 +70,7 @@
       treefmtExtract = name: (builtins.mapAttrs (_system: conf: conf."${name}") (treefmtStuff));
     in
     {
-      # packages."x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
-      packages = (
-        forAllSystems (_pkgs: {
-
-        })
-      );
+      packages."x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
       # for `nix fmt`
       formatter = treefmtExtract "formatter";
       # for `nix flake check`

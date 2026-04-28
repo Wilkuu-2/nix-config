@@ -9,7 +9,7 @@
   home-manager = {
     # useUserPackages = true;
     useGlobalPkgs = true;
-    backupFileExtension = "bak";
+    backupFileExtension = ".bak";
 
     sharedModules = [
       (

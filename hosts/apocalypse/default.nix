@@ -21,9 +21,10 @@
 
   ## Addons for this system
   addons = {
-    desktop.hyprland.enable = true;
+    desktop.hyprland.enable = false;
     desktop.xfce.enable = true;
-    desktop.cosmic.enable = true;
+    desktop.cosmic.enable = false;
+    desktop.kde.enable = true;
     steam.enable = true;
 
     virtualisation.guest = false;

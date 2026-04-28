@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   lib,
   ...
@@ -16,6 +17,11 @@ in
       programs.gnupg = {
         agent = {
           enable = true;
+          pinentryPackage =
+            if (config.addons.desktop.kde.enable) then
+              lib.mkForce pkgs.pinentry-qt
+            else
+              lib.mkForce pkgs.pinentry-gtk2;
         };
       };
     })
