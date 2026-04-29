@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }:
 {
@@ -35,17 +36,16 @@
     homeapps.presets = lib.genAttrs [ "base" "utils" "browser" ] (_: {
       enable = true;
     });
-    # homeapps.vnc = true;
 
-    # services.wayvnc = {
-    #   enable = true;
-    #   autoStart = false;
-    #   settings = {
-    #     # Todo, bind to vpn and LAN explicitly somehow
-    #     address = "0.0.0.0";
-    #     port = 5900;
-    #   };
-    # };
+    services.wayvnc = lib.mkIf config.addons.desktop.enable {
+      enable = true;
+      autoStart = false;
+      settings = {
+        # Todo, bind to vpn and LAN explicitly somehow
+        address = "0.0.0.0";
+        port = 5900;
+      };
+    };
 
     home.username = "wilkuu";
     home.homeDirectory = "/home/wilkuu";

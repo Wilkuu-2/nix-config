@@ -45,21 +45,6 @@ in
       [
         lua
         lua-language-server
-        gopls
-        go
-        typescript
-        nodejs_22
-        rustup
-        nil
-        statix
-        nixfmt
-        # phpactor
-        pyright
-        texlive.combined.scheme-medium
-        texlab
-        mermaid-cli
-        ltex-ls
-        deno
       ]
       ++ [
         ts_ls

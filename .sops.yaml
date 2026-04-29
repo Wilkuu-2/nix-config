@@ -4,6 +4,7 @@ keys:
   - &virtserver_omega_relay age1n20lpr5x2aep3l3ta62x2c9cnuz3m495f2dmguqs08ezlqgu4vwsqfskyg
   - &vm_omega_relay age13x9grwfpqjgvjfcnwg5snuntp5emze85hqc8qwuz9nfphfe2pg4skl29r4 
   - &server_omega_relay age18u22lycxtcasvlm298qwzwuc97z56kkhw8ssy9yx4gzlkskuwpyqdz80g4
+  - &server_threshold age1yd07835r408vk259jk09wa0seg5ymu97mh556wgu0twf35588cms7y9jht
 
 
 creation_rules: 
@@ -22,4 +23,9 @@ creation_rules:
       - *virtserver_omega_relay 
       - *vm_omega_relay 
       - *server_omega_relay 
+  - path_regex: secrets/threshold/[^/]+\.(yaml|json|env|ini)$
+    age: 
+      - *admin_wilkuu 
+      - *server_threshold 
+
 

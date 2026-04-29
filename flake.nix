@@ -120,6 +120,21 @@
           ];
 
         };
+        threshold = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
+          system = "x86_64-linux";
+          modules = [
+            ./modules
+            ./users/wilkuu-server.nix
+            ./hosts/threshold
+            inputs.home-manager.nixosModules.default
+            disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
+          ];
+
+        };
       };
     };
 }

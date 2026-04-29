@@ -37,5 +37,11 @@ in
       services.spice-vdagentd.enable = true;
       services.qemuGuest.enable = true;
     })
+    ({
+      virtualisation.vmVariant = {
+        addons.virtualization.isTestVM = true;
+      };
+    })
   ]);
+
 }
