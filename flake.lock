@@ -31,11 +31,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777481115,
-        "narHash": "sha256-9YKAG9ErJz4/HpiMpmixKJo+IKkRnXhoaSfkoOyj2o0=",
+        "lastModified": 1777657213,
+        "narHash": "sha256-ENFIz9jfXSRuHAc2rTi+C0vVbsWuB9yjmFhfb/Het3w=",
         "owner": "continuwuity",
         "repo": "continuwuity",
-        "rev": "e6cae5b8eda99337ca78b1500e913932f966c9f4",
+        "rev": "d963b89a073b12f75f3960e8ebb3e43da7c3bff3",
         "type": "github"
       },
       "original": {
