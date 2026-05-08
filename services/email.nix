@@ -235,13 +235,14 @@ in
 
           certificate = (
             lib.mkIf (cfg.doACME) (
-              lib.mapAttrs' (name: value: ( lib.nameValuePair ("nix_${(lib.replaceString "." "_" name)}") (value) )) (
-                lib.genAttrs ([ cfg.domain ] ++ cfg.additionalDomains) (domain: {
-                  cert = toStalwartCred "tls_${domain}_cert.pem";
-                  private-key = toStalwartCred "tls_${domain}_key.pem";
-                  default = (domain == cfg.domain);
-                })
-              )
+              lib.mapAttrs' (name: value: (lib.nameValuePair ("nix_${(lib.replaceString "." "_" name)}") (value)))
+                (
+                  lib.genAttrs ([ cfg.domain ] ++ cfg.additionalDomains) (domain: {
+                    cert = toStalwartCred "tls_${domain}_cert.pem";
+                    private-key = toStalwartCred "tls_${domain}_key.pem";
+                    default = (domain == cfg.domain);
+                  })
+                )
             )
           );
         };

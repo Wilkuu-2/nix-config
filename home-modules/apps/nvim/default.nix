@@ -15,41 +15,47 @@ in
   };
 
   config = lib.mkIf config.homeapps.nvim.enable {
+    home.sessionVariables = {
+      TERM = "nvim";
+    };
+
     programs.neovim = {
-      enable = true;
+      enable = false;
       defaultEditor = true;
       viAlias = true;
       vimAlias = true;
       vimdiffAlias = true;
-      withPython3 = true;
-      withNodeJs = true;
-      withRuby = true;
+      withPython3 = false;
+      withNodeJs = false;
+      withRuby = false;
 
-      coc.enable = false;
-      plugins = [
-      ];
+      # coc.enable = false;
     };
 
-    home.file."./.config/nvim/lua/wilkuu/nix.lua".text = ''
+    home.file = lib.mkIf config.homeapps.nvim.lsp { 
+      "./.config/nvim/lua/wilkuu/nix.lua".text = config.homeapps.nvim.lsp ''
       return { 
         vue_ts_plugin = "${lib.getBin vue_ls}/lib/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin/"
       } 
-    '';
+    '';};
 
     home.sessionPath = [
       "/home/wilkuu/.npm/bin/"
     ];
 
-    home.packages = lib.mkIf config.homeapps.nvim.lsp (
+    home.packages =
       with pkgs;
-      [
-        lua
-        lua-language-server
-      ]
-      ++ [
-        ts_ls
-        vue_ls
-      ]
-    );
+      lib.mkMerge [
+        (lib.mkIf config.homeapps.nvim.lsp ([
+          lua
+          lua-language-server
+          ts_ls
+          vue_ls
+        ]))
+        [
+          neovim
+          neovim-node-client
+        ]
+      ];
   };
 }

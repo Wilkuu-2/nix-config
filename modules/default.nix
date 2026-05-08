@@ -13,6 +13,7 @@
     ./remote-builder.nix
     ./nh.nix
     ./motd.nix
+    ./locale.nix
   ];
 
   nixpkgs.overlays = [

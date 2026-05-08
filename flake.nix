@@ -120,7 +120,7 @@
           ];
 
         };
-        threshold = nixpkgs.lib.nixosSystem {
+        tacitus = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
           };
@@ -128,7 +128,7 @@
           modules = [
             ./modules
             ./users/wilkuu-server.nix
-            ./hosts/threshold
+            ./hosts/tacitus
             inputs.home-manager.nixosModules.default
             disko.nixosModules.disko
             inputs.sops-nix.nixosModules.sops

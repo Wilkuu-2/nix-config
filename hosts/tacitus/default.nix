@@ -3,7 +3,6 @@
   ...
 }:
 {
-
   imports = [
     ./network.nix
     ./disko.nix
@@ -17,18 +16,22 @@
 
   # Bootloader and boot setup.
   boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
-
-  boot.loader.grub = {
-    enable = true;
-    useOSProber = false;
-    device = "nodev";
+  boot.loader.limine = {
     efiSupport = true;
-    default = "saved";
-    memtest86.enable = true;
+    enable = true;
+    secureBoot = {
+      enable = true;
+      autoGenerateKeys = true;
+      autoEnrollKeys = {
+        extraArgs = [
+          "--microsoft"
+          "--firmware-builtin"
+        ];
+      };
+    };
   };
-
   # Networking setup
-  networking.hostName = "threshold";
+  networking.hostName = "tacitus";
   services.resolved = {
     enable = true;
     settings.Resolve.DNSOverTLS = "opportunistic";

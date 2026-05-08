@@ -23,7 +23,7 @@
   addons = {
     desktop.hyprland.enable = false;
     desktop.xfce.enable = true;
-    desktop.cosmic.enable = false;
+    desktop.cosmic.enable = true;
     desktop.kde.enable = true;
     steam.enable = true;
 
