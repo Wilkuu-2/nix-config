@@ -16,7 +16,7 @@ in
 
   config = lib.mkIf config.homeapps.nvim.enable {
     home.sessionVariables = {
-      TERM = "nvim";
+      EDITOR = "nvim";
     };
 
     programs.neovim = {

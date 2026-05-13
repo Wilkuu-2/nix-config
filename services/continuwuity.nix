@@ -59,6 +59,8 @@ in
         allow_federation = cfg.allowFederation;
         trusted_servers = cfg.trustedServers;
 
+	ip_lookup_strategy = 4;
+
         # Host the server on a unix-socket and use nginx to connect to that socket.
         address = null;
         unix_socket_path = "/run/continuwuity/continuwuity.sock";
