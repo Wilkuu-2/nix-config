@@ -32,12 +32,13 @@ in
       # coc.enable = false;
     };
 
-    home.file = lib.mkIf config.homeapps.nvim.lsp { 
+    home.file = lib.mkIf config.homeapps.nvim.lsp {
       "./.config/nvim/lua/wilkuu/nix.lua".text = config.homeapps.nvim.lsp ''
-      return { 
-        vue_ts_plugin = "${lib.getBin vue_ls}/lib/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin/"
-      } 
-    '';};
+        return { 
+          vue_ts_plugin = "${lib.getBin vue_ls}/lib/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin/"
+        } 
+      '';
+    };
 
     home.sessionPath = [
       "/home/wilkuu/.npm/bin/"
