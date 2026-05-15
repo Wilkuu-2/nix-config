@@ -71,6 +71,9 @@
     in
     {
       packages."x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
+      packages."x86_64-linux".bulwark =
+        nixpkgs.legacyPackages."x86_64-linux".callPackage ./packages/bulwark/package.nix
+          { };
       # for `nix fmt`
       formatter = treefmtExtract "formatter";
       # for `nix flake check`

@@ -136,7 +136,7 @@ in
         lib.genAttrs (map toSops secrets) (_name: {
           sopsFile = sopsPath;
           mode = "0440";
-          owner = "stalwart-mail";
+          owner = "stalwart";
         })
       );
 
@@ -147,6 +147,8 @@ in
               "mta-sts.txt"
               "mail-v1.xml"
               "autoconfig/mail"
+              "openid-configuration"
+              "/.well-known/oauth-authorization-server"
             ])
             // (lib.genAttrs [ "/.well-known/caldav/" "/.well-known/webdav/" "/.well-known/jmap" ] (uri: {
               extraConfig = ''

@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -12,6 +12,10 @@
   networking.hosts = {
     "127.0.0.1" = [ "omega-relay.local" ];
   };
+
+  environment.systemPackages = [
+    (pkgs.callPackage ../../packages/bulwark/package.nix { })
+  ];
 
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";

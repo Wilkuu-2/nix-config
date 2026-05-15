@@ -17,6 +17,7 @@
     ../../services/freshrss.nix
     ../../services/wakapi.nix
     ../../services/continuwuity.nix
+    ../../services/bulwark.nix
   ];
 
   addons = {
@@ -54,7 +55,18 @@
         corsDomains = [
           "qtab.wilkuu.nl"
           "qtab-dev.wilkuu.nl"
+          "bulwark.wilkuu.nl"
+          "bulwark.wilkuu.xyz"
         ];
+      };
+
+      bulwark = {
+        enable = true;
+        domains = [
+          "bulwark.wilkuu.nl"
+          "bulwark.wilkuu.xyz"
+        ];
+        doACME = !isVM;
       };
       continuwuity = {
         enable = true;
