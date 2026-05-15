@@ -62,6 +62,7 @@
 
       bulwark = {
         enable = true;
+        jmap_servers = [ "mail.wilkuu.xyz" ];
         domains = [
           "bulwark.wilkuu.nl"
           "bulwark.wilkuu.xyz"

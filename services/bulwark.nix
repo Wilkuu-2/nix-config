@@ -10,7 +10,7 @@ let
   hostname = config.networking.hostName;
 
   # Importing stuff from stalwart and defaults etc.
-  _stalwart_jmap_domains = lib.optional stalwart_cfg.enable (
+  _stalwart_jmap_domains = lib.optionals stalwart_cfg.enable (
     [ stalwart_cfg.domain ] ++ stalwart_cfg.additionalDomains
   );
 
@@ -96,41 +96,48 @@ in
         {
           mkKeyValue = key: value: "${key}=${lib.escapeShellArg (toString value)}";
         }
-        {
-          STALWART_FEATURES = "${cfg.stalwartInterop}";
-          JMAP_SERVER_URL = lib.concatStringSep cfg.jmap_domains;
-          ADMIN_CONFIG_DIR = "${cfg.dataDir}/settings";
-          ADMIN_STATE_DIR = "${cfg.dataDir}/admin-state";
+        (
+          {
+            STALWART_FEATURES = (if cfg.stalwartInterop then "true" else "false");
+            ADMIN_CONFIG_DIR = "${cfg.dataDir}/settings";
+            ADMIN_STATE_DIR = "${cfg.dataDir}/admin-state";
 
-          SETTINGS_SYNC_ENABLED = true;
-          SETTINGS_DATA_DIR = "${cfg.dataDir}/settings";
+            SETTINGS_SYNC_ENABLED = "true";
+            SETTINGS_DATA_DIR = "${cfg.dataDir}/settings";
 
-          BULWARK_TELEMETRY = "off";
-          TELEMETRY_DATA_DIR = "${cfg.dataDir}/telemetry";
-          VERSION_CHECK_DATA_DIR = "${cfg.dataDir}/version-check";
+            BULWARK_TELEMETRY = "off";
+            TELEMETRY_DATA_DIR = "${cfg.dataDir}/telemetry";
+            VERSION_CHECK_DATA_DIR = "${cfg.dataDir}/version-check";
 
-          SESSION_SECRET_FILE = toCredfilePath "session_secret";
-          ADMIN_PASSWORD = toSopsPlaceholder "admin_password";
-          EXTENSION_DIRECTORY_URL = "https://extensions.bulwarkmail.org";
+            SESSION_SECRET_FILE = (toCredfilePath "session_secret");
+            ADMIN_PASSWORD = (toSopsPlaceholder "admin_password");
+            EXTENSION_DIRECTORY_URL = "https://extensions.bulwarkmail.org";
 
-          # Put into a option module
-          OAUTH_ENABLED = true;
-          OAUTH_CLIENT_ID = "${hostname}-bulwark-webmail";
-          OAUTH_ONLY = false;
-          # OAUTH_CLIENT_SECRET_FILE = ...
-          # TODO: OAUTH_[EXTRA_]SCOPES
+            # Put into a option module
+            OAUTH_ENABLED = "true";
+            OAUTH_CLIENT_ID = "${hostname}-bulwark-webmail";
+            OAUTH_ONLY = "false";
+            # OAUTH_CLIENT_SECRET_FILE = ...
+            # TODO: OAUTH_[EXTRA_]SCOPES
 
-          PORT = 3081;
-        }
-      // cfg.extraEnv;
+            HOSTNAME = "::";
+            PORT = 3081;
+          }
+          // cfg.extraEnv
+        )
+      + "\nJMAP_SERVER_URL=${(lib.concatStringsSep ", " (map (d: "https://${d}") cfg.jmap_servers))}";
   };
   config.services.nginx.virtualHosts = lib.mkIf cfg.enable (
     lib.genAttrs cfg.domains (_vhost: {
       addSSL = cfg.doACME;
       enableACME = cfg.doACME;
       locations."/" = {
-        proxyPass = "http://localhost:3081";
+        proxyPass = "http://127.0.0.1:3081";
+        proxyWebsockets = true;
         recommendedProxySettings = true;
+        extraConfig = ''
+          	   proxy_cache_bypass $http_upgrade;
+          	'';
       };
     })
   );
@@ -139,9 +146,9 @@ in
     enable = cfg.enable;
     serviceConfig = {
       User = "bulwark";
-      AllowedPorts = 3081;
-      SocketBindAllow = "tcp:8080";
-      ExecStart = "${cfg.package}";
+      # AllowedPorts = 3081;
+      # SocketBindAllow = "tcp:3081";
+      ExecStart = "${cfg.package}/bin/bulwark";
       WorkingDirectory = "${cfg.dataDir}";
       StateDirectory = "bulwark";
       Restart = "always";
