@@ -14,6 +14,7 @@
     ./nh.nix
     ./motd.nix
     ./locale.nix
+    ./test_endpoint.nix
   ];
 
   nixpkgs.overlays = [

@@ -43,6 +43,13 @@
       isVM = config.addons.virtualisation.isTestVM;
     in
     {
+      test_endpoint = {
+        enable = true;
+        domain = if isVM then "omega-relay.local" else "omega-relay.wilkuu.xyz";
+        doACME = !isVM;
+        port = 8080;
+      };
+
       stalwart = {
         enable = true;
         domain = if isVM then "mail.omega-relay.local" else "mail.wilkuu.xyz";
@@ -125,6 +132,10 @@
       maxtime = "168h"; # Do not ban for more than 1 week
       overalljails = true; # Calculate the bantime based on all the violations
     };
+  };
+
+  virtualisation = {
+    docker.enable = true;
   };
 
   # TODO: Make a nginx module
