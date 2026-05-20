@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -12,7 +12,6 @@
   networking.hosts = {
     "127.0.0.1" = [ "omega-relay.local" ];
   };
-
 
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
@@ -33,6 +32,7 @@
 
     vpn.mullvad.enable = true;
     vpn.eduvpn.enable = true;
+    vpn.fortissl.enable = true; 
     gpg.enable = true;
 
     remote_builder = {

@@ -12,6 +12,7 @@ in
 {
   options.addons.vpn = {
     eduvpn.enable = lib.mkEnableOption "Enable eduvpn";
+    fortissl.enable = lib.mkEnableOption "Enable fortissl";
     mullvad.enable = lib.mkEnableOption "Enable mullvad vpn";
   };
 
@@ -19,6 +20,9 @@ in
     ({ services.mullvad-vpn.enable = opt-mullvad.enable; })
     (lib.mkIf cfg.eduvpn.enable {
       networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
+    })
+    (lib.mkIf cfg.fortissl.enable {
+      networking.networkmanager.plugins = [ pkgs.networkmanager-fortisslvpn ];  
     })
     (lib.mkIf desktop.enable (
       lib.mkMerge [
