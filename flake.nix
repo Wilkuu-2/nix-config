@@ -70,10 +70,14 @@
       treefmtExtract = name: (builtins.mapAttrs (_system: conf: conf."${name}") (treefmtStuff));
     in
     {
-      packages."x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
-      packages."x86_64-linux".bulwark =
-        nixpkgs.legacyPackages."x86_64-linux".callPackage ./packages/bulwark/package.nix
-          { };
+      packages = let system = "x86_64-linux"; pkgs = import nixpkgs {inherit system;}; in {
+        ${system} = {
+          full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
+          bulwark = pkgs.callPackage ./packages/bulwark/package.nix {};
+          stalwart = pkgs.callPackage ./packages/stalwart/package.nix {}; 
+          stalwart-cli = pkgs.callPackage ./packages/stalwart-cli/package.nix {};
+        };
+      };
       # for `nix fmt`
       formatter = treefmtExtract "formatter";
       # for `nix flake check`
