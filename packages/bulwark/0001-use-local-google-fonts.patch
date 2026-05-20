@@ -1,15 +1,15 @@
 diff --git a/app/layout.tsx b/app/layout.tsx
-index 573ed32..e5b1edc 100644
+index ec50f65..6958c60 100644
 --- a/app/layout.tsx
 +++ b/app/layout.tsx
 @@ -1,5 +1,5 @@
- import type { Metadata } from "next";
+ import type { Metadata, Viewport } from "next";
 -import { Geist, Geist_Mono } from "next/font/google";
 +import localFont from "next/font/local";
  import { headers } from "next/headers";
  import { getLocale } from "next-intl/server";
  import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
-@@ -7,15 +7,8 @@ import { ServiceWorkerRegistration } from "@/components/service-worker-registrat
+@@ -7,15 +6,8 @@ import { ServiceWorkerRegistration } from "@/components/service-worker-registrat
  import { configManager } from "@/lib/admin/config-manager";
  import "./globals.css";
  
@@ -25,5 +25,5 @@ index 573ed32..e5b1edc 100644
 +const geistSans = localFont({src: './Geist-Regular.otf', variable: "--font-geist-sans"})
 +const geistMono = localFont({src: './GeistMono-Regular.otf', variable: "--font-geist-mono"})
  
- export async function generateMetadata(): Promise<Metadata> {
-   await configManager.ensureLoaded();
+ export const viewport: Viewport = {
+   width: "device-width",

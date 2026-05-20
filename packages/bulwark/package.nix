@@ -10,16 +10,16 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "bulwark";
-  version = "1.6.5";
+  version = "1.6.7";
   nativeBuildInputs = [ git ];
   src = fetchFromGitHub {
     owner = "bulwarkmail";
     repo = "webmail";
     tag = "${finalAttrs.version}";
-    hash = "sha256-U2bXylfyRLh7d0PA8UNO5Jdi0jg2U//rJlohPJwaPUQ=";
+    hash = "sha256-lKje0UDhO33JlsOi94u81kBGtAR7K2mQhxDOBbz9hKw=";
   };
 
-  npmDepsHash = "sha256-DLRXDM/PUqcjwX66hwvzALIKS016E7s3u/VDuYStYXA=";
+  npmDepsHash = "sha256-1fieu0zN8qjmTEt3jlAVEH+83A37xTLSrrF46KWyUNc=";
   npmPackFlags = [ "--ignore-scripts" ];
   NODE_OPTIONS = [ "--openssl-legacy-provider" ];
 
