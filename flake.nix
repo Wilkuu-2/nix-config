@@ -5,6 +5,14 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
 
+    stalwart-nix = {
+      # local testing
+      # url = "path:/store2/code/stalwart-nix";
+      url = "github:Wilkuu-2/stalwart-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,46 +50,41 @@
       nixpkgs,
       treefmt-nix,
       disko,
+      stalwart-nix,
+      sops-nix,
+      home-manager,
       ...
     }@inputs:
     let
       lib = nixpkgs.lib;
       systems = [
         "x86_64-linux"
+        "x86_64-darwin"
         "aarch64-linux"
+        "aarch64-darwin"
       ];
       # Allows code to execute for all used architectures
-      forAllSystems = f: (lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system}));
+      pkgsPerSystem = (lib.genAttrs systems (system: nixpkgs.legacyPackages.${system}));
+      forAllSystems = f: (lib.genAttrs systems (system: f pkgsPerSystem.${system} system));
 
       # Treefmt has a bunch of long paths that we want to bundle.
-      treefmtStuff = forAllSystems (
-        pkgs:
-        let
-          treefmt = treefmt-nix.lib.evalModule pkgs ./modules/treefmt.nix;
-        in
-        {
-          formatter = treefmt.config.build.wrapper;
-          formatCheck = {
-            formatting = treefmt.config.build.check self;
-          };
-        }
-      );
-      # Convenient extractor which generates an attrset of system: attribute, with the attribute being picked from treefmtStuff by name.
-      treefmtExtract = name: (builtins.mapAttrs (_system: conf: conf."${name}") (treefmtStuff));
+      treefmt = forAllSystems (pkgs: _: treefmt-nix.lib.evalModule pkgs ./modules/treefmt.nix);
     in
     {
-      packages = let system = "x86_64-linux"; pkgs = import nixpkgs {inherit system;}; in {
-        ${system} = {
-          full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
-          bulwark = pkgs.callPackage ./packages/bulwark/package.nix {};
-          stalwart = pkgs.callPackage ./packages/stalwart/package.nix {}; 
-          stalwart-cli = pkgs.callPackage ./packages/stalwart-cli/package.nix {};
+      packages =
+        forAllSystems (
+          pkgs: _system: {
+            bulwark = pkgs.callPackage ./packages/bulwark/package.nix { };
+          }
+        )
+        // {
+          "x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
         };
-      };
+
       # for `nix fmt`
-      formatter = treefmtExtract "formatter";
+      formatter = forAllSystems (_: system: treefmt.${system}.config.build.wrapper);
       # for `nix flake check`
-      checks = treefmtExtract "formatCheck";
+      checks = forAllSystems (_: system: { formatting = treefmt.${system}.config.build.check self; });
 
       nixosConfigurations = {
         apocalypse = nixpkgs.lib.nixosSystem {
@@ -93,8 +96,9 @@
             ./modules
             ./hosts/apocalypse
             ./users/wilkuu.nix
-            inputs.home-manager.nixosModules.default
-            inputs.sops-nix.nixosModules.sops
+            stalwart-nix.nixosModules.default
+            home-manager.nixosModules.default
+            sops-nix.nixosModules.default
           ];
         };
         full-iso = nixpkgs.lib.nixosSystem {
@@ -108,8 +112,8 @@
             ./modules
             ./hosts/full-iso
             ./users/live-user.nix
-            inputs.home-manager.nixosModules.default
-            inputs.sops-nix.nixosModules.sops
+            home-manager.nixosModules.default
+            sops-nix.nixosModules.default
           ];
         };
         omega-relay = nixpkgs.lib.nixosSystem {
@@ -121,9 +125,9 @@
             ./modules
             ./users/wilkuu-server.nix
             ./hosts/omega-relay
-            inputs.home-manager.nixosModules.default
+            home-manager.nixosModules.default
             disko.nixosModules.disko
-            inputs.sops-nix.nixosModules.sops
+            sops-nix.nixosModules.default
           ];
 
         };
@@ -136,9 +140,9 @@
             ./modules
             ./users/wilkuu-server.nix
             ./hosts/tacitus
-            inputs.home-manager.nixosModules.default
+            home-manager.nixosModules.default
             disko.nixosModules.disko
-            inputs.sops-nix.nixosModules.sops
+            sops-nix.nixosModules.default
           ];
 
         };

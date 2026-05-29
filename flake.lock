@@ -213,6 +213,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
         "sops-nix": "sops-nix",
+        "stalwart-nix": "stalwart-nix",
         "treefmt-nix": "treefmt-nix"
       }
     },
@@ -250,6 +251,29 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "stalwart-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1780081489,
+        "narHash": "sha256-ZALATER+KJLI0BumJtC7VhvpC3bYDTFvz/fMazoutGI=",
+        "owner": "Wilkuu-2",
+        "repo": "stalwart-nix",
+        "rev": "80bccc3e1ed1f5a99f13d4bc18402eb5eac99d76",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Wilkuu-2",
+        "repo": "stalwart-nix",
         "type": "github"
       }
     },
