@@ -1,17 +1,16 @@
-diff --git a/app/layout.tsx b/app/layout.tsx
-index ec50f65..6958c60 100644
---- a/app/layout.tsx
-+++ b/app/layout.tsx
-@@ -1,5 +1,5 @@
+diff --git a/app/(main)/layout.tsx b/app/(main)/layout.tsx
+index ac5c3b4..183780c 100644
+--- a/app/(main)/layout.tsx
++++ b/app/(main)/layout.tsx
+@@ -1,5 +1,4 @@
  import type { Metadata, Viewport } from "next";
 -import { Geist, Geist_Mono } from "next/font/google";
-+import localFont from "next/font/local";
  import { headers } from "next/headers";
  import { getLocale } from "next-intl/server";
  import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
-@@ -7,15 +6,8 @@ import { ServiceWorkerRegistration } from "@/components/service-worker-registrat
- import { configManager } from "@/lib/admin/config-manager";
- import "./globals.css";
+@@ -8,15 +7,8 @@ import { configManager } from "@/lib/admin/config-manager";
+ import { withBasePath } from "@/lib/browser-navigation";
+ import "../globals.css";
  
 -const geistSans = Geist({
 -  variable: "--font-geist-sans",
