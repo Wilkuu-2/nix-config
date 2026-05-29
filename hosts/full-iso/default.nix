@@ -1,7 +1,12 @@
-{ modulesPath, lib, ... }:
+{
+  modulesPath,
+  lib,
+  config,
+  ...
+}:
 {
   imports = [
-    (modulesPath + "/installer/cd-dvd/installation-cd-base.nix")
+    (modulesPath + "/installer/cd-dvd/installation-cd-graphical-base.nix")
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -19,6 +24,14 @@
     General = {
       Enable = "Source,Sink,Media,Socket";
     };
+  };
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   hardware.bluetooth.powerOnBoot = true;
