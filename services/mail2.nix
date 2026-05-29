@@ -8,7 +8,6 @@ let
   hostname = config.networking.hostName;
 in
 {
-  imports = [ ./stalwart0_16.nix ];
   options.wilkuu.services.mail = with lib; {
     enable = mkEnableOption "Enable webmail";
     doACME = mkEnableOption "Enable ACME for stalwart here";
@@ -58,7 +57,7 @@ in
 
   config = lib.mkIf cfg.enable (
     let
-      tools = config.wilkuu.services.stalwart16.toolbox;
+      tools = config.stalwart-nix.stalwart.toolbox;
       sopsPath = ../secrets/${hostname}/stalwart.yaml;
       secrets = [
         "admin_user"
@@ -258,7 +257,7 @@ in
           };
         }));
 
-      wilkuu.services.stalwart16 = {
+      stalwart-nix.stalwart = {
         enable = cfg.enable;
         url = if cfg.startupMode != "normal" then "http://localhost:8080/" else cfg.defaultDomain;
         credentialsFile = config.sops.templates.stalwart-config-creds.path;

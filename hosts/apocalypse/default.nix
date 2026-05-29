@@ -5,18 +5,29 @@
     ./nvidia.nix
     ./backup.nix
     ./firewall.nix
+    ../../services/mail2.nix
   ];
 
   ## TODO REMOVE LATER TO PREVENT ELI FROM BUILDING REMOTELY
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   networking.hosts = {
-    "127.0.0.1" = [ "omega-relay.local" ];
+    "127.0.0.1" = [ "apocalypse.local" ];
   };
 
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
     HandleLidSwitchExternalPower = "lock";
     HandleLidSwitchDocked = "ignore";
+  };
+
+  wilkuu.services.test_endpoint.enable = false;
+  wilkuu.services.mail = {
+    enable = true;
+    doACME = false;
+    defaultDomain = "apocalypse.local";
+    domains = [ "apocalypse.local" ];
+    wellKnownDomains = [ ];
+    startupMode = "bootstrap";
   };
 
   ## Addons for this system
@@ -32,7 +43,7 @@
 
     vpn.mullvad.enable = true;
     vpn.eduvpn.enable = true;
-    vpn.fortissl.enable = true; 
+    vpn.fortissl.enable = true;
     gpg.enable = true;
 
     remote_builder = {

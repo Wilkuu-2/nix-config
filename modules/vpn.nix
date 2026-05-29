@@ -22,7 +22,10 @@ in
       networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
     })
     (lib.mkIf cfg.fortissl.enable {
-      networking.networkmanager.plugins = [ pkgs.networkmanager-fortisslvpn ];  
+      networking.networkmanager.plugins = [
+        pkgs.networkmanager-fortisslvpn
+        pkgs.networkmanager-openconnect
+      ];
     })
     (lib.mkIf desktop.enable (
       lib.mkMerge [

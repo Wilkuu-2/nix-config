@@ -20,16 +20,25 @@ in
     };
 
     programs.neovim = {
-      enable = false;
+      enable = true;
       defaultEditor = true;
       viAlias = true;
       vimAlias = true;
       vimdiffAlias = true;
-      withPython3 = false;
-      withNodeJs = false;
-      withRuby = false;
+      withPython3 = true;
+      withNodeJs = true;
+      withRuby = true;
 
       # coc.enable = false;
+
+      initLua = lib.mkMerge [
+        ''
+          -- Load in the real config, if exists
+          local ok, _ pcall (require, "entry")
+          if not ok then 
+            vim.notify("lua/entry.lua not found, no config to load", vim.log.levels.DEBUG)
+          end''
+      ];
     };
 
     home.file = lib.mkIf config.homeapps.nvim.lsp {
@@ -53,10 +62,10 @@ in
           ts_ls
           vue_ls
         ]))
-        [
-          neovim
-          neovim-node-client
-        ]
+        # [
+        #   neovim
+        #   neovim-node-client
+        # ]
       ];
   };
 }
