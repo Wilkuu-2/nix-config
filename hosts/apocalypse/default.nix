@@ -50,6 +50,7 @@
       enable = true;
       allowedKeyFiles = [
         ../../secrets/omega-relay_hostkey_ed25519.pub
+        ../../secrets/remotebuild.pub
         ../../secrets/eli.pub
       ];
       openFirewall = true;
