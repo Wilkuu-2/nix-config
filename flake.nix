@@ -71,15 +71,17 @@
       treefmt = forAllSystems (pkgs: _: treefmt-nix.lib.evalModule pkgs ./modules/treefmt.nix);
     in
     {
-      packages = (lib.recursiveUpdate  
-        (forAllSystems (
-          pkgs: _system: {
-            bulwark = pkgs.callPackage ./packages/bulwark/package.nix { };
+      packages = (
+        lib.recursiveUpdate
+          (forAllSystems (
+            pkgs: _system: {
+              bulwark = pkgs.callPackage ./packages/bulwark/package.nix { };
+            }
+          ))
+          {
+            "x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
           }
-        ))
-        {
-          "x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
-        });
+      );
 
       # for `nix fmt`
       formatter = forAllSystems (_: system: treefmt.${system}.config.build.wrapper);
@@ -144,7 +146,20 @@
             disko.nixosModules.disko
             sops-nix.nixosModules.default
           ];
-
+        };
+        aperture = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
+          system = "x86_64-linux";
+          modules = [
+            ./modules
+            ./users/wilkuu-server.nix
+            ./hosts/aperture
+            home-manager.nixosModules.default
+            disko.nixosModules.default
+            sops-nix.nixosModules.default
+          ];
         };
       };
     };
