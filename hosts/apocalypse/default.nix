@@ -5,7 +5,6 @@
     ./nvidia.nix
     ./backup.nix
     ./firewall.nix
-    ../../services/mail2.nix
   ];
 
   ## TODO REMOVE LATER TO PREVENT ELI FROM BUILDING REMOTELY
@@ -18,16 +17,6 @@
     HandleLidSwitch = "suspend";
     HandleLidSwitchExternalPower = "lock";
     HandleLidSwitchDocked = "ignore";
-  };
-
-  wilkuu.services.test_endpoint.enable = false;
-  wilkuu.services.mail = {
-    enable = true;
-    doACME = false;
-    defaultDomain = "apocalypse.local";
-    domains = [ "apocalypse.local" ];
-    wellKnownDomains = [ ];
-    startupMode = "bootstrap";
   };
 
   ## Addons for this system

@@ -11,13 +11,13 @@
     ./vm.nix
     ./hardware-configuration.nix
     ../../services/mysql.nix
-    ../../services/email.nix
     ../../services/vaultwarden.nix
     ../../services/uptimekuma.nix
     ../../services/freshrss.nix
     ../../services/wakapi.nix
     ../../services/continuwuity.nix
     ../../services/bulwark.nix
+    ../../services/mail2.nix
   ];
 
   addons = {
@@ -28,6 +28,7 @@
     gpg.enable = true;
     virtualisation.guest = true;
   };
+  nix.settings.trusted-users = [ "wilkuu"];
   boot.loader.grub = {
     enable = true;
     efiSupport = false;
@@ -49,24 +50,22 @@
         doACME = !isVM;
         port = 8080;
       };
-
-      stalwart = {
+      
+      mail = {
         enable = true;
-        domain = if isVM then "mail.omega-relay.local" else "mail.wilkuu.xyz";
+        startupMode = "recovery"; 
+        defaultDomain = if isVM then "mail.omega-relay.local" else "mail.wilkuu.xyz";
         wellKnownDomains = [
           "wilkuu.xyz"
           "wilkuu.nl"
         ];
-        additionalDomains = [ "mail.wilkuu.nl" ];
+        domains = [ "wilkuu.xyz" "wilkuu.nl" ];
         doACME = !isVM;
-        corsDomains = [
-          "qtab.wilkuu.nl"
-          "qtab-dev.wilkuu.nl"
-          "bulwark.wilkuu.nl"
-          "bulwark.wilkuu.xyz"
-        ];
+        extraConfig = []; 
+        extraCreate = [];  
       };
 
+  
       bulwark = {
         enable = true;
         jmap_servers = [ "mail.wilkuu.xyz" ];

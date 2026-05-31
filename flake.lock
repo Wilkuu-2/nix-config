@@ -264,11 +264,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780084707,
-        "narHash": "sha256-ZN7DX+lZ8agl6F0CfWH7HHNuMq7yyFV5eg1eMwidCgs=",
+        "lastModified": 1780211733,
+        "narHash": "sha256-9keQVrQN6ZhODsyITo25sPMfbWlmBYfLQ59MyiX8Y38=",
         "owner": "Wilkuu-2",
         "repo": "stalwart-nix",
-        "rev": "57431323bb9cc1c48fa4879da4a2e7798cfbbcc8",
+        "rev": "3752aa11c22073b00507b67e1c14ba17e7ed3629",
         "type": "github"
       },
       "original": {

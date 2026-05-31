@@ -13,7 +13,7 @@
     gpg.enable = true;
     virtualisation.host = true;
   };
-
+  nix.settings.trusted-users = [ "wilkuu"];
   # Bootloader and boot setup.
   boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
   boot.loader.limine = {

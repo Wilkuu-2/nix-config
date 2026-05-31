@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.wilkuu.services.bulwark;
-  stalwart_cfg = config.wilkuu.services.stalwart;
+  stalwart_cfg = config.stalwart-nix.stalwart;
   hostname = config.networking.hostName;
 
   # Importing stuff from stalwart and defaults etc.
@@ -79,9 +79,6 @@ in
     groups.bulwark = { };
   };
 
-  config.wilkuu.services.stalwart.corsDomains = lib.optionals (
-    cfg.enable && stalwart_cfg.enable
-  ) cfg.domains;
   config.sops.secrets = (
     lib.genAttrs (map toSops secrets) (_name: {
       sopsFile = sopsPath;

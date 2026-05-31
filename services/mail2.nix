@@ -57,131 +57,26 @@ in
 
   config = lib.mkIf cfg.enable (
     let
-      tools = config.stalwart-nix.stalwart.toolbox;
       sopsPath = ../secrets/${hostname}/stalwart.yaml;
       secrets = [
         "admin_user"
         "admin_password"
         "recovery_user"
         "recovery_password"
+        "oidc_secret"
       ];
       toSops = (sname: "stalwart16/${sname}");
       toPlaceholder = (sname: config.sops.placeholder.${toSops sname});
       toCredfilePath = (name: config.sops.secrets.${toSops name}.path);
 
-      domain_to_jid = lib.replaceString "." "_";
       # We do this to satisfy the foreign key constraint of the SystemSettings singleton
-      placeholderDomain = "bootstrap-placeholder.home.arpa";
-      planPreamble = lib.concatLists [
-        (tools.mkIdempotentCreateLine {
-          "object" = "Domain";
-          deleteBy = "name";
-          value."#placeholder-domain" = {
-            name = placeholderDomain;
-            certificateManagement = {
-              "@type" = "Manual";
-            };
-            dnsManagement = {
-              "@type" = "Manual";
-            };
-            dkimManagement = {
-              "@type" = "Manual";
-            };
-            subAddressing = {
-              "@type" = "Enabled";
-            };
-          };
-        })
-        [
-          {
-            "@type" = "update";
-            "object" = "SystemSettings";
-            "value" = {
-              "defaultDomainId" = "#placeholder-domain";
-            };
-          }
-        ]
-      ];
-      # TODO: Is this nice, or is using 1 object better?
-      #       This approach makes it more atomic afaik?
-      domainCreateRules = (
-        lib.forEach cfg.domains (domain: {
-          object = "Domain";
-          deleteBy = "name";
-          value.${domain_to_jid domain} = {
-            name = domain;
-            certificateManagement = {
-              "@type" = "Manual";
-            };
-            dnsManagement = {
-              "@type" = "Manual";
-            };
-            dkimManagement = {
-              "@type" = "Manual";
-            };
-            subAddressing = {
-              "@type" = "Enabled";
-            };
-          };
-        })
-      );
-      certificateCreateRules = lib.optionals cfg.doACME (
-        lib.forEach (lib.unique ([ cfg.default_domain ] ++ cfg.domains)) (
-          (domain: {
-            object = "Certificate";
-            deleteBy = "certificate.filePath";
-            value."cert_${domain_to_jid domain}" = {
-              certificate = {
-                "@type" = "File";
-                filePath = "/run/credentials/stalwart.service/tls_${domain}_cert.pem";
-              };
-              privateKey = {
-                "@type" = "File";
-                filePath = "/run/credentials/stalwart.service/tls_${domain}_key.pem";
-              };
-            };
-          })
-
-        )
-      );
-      baseSetupRules = [
-        {
-          "@type" = "update";
-          "object" = "SystemSettings";
-          "value" = {
-            "defaultDomainId" = "#${domain_to_jid (builtins.elemAt cfg.domains 0)}";
-            "defaultHostname" = cfg.defaultDomain;
-          };
-        }
-        {
-          "@type" = "update";
-          "object" = "BlobStore";
-          "value" = {
-            "@type" = "Default";
-          };
-        }
-        {
-          "@type" = "update";
-          "object" = "InMemoryStore";
-          "value" = {
-            "@type" = "Default";
-          };
-        }
-        {
-          "@type" = "update";
-          "object" = "SearchStore";
-          "value" = {
-            "@type" = "Default";
-          };
-        }
-      ];
       proxyWellKnown =
         names:
         let
           uris = map (n: "/.well-known/${n}") names;
         in
         (lib.genAttrs uris (uri: {
-          proxyPass = "http://localhost:3080${uri}";
+          proxyPass = "http://127.0.0.1:8080${uri}";
           recommendedProxySettings = true;
         }));
       makeHTTPRedirectBody = target: https: "302 ${if https then "https" else "http"}://${target}";
@@ -236,11 +131,11 @@ in
                 "mail-v1.xml"
                 "autoconfig/mail"
                 "openid-configuration"
-                "/.well-known/oauth-authorization-server"
+                "oauth-authorization-server"
               ])
               // (lib.genAttrs [ "/.well-known/caldav/" "/.well-known/webdav/" "/.well-known/jmap" ] (uri: {
                 extraConfig = ''
-                  	return ${makeHTTPRedirectBody "${cfg.domain}${uri}" cfg.doACME};
+                  	return ${makeHTTPRedirectBody "${cfg.defaultDomain}${uri}" cfg.doACME};
                 '';
               }));
 
@@ -251,23 +146,24 @@ in
           enableACME = cfg.doACME;
           #serverName = "${domain}";
           locations."/" = {
-            proxyPass = "http://localhost:8080";
+            proxyPass = "http://127.0.0.1:8080";
             proxyWebsockets = true;
             recommendedProxySettings = true;
           };
         }));
 
-      stalwart-nix.stalwart = {
+      stalwart-nix.stalwart = let 
+      in {
         enable = cfg.enable;
-        url = if cfg.startupMode != "normal" then "http://localhost:8080/" else cfg.defaultDomain;
+        url = if cfg.startupMode != "normal" then "http://127.0.0.1:8080/" else "http://${cfg.defaultDomain}";
         credentialsFile = config.sops.templates.stalwart-config-creds.path;
         recoveryCredentialsFile = config.sops.templates.stalwart-recovery-creds.path;
         startupMode = cfg.startupMode;
         user = "stalwart";
         group = "stalwart";
-        configPlanPre = planPreamble;
-        idempotentCreate = certificateCreateRules ++ domainCreateRules ++ cfg.extraCreate;
-        configPlanPost = baseSetupRules ++ cfg.extraConfig;
+        configPlanPre = [];
+        idempotentCreate = cfg.extraCreate;
+        configPlanPost =   cfg.extraConfig;
         credentials =
           (lib.genAttrs secrets toCredfilePath)
           // (builtins.foldl' (a: b: a // b) ({ }) (
