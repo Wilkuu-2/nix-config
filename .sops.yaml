@@ -5,7 +5,7 @@ keys:
   - &vm_omega_relay age13x9grwfpqjgvjfcnwg5snuntp5emze85hqc8qwuz9nfphfe2pg4skl29r4 
   - &server_omega_relay age18u22lycxtcasvlm298qwzwuc97z56kkhw8ssy9yx4gzlkskuwpyqdz80g4
   - &server_threshold age1yd07835r408vk259jk09wa0seg5ymu97mh556wgu0twf35588cms7y9jht
-
+  - &server_aperture age1plk5hf03zreyg8kmrz68uz8slwaeswt044f36ktql05f56xpkfdsk2fxx4
 
 creation_rules: 
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
@@ -27,5 +27,9 @@ creation_rules:
     age: 
       - *admin_wilkuu 
       - *server_threshold 
+  - path_regex: secrets/aperture/[^/]+\.(yaml|json|env|ini)$
+    age:
+      - *admin_wilkuu 
+      - *server_aperture 
 
 

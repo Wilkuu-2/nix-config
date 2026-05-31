@@ -7,8 +7,8 @@
 
     stalwart-nix = {
       # local testing
-      # url = "path:/store2/code/stalwart-nix";
-      url = "github:Wilkuu-2/stalwart-nix";
+      url = "path:/store2/code/stalwart-nix";
+      # url = "github:Wilkuu-2/stalwart-nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
@@ -130,6 +130,7 @@
             home-manager.nixosModules.default
             disko.nixosModules.disko
             sops-nix.nixosModules.default
+            stalwart-nix.nixosModules.default
           ];
 
         };
@@ -159,6 +160,7 @@
             home-manager.nixosModules.default
             disko.nixosModules.default
             sops-nix.nixosModules.default
+            stalwart-nix.nixosModules.default
           ];
         };
       };
