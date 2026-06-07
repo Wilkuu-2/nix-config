@@ -53,8 +53,8 @@
       
       mail = {
         enable = true;
-        startupMode = "recovery"; 
-        defaultDomain = if isVM then "mail.omega-relay.local" else "mail.wilkuu.xyz";
+        startupMode = "normal"; 
+        defaultDomain = "mail.wilkuu.xyz";
         wellKnownDomains = [
           "wilkuu.xyz"
           "wilkuu.nl"

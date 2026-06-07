@@ -113,7 +113,10 @@ in
           '';
         };
       };
-
+      
+      security.acme.certs.${cfg.defaultDomain}.extraLegoRenewFlags = [
+        "--reuse-key"
+      ];
       services.nginx.enable = lib.mkDefault true;
       services.nginx.virtualHosts =
         (lib.genAttrs

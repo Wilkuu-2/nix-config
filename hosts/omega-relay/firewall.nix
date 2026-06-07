@@ -10,6 +10,7 @@ let
     443
     993
     465
+    587
   ];
   baseUDP = [
     wgHomePort # Wireguard

@@ -127,6 +127,7 @@
             ./hosts/omega-relay
             home-manager.nixosModules.default
             disko.nixosModules.disko
+            stalwart-nix.nixosModules.default
             sops-nix.nixosModules.default
           ];
 
