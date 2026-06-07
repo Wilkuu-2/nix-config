@@ -126,7 +126,7 @@ in
             [ cfg.defaultDomain ]
           ])
           (_wdomain: {
-            addSSL = lib.mkDefault cfg.doACME;
+            forceSSL = lib.mkDefault cfg.doACME;
             enableACME = lib.mkDefault cfg.doACME;
             locations =
               (proxyWellKnown [
@@ -145,7 +145,7 @@ in
           })
         )
         // (lib.genAttrs [ cfg.defaultDomain ] (_domain: {
-          addSSL = cfg.doACME;
+          forceSSL = cfg.doACME;
           enableACME = cfg.doACME;
           #serverName = "${domain}";
           locations."/" = {

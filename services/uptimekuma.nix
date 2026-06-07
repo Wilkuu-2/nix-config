@@ -44,7 +44,7 @@ in
     #     }));
 
     services.nginx.virtualHosts."${cfg.domain}" = {
-      addSSL = cfg.doACME;
+      forceSSL = cfg.doACME;
       enableACME = cfg.doACME;
       locations."/" = {
         proxyPass = "http://localhost:3111";

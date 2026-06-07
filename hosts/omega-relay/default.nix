@@ -151,7 +151,7 @@
       enable = true;
       virtualHosts."${domain}" = {
         enableACME = !isVM;
-        addSSL = !isVM;
+        forceSSL = !isVM;
         root = "/srv/www/wilkuu.xyz/";
         locations."/" = {
           index = "index.html";

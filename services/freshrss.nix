@@ -50,7 +50,7 @@ in
       );
 
       services.nginx.virtualHosts."${cfg.domain}" = {
-        addSSL = cfg.doACME;
+        forceSSL = cfg.doACME;
         enableACME = cfg.doACME;
       };
 

@@ -126,7 +126,7 @@ in
   };
   config.services.nginx.virtualHosts = lib.mkIf cfg.enable (
     lib.genAttrs cfg.domains (_vhost: {
-      addSSL = cfg.doACME;
+      forceSSL = cfg.doACME;
       enableACME = cfg.doACME;
       locations."/" = {
         proxyPass = "http://127.0.0.1:3081";

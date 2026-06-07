@@ -49,7 +49,7 @@ in
 
       services.nginx.virtualHosts."${cfg.domain}" = {
         enableACME = cfg.doACME;
-        addSSL = cfg.doACME;
+        forceSSL = cfg.doACME;
         locations."/" = {
           proxyPass = "http://localhost:3111";
           recommendedProxySettings = true;
