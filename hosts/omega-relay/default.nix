@@ -18,6 +18,7 @@
     ../../services/continuwuity.nix
     ../../services/bulwark.nix
     ../../services/mail2.nix
+    ../../services/ddns.nix
   ];
 
   addons = {
@@ -39,18 +40,31 @@
     chawan
   ];
 
+  sops.secrets."desec/token" = {
+    sopsFile = ../../secrets/${config.networking.hostName}/desec.yaml;
+    mode = "0440";
+  };
+
   wilkuu.services =
     let
       isVM = config.addons.virtualisation.isTestVM;
     in
     {
+      desecDyn = {
+        enable = true;
+        domains."wilkuu.dedyn.io" = {
+          doWildcard = true;
+          enableDDNS = true;
+          enableACME = true;
+        };
+        tokenSopsName = "desec/token";
+      };
       test_endpoint = {
         enable = true;
         domain = if isVM then "omega-relay.local" else "omega-relay.wilkuu.xyz";
         doACME = !isVM;
         port = 8080;
       };
-      
       mail = {
         enable = true;
         startupMode = "normal"; 
@@ -64,8 +78,6 @@
         extraConfig = []; 
         extraCreate = [];  
       };
-
-  
       bulwark = {
         enable = true;
         jmap_servers = [ "mail.wilkuu.xyz" ];
@@ -156,6 +168,16 @@
         locations."/" = {
           index = "index.html";
           tryFiles = "$uri $uri/ =404";
+        };
+      };
+      virualHosts."wilkuu.dedyn.io" = {
+        enableACME = true; 
+        forceSSL   = true; 
+        useACMEHost = "wilkuu.dedyn.io";
+        root = "/srv/www/wilkuu.dedyn.io/";
+        location."/" = {
+          index = "index.html"; 
+          tryFiles = "$uri $uri/ =404"; 
         };
       };
     };
