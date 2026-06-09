@@ -113,7 +113,7 @@ in
           '';
         };
       };
-      
+
       security.acme.certs.${cfg.defaultDomain}.extraLegoRenewFlags = [
         "--reuse-key"
       ];
@@ -155,18 +155,18 @@ in
           };
         }));
 
-      stalwart-nix.stalwart = let 
-      in {
+      stalwart-nix.stalwart = {
         enable = cfg.enable;
-        url = if cfg.startupMode != "normal" then "http://127.0.0.1:8080/" else "http://${cfg.defaultDomain}";
+        url =
+          if cfg.startupMode != "normal" then "http://127.0.0.1:8080/" else "http://${cfg.defaultDomain}";
         credentialsFile = config.sops.templates.stalwart-config-creds.path;
         recoveryCredentialsFile = config.sops.templates.stalwart-recovery-creds.path;
         startupMode = cfg.startupMode;
         user = "stalwart";
         group = "stalwart";
-        configPlanPre = [];
+        configPlanPre = [ ];
         idempotentCreate = cfg.extraCreate;
-        configPlanPost =   cfg.extraConfig;
+        configPlanPost = cfg.extraConfig;
         credentials =
           (lib.genAttrs secrets toCredfilePath)
           // (builtins.foldl' (a: b: a // b) ({ }) (

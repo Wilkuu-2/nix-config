@@ -71,15 +71,17 @@
       treefmt = forAllSystems (pkgs: _: treefmt-nix.lib.evalModule pkgs ./modules/treefmt.nix);
     in
     {
-      packages = (lib.recursiveUpdate  
-        (forAllSystems (
-          pkgs: _system: {
-            bulwark = pkgs.callPackage ./packages/bulwark/package.nix { };
+      packages = (
+        lib.recursiveUpdate
+          (forAllSystems (
+            pkgs: _system: {
+              bulwark = pkgs.callPackage ./packages/bulwark/package.nix { };
+            }
+          ))
+          {
+            "x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
           }
-        ))
-        {
-          "x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
-        });
+      );
 
       # for `nix fmt`
       formatter = forAllSystems (_: system: treefmt.${system}.config.build.wrapper);

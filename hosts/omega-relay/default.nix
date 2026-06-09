@@ -29,7 +29,7 @@
     gpg.enable = true;
     virtualisation.guest = true;
   };
-  nix.settings.trusted-users = [ "wilkuu"];
+  nix.settings.trusted-users = [ "wilkuu" ];
   boot.loader.grub = {
     enable = true;
     efiSupport = false;
@@ -67,16 +67,19 @@
       };
       mail = {
         enable = true;
-        startupMode = "normal"; 
+        startupMode = "normal";
         defaultDomain = "mail.wilkuu.xyz";
         wellKnownDomains = [
           "wilkuu.xyz"
           "wilkuu.nl"
         ];
-        domains = [ "wilkuu.xyz" "wilkuu.nl" ];
+        domains = [
+          "wilkuu.xyz"
+          "wilkuu.nl"
+        ];
         doACME = !isVM;
-        extraConfig = []; 
-        extraCreate = [];  
+        extraConfig = [ ];
+        extraCreate = [ ];
       };
       bulwark = {
         enable = true;
@@ -170,14 +173,13 @@
           tryFiles = "$uri $uri/ =404";
         };
       };
-      virualHosts."wilkuu.dedyn.io" = {
-        enableACME = true; 
-        forceSSL   = true; 
+      virtualHosts."wilkuu.dedyn.io" = {
+        forceSSL = true;
         useACMEHost = "wilkuu.dedyn.io";
         root = "/srv/www/wilkuu.dedyn.io/";
-        location."/" = {
-          index = "index.html"; 
-          tryFiles = "$uri $uri/ =404"; 
+        locations."/" = {
+          index = "index.html";
+          tryFiles = "$uri $uri/ =404";
         };
       };
     };
