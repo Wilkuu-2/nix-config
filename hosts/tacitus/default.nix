@@ -30,6 +30,13 @@
       };
     };
   };
+
+  boot.initrd.systemd.enable = true;
+  users.users.wilkuu.extraGroups = [ "tss" ];
+
+  security.tpm2.enable = true;
+  security.tpm2.pkcs11.enable = true;
+  security.tpm2.tctiEnvironment.enable = true;
   # Networking setup
   networking.hostName = "tacitus";
   services.resolved = {
