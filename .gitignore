@@ -1,1 +1,6 @@
 *_unencrypted
+*.qcow2
+*.pass 
+*_ed25519.pub
+*_ed25519
+secrets/*.pem
