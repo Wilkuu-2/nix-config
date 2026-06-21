@@ -33,13 +33,13 @@ in
 
       initLua = lib.mkMerge [
         ''
-          -- Load in the real config, if exists
-          local ok, fn = pcall (require, "entry")
-          if  ok then 
-           fn({ nix = true, })
-	  else
-	   vim.notify("lua/entry.lua not found, no config to load", vim.log.levels.DEBUG)
-          end''
+                    -- Load in the real config, if exists
+                    local ok, fn = pcall (require, "entry")
+                    if  ok then 
+                     fn({ nix = true, })
+          	  else
+          	   vim.notify("lua/entry.lua not found, no config to load", vim.log.levels.DEBUG)
+                    end''
 
       ];
     };

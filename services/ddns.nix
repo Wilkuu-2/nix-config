@@ -44,18 +44,18 @@ in
       ddns-updater-configs = builtins.concatLists (
         builtins.attrValues (
           lib.mapAttrs (
-            _name: dcfg:
+            name: dcfg:
             (
               lib.optional dcfg.doWildcard ({
                 provider = "desec";
-                domain = "*.${cfg.domain}";
+                domains = "*.${name}";
                 token = config.sops.placeholder.${cfg.tokenSopsName};
                 ip_version = "ipv4";
               })
               ++ [
                 {
                   provider = "desec";
-                  domain = cfg.domain;
+                  domain = name;
                   token = config.sops.placeholder.${cfg.tokenSopsName};
                   ip_version = "ipv4";
                 }

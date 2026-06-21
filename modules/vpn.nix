@@ -27,8 +27,9 @@ in
         pkgs.networkmanager-openconnect
       ];
       environment.systemPackages = with pkgs; [
-        openfortivpn openfortivpn-webview 
-      ]; 
+        openfortivpn
+        openfortivpn-webview
+      ];
     })
     (lib.mkIf desktop.enable (
       lib.mkMerge [
