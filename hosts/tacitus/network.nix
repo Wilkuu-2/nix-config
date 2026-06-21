@@ -8,7 +8,8 @@ let
     443
     config.services.grafana.port
     config.services.prometheus.port
-  ] ++ lib.mapAttrsToList (_: opt: opt.port) (
+  ]
+  ++ lib.mapAttrsToList (_: opt: opt.port) (
     lib.filterAttrs (
       _: e:
       let

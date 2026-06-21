@@ -111,13 +111,14 @@ in
               ];
             }
             {
-              job_name = "mikrotik"; 
-              static_configs = let 
-                port = toString config.services.prometheus.exporters.fail2ban.port;
-              in
-              [
-                { targets = ["localhost:${port}"]; }
-              ];
+              job_name = "mikrotik";
+              static_configs =
+                let
+                  port = toString config.services.prometheus.exporters.fail2ban.port;
+                in
+                [
+                  { targets = [ "localhost:${port}" ]; }
+                ];
 
             }
           ];
