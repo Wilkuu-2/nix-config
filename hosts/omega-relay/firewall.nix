@@ -23,7 +23,16 @@ let
 
   secureTCP = [
     # config.wilkuu.services.mysql.port
-  ];
+  ]
+  ++ lib.mapAttrsToList (_: opt: opt.port) (
+    lib.filterAttrs (
+      _: e:
+      let
+        evaluated = builtins.tryEval e;
+      in
+      evaluated.success && e ? enable && e.enable
+    ) config.services.prometheus.exporters
+  );
 
   secureUDP = [
   ];

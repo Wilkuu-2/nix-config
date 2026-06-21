@@ -1,4 +1,4 @@
-{ ... }:
+{ config, lib, ... }:
 let
   baseTCP = [
     20
@@ -6,7 +6,18 @@ let
     25
     80
     443
-  ];
+    config.services.grafana.port
+    config.services.prometheus.port
+  ] ++ lib.mapAttrsToList (_: opt: opt.port) (
+    lib.filterAttrs (
+      _: e:
+      let
+        evaluated = builtins.tryEval e;
+      in
+      evaluated.success && e ? enable && e.enable
+    ) config.services.prometheus.exporters
+  );
+
   baseUDP = [
   ];
   baseTCPRanges = [ ];

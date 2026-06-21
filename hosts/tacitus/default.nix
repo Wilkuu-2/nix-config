@@ -1,5 +1,6 @@
 {
   lib,
+  config,
   ...
 }:
 {
@@ -8,6 +9,12 @@
     ./disko.nix
     ./hardware.nix
   ];
+
+  wilkuu.services = {
+    prometheus.enableScraper = true;
+    prometheus.enableExporters = true;
+  };
+
   addons = {
     desktop.xfce.enable = lib.mkForce true;
     gpg.enable = true;

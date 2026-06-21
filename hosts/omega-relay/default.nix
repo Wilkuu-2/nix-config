@@ -50,6 +50,7 @@
       isVM = config.addons.virtualisation.isTestVM;
     in
     {
+      prometheus.enableExporters = true;
       desecDyn = {
         enable = true;
         domains."wilkuu.dedyn.io" = {
@@ -180,6 +181,14 @@
         locations."/" = {
           index = "index.html";
           tryFiles = "$uri $uri/ =404";
+        };
+      };
+      virtualHosts."moni.wilkuu.xyz" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          proxyPass = "http://192.168.88.5:3132";
+          recommendedProxySettings = true;
         };
       };
     };
