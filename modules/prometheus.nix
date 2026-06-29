@@ -114,7 +114,7 @@ in
               job_name = "mikrotik";
               static_configs =
                 let
-                  port = toString config.services.prometheus.exporters.fail2ban.port;
+                  port = toString config.services.prometheus.exporters.mikrotik.port;
                 in
                 [
                   { targets = [ "localhost:${port}" ]; }

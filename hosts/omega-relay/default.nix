@@ -10,6 +10,7 @@
     ./disko.nix
     ./vm.nix
     ./hardware-configuration.nix
+    ./certs.nix
     ../../services/mysql.nix
     ../../services/vaultwarden.nix
     ../../services/uptimekuma.nix
@@ -53,7 +54,7 @@
       prometheus.enableExporters = true;
       desecDyn = {
         enable = true;
-        domains."wilkuu.dedyn.io" = {
+        domains."wilkuu.xyz" = {
           doWildcard = true;
           enableDDNS = true;
           enableACME = true;
@@ -174,18 +175,10 @@
           tryFiles = "$uri $uri/ =404";
         };
       };
-      virtualHosts."wilkuu.dedyn.io" = {
-        forceSSL = true;
-        useACMEHost = "wilkuu.dedyn.io";
-        root = "/srv/www/wilkuu.dedyn.io/";
-        locations."/" = {
-          index = "index.html";
-          tryFiles = "$uri $uri/ =404";
-        };
-      };
       virtualHosts."moni.wilkuu.xyz" = {
         forceSSL = true;
-        enableACME = true;
+        enableACME = false;
+        useACMEHost = "wilkuu.xyz";  
         locations."/" = {
           proxyPass = "http://192.168.88.5:3132";
           recommendedProxySettings = true;

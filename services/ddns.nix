@@ -48,7 +48,7 @@ in
             (
               lib.optional dcfg.doWildcard ({
                 provider = "desec";
-                domains = "*.${name}";
+                domain = "*.${name}";
                 token = config.sops.placeholder.${cfg.tokenSopsName};
                 ip_version = "ipv4";
               })

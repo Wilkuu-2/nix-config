@@ -79,10 +79,10 @@ in
             ];
             presharedKeyFile = config.sops.secrets."wg/home/chrono/PSK".path;
             publicKey = "rP5lJY6ea7BKX40edzqNMJbhfLkSlSwG1FipEufeflk=";
-            # endpoint       = "45.138.54.155:16556";
-            endpoint = "wilkuu.duckdns.org:16556";
+            endpoint       = "45.138.54.155:16556";
+            # endpoint = "wilkuu.duckdns.org:16556";
             name = "wg-home-chronosphere";
-
+            persistentKeepalive = 5;
           }
         ];
       };

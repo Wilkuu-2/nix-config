@@ -88,7 +88,8 @@ in
       })
       (lib.mkIf cfg.browser.enable {
         home.packages = with pkgs; [
-          librewolf
+          # librewolf
+          firefox
         ];
       })
       (lib.mkIf cfg.work.enable {

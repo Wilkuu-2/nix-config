@@ -6,7 +6,7 @@ let
     25
     80
     443
-    config.services.grafana.port
+    config.services.grafana.settings.server.http_port
     config.services.prometheus.port
   ]
   ++ lib.mapAttrsToList (_: opt: opt.port) (

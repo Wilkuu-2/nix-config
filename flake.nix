@@ -3,14 +3,15 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
 
     stalwart-nix = {
       # local testing
       # url = "path:/store2/code/stalwart-nix";
       url = "github:Wilkuu-2/stalwart-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.treefmt-nix.follows = "treefmt-nix";
+      # Letting stalwart-nix using it's own nixpkgs prevents unnecessary rebuilds at the cost of some disk space. 
+      # inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
     sops-nix = {
