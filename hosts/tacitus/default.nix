@@ -8,11 +8,30 @@
     ./network.nix
     ./disko.nix
     ./hardware.nix
+    ./../../services/mysql.nix
+    ./../../services/kanboard.nix
+    ./../../services/firefly_iii.nix
   ];
 
+  wilkuu.mjmap = {
+    enable = true; 
+    users = ["wilkuu"];
+  };  
   wilkuu.services = {
     prometheus.enableScraper = true;
     prometheus.enableExporters = true;
+    test_endpoint.enable = false; 
+    mysql.enable = true;
+    kanboard = {
+      enable = true; 
+      domain = "kb.wilkuu.xyz";
+    };
+    firefly-iii = {
+      enable = true;
+      enable-importer = true;
+      domain = "fin.wilkuu.xyz";
+      importer-domain = "fin-imp.wilkuu.xyz";
+    };
   };
 
   addons = {
@@ -82,7 +101,7 @@
 
   sops.templates."prometheus-mikrotik-config" = {
     owner = "mikrotik-exporter";
-    content = lib.generators.toYAML {} {
+    content = lib.generators.toYAML { } {
       devices = [
         {
           name = "chronosphere";
@@ -100,15 +119,15 @@
       ];
       features = {
         dhcp = true;
-        dhcpv6 = true; 
+        dhcpv6 = true;
         optics = true;
         health = true;
         poe = true;
-        wlansta = true;
-        wlanif = true;
-        monitor=true;
-        routes = true; 
-        firware = true; 
+        wlansta = false;
+        wlanif =  false;
+        monitor = true;
+        routes = true;
+        firware = true;
         netwatch = true;
         conntrack = true;
       };

@@ -9,7 +9,7 @@
       # local testing
       # url = "path:/store2/code/stalwart-nix";
       url = "github:Wilkuu-2/stalwart-nix";
-      # Letting stalwart-nix using it's own nixpkgs prevents unnecessary rebuilds at the cost of some disk space. 
+      # Letting stalwart-nix using it's own nixpkgs prevents unnecessary rebuilds at the cost of some disk space.
       # inputs.nixpkgs.follows = "nixpkgs";
       # inputs.treefmt-nix.follows = "treefmt-nix";
     };

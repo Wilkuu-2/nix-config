@@ -15,7 +15,8 @@
     ./motd.nix
     ./locale.nix
     ./test_endpoint.nix
-    ./prometheus.nix
+     ./prometheus.nix
+    ./mjmap.nix
   ];
 
   nixpkgs.overlays = [

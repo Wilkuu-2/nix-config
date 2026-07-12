@@ -8,22 +8,22 @@ keys:
 
 
 creation_rules: 
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini|bin)$
     key_groups:
     age: 
       - *admin_wilkuu
       - *server_apocalypse 
-  - path_regex: secrets/apocalypse/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/apocalypse/[^/]+\.(yaml|json|env|ini|bin)$
     age: 
       - *admin_wilkuu
       - *server_apocalypse 
-  - path_regex: secrets/omega-relay/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/omega-relay/[^/]+\.(yaml|json|env|ini|bin)$
     age: 
       - *admin_wilkuu
       - *virtserver_omega_relay 
       - *vm_omega_relay 
       - *server_omega_relay 
-  - path_regex: secrets/tacitus/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/tacitus/[^/]+\.(yaml|json|env|ini|bin)$
     age: 
       - *admin_wilkuu 
       - *server_tacitus 

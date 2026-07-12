@@ -178,12 +178,41 @@
       virtualHosts."moni.wilkuu.xyz" = {
         forceSSL = true;
         enableACME = false;
-        useACMEHost = "wilkuu.xyz";  
+        useACMEHost = "wilkuu.xyz";
         locations."/" = {
           proxyPass = "http://192.168.88.5:3132";
           recommendedProxySettings = true;
         };
       };
+      virtualHosts."fin.wilkuu.xyz" = {
+        forceSSL = true;
+        enableACME = false;
+        useACMEHost = "wilkuu.xyz";
+        locations."/" = {
+          proxyPass = "http://192.168.88.5:80";
+          recommendedProxySettings = true;
+        };
+      };
+      virtualHosts."fin-imp.wilkuu.xyz" = {
+        forceSSL = true;
+        enableACME = false;
+        useACMEHost = "wilkuu.xyz";
+        locations."/" = {
+          proxyPass = "http://192.168.88.5:80";
+          recommendedProxySettings = true;
+        };
+      };
+      virtualHosts."kb.wilkuu.xyz" = {
+        forceSSL = true;
+        enableACME = false;
+        useACMEHost = "wilkuu.xyz";
+        locations."/" = {
+          proxyPass = "http://192.168.88.5:80";
+          recommendedProxySettings = true;
+        };
+      };
+
+
     };
 
   networking.hostName = "omega-relay";

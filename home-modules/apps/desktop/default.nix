@@ -71,13 +71,7 @@ in
           with pkgs;
           [
             obsidian
-            kdePackages.kdepim-runtime
-          ]
-          ++ (with pkgs.kdePackages; [
-            zanshin
-            kdepim-runtime
-            akonadi-calendar
-          ]);
+          ];
         # Todo force synthing to be on here
       })
       (lib.mkIf cfg.art.enable {
@@ -88,8 +82,8 @@ in
       })
       (lib.mkIf cfg.browser.enable {
         home.packages = with pkgs; [
-          # librewolf
-          firefox
+          librewolf
+          # firefox
         ];
       })
       (lib.mkIf cfg.work.enable {

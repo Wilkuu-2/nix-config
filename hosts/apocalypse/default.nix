@@ -19,6 +19,10 @@
     HandleLidSwitchDocked = "ignore";
   };
 
+  wilkuu.mjmap = {
+    enable = true; 
+    # users = ["wilkuu"];
+  };  
   ## Addons for this system
   addons = {
     desktop.hyprland.enable = false;
