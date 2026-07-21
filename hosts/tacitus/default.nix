@@ -14,16 +14,16 @@
   ];
 
   wilkuu.mjmap = {
-    enable = true; 
-    users = ["wilkuu"];
-  };  
+    enable = true;
+    users = [ "wilkuu" ];
+  };
   wilkuu.services = {
     prometheus.enableScraper = true;
     prometheus.enableExporters = true;
-    test_endpoint.enable = false; 
+    test_endpoint.enable = false;
     mysql.enable = true;
     kanboard = {
-      enable = true; 
+      enable = true;
       domain = "kb.wilkuu.xyz";
     };
     firefly-iii = {
@@ -124,7 +124,7 @@
         health = true;
         poe = true;
         wlansta = false;
-        wlanif =  false;
+        wlanif = false;
         monitor = true;
         routes = true;
         firware = true;

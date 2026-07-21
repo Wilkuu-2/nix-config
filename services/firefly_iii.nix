@@ -28,16 +28,16 @@ in
   };
   config = mkIf cfg.enable {
     services.nginx.virtualHosts = {
-       ${cfg.domain} = { 
-          enableACME = lib.mkForce false;
-          addSSL = lib.mkForce false; 
-          forceSSL = lib.mkForce false; 
-       }; 
-       ${cfg.importer-domain} = { 
-          enableACME = lib.mkForce false;
-          addSSL = lib.mkForce false; 
-          forceSSL = lib.mkForce false; 
-       }; 
+      ${cfg.domain} = {
+        enableACME = lib.mkForce false;
+        addSSL = lib.mkForce false;
+        forceSSL = lib.mkForce false;
+      };
+      ${cfg.importer-domain} = {
+        enableACME = lib.mkForce false;
+        addSSL = lib.mkForce false;
+        forceSSL = lib.mkForce false;
+      };
     };
     users.users."firefly_iii" = {
       isSystemUser = true;
@@ -63,8 +63,8 @@ in
         allowedUsers = [ "firefly_iii" ];
       };
       users.firefly_iii = {
-        sopsPlaceholder = config.sops.placeholder."firefly_iii/db_password"; 
-        host = "localhost"; 
+        sopsPlaceholder = config.sops.placeholder."firefly_iii/db_password";
+        host = "localhost";
       };
     };
     services.firefly-iii = {
@@ -80,10 +80,10 @@ in
         # DB
         DB_CONNECTION = "mysql";
         DB_DATABASE = "firefly_iii";
-        DB_HOST     = "localhost";
-        DB_PORT     = config.services.mysql.settings.mysqld.port; 
-        DB_USERNAME = "firefly_iii"; 
-        DB_PASSWORD = config.sops.secrets."firefly_iii/db_password".path;  
+        DB_HOST = "localhost";
+        DB_PORT = config.services.mysql.settings.mysqld.port;
+        DB_USERNAME = "firefly_iii";
+        DB_PASSWORD = config.sops.secrets."firefly_iii/db_password".path;
 
         # Proxying
         TRUSTED_PROXIES = "192.168.80.100";

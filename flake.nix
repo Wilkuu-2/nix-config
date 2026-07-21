@@ -57,7 +57,7 @@
     }@inputs:
     let
       lib = nixpkgs.lib;
-      inventory = (import ./inventory.nix) { inherit inputs; } ;
+      inventory = (import ./inventory.nix) { inherit inputs; };
       systems = [
         "x86_64-linux"
         "x86_64-darwin"
@@ -90,11 +90,12 @@
       checks = forAllSystems (_: system: { formatting = treefmt.${system}.config.build.check self; });
 
       nixosConfigurations = lib.mapAttrs (
-        self_name: host: lib.nixosSystem {
+        self_name: host:
+        lib.nixosSystem {
           specialArgs = {
             inherit inputs;
-            inherit inventory; 
-            inherit self_name; 
+            inherit inventory;
+            inherit self_name;
           };
           inherit (host) system;
           modules = [
@@ -103,9 +104,9 @@
             home-manager.nixosModules.default
             sops-nix.nixosModules.default
             disko.nixosModules.disko
-          ] ++ host.nix-modules;
+          ]
+          ++ host.nix-modules;
         }
-      ) 
-      (lib.filterAttrs (n: h: (h.nix  && h.type != "live")) inventory);
+      ) (lib.filterAttrs (_n: h: (h.nix && h.type != "live")) inventory);
     };
 }

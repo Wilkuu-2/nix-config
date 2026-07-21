@@ -1,41 +1,41 @@
-{inputs, ...}: {
+{ inputs, ... }: {
   omega-relay = {
     type = "server";
-    system = "x86_64-linux"; 
-    nix  = true;
-    nix-modules = [ 
-      ./users/wilkuu-server.nix 
+    system = "x86_64-linux";
+    nix = true;
+    nix-modules = [
+      ./users/wilkuu-server.nix
       inputs.stalwart-nix.nixosModules.default
     ];
-    interfaces = {};
-  };  
+    interfaces = { };
+  };
   apocalypse = {
-    type = "desktop"; 
-    system = "x86_64-linux"; 
-    nix  = true; 
+    type = "desktop";
+    system = "x86_64-linux";
+    nix = true;
     nix-modules = [
       ./users/wilkuu.nix
-    ]; 
-    interfaces = {}; 
-  }; 
+    ];
+    interfaces = { };
+  };
   tacitus = {
-    type = "desktop"; 
-    system = "x86_64-linux"; 
-    nix = true; 
+    type = "desktop";
+    system = "x86_64-linux";
+    nix = true;
     nix-modules = [
-      ./users/wilkuu-server.nix 
-    ]; 
-    interfaces = {}; 
+      ./users/wilkuu-server.nix
+    ];
+    interfaces = { };
 
   };
   # TODO: Support for live images as packages
   # full-iso = {
   #   type = "live";
-  #  system = "x86_64-linux"; 
-  #  nix = true; 
+  #  system = "x86_64-linux";
+  #  nix = true;
   #  nix-paths = [
-  #    ./users/live-user.nix 
-  #  ]; 
-  #  interfaces = null; 
+  #    ./users/live-user.nix
+  #  ];
+  #  interfaces = null;
   # };
 }

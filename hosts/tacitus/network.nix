@@ -8,7 +8,7 @@ let
     443
     config.services.grafana.settings.server.http_port
     config.services.prometheus.port
-    config.services.mysql.settings.mysqld.port 
+    config.services.mysql.settings.mysqld.port
   ]
   ++ lib.mapAttrsToList (_: opt: opt.port) (
     lib.filterAttrs (

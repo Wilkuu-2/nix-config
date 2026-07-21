@@ -212,7 +212,6 @@
         };
       };
 
-
     };
 
   networking.hostName = "omega-relay";
