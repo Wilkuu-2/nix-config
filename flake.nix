@@ -51,13 +51,13 @@
       nixpkgs,
       treefmt-nix,
       disko,
-      stalwart-nix,
       sops-nix,
       home-manager,
       ...
     }@inputs:
     let
       lib = nixpkgs.lib;
+      inventory = (import ./inventory.nix) { inherit inputs; } ;
       systems = [
         "x86_64-linux"
         "x86_64-darwin"
@@ -80,7 +80,7 @@
             }
           ))
           {
-            "x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
+            # "x86_64-linux".full-iso = self.nixosConfigurations.full-iso.config.system.build.isoImage;
           }
       );
 
@@ -89,67 +89,23 @@
       # for `nix flake check`
       checks = forAllSystems (_: system: { formatting = treefmt.${system}.config.build.check self; });
 
-      nixosConfigurations = {
-        apocalypse = nixpkgs.lib.nixosSystem {
+      nixosConfigurations = lib.mapAttrs (
+        self_name: host: lib.nixosSystem {
           specialArgs = {
             inherit inputs;
+            inherit inventory; 
+            inherit self_name; 
           };
-          system = "x86_64-linux";
+          inherit (host) system;
           modules = [
             ./modules
-            ./hosts/apocalypse
-            ./users/wilkuu.nix
-            stalwart-nix.nixosModules.default
+            ./hosts/${self_name}
             home-manager.nixosModules.default
             sops-nix.nixosModules.default
-          ];
-        };
-        full-iso = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            isoImage.squashfsCompression = "lz4";
-            isoImage.isoLabel = "NIX_WQ_ISO";
-          };
-          system = "x86_64-linux";
-          modules = [
-            ./modules
-            ./hosts/full-iso
-            ./users/live-user.nix
-            home-manager.nixosModules.default
-            sops-nix.nixosModules.default
-          ];
-        };
-        omega-relay = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-          };
-          system = "x86_64-linux";
-          modules = [
-            ./modules
-            ./users/wilkuu-server.nix
-            ./hosts/omega-relay
-            home-manager.nixosModules.default
             disko.nixosModules.disko
-            stalwart-nix.nixosModules.default
-            sops-nix.nixosModules.default
-          ];
-
-        };
-        tacitus = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-          };
-          system = "x86_64-linux";
-          modules = [
-            ./modules
-            ./users/wilkuu-server.nix
-            ./hosts/tacitus
-            home-manager.nixosModules.default
-            disko.nixosModules.disko
-            sops-nix.nixosModules.default
-          ];
-
-        };
-      };
+          ] ++ host.nix-modules;
+        }
+      ) 
+      (lib.filterAttrs (n: h: (h.nix  && h.type != "live")) inventory);
     };
 }
