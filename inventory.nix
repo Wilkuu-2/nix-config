@@ -7,7 +7,27 @@
       ./users/wilkuu-server.nix
       inputs.stalwart-nix.nixosModules.default
     ];
-    interfaces = { };
+    monitoring = {
+      internal = [
+        "wireguard"
+        "fail2ban"
+        "node"
+      ];
+    };
+    interfaces = {
+      wg-home = {
+        type = "wireguard";
+        layer = "internal";
+        ip = "192.168.80.100";
+      };
+      enp6s18 = {
+        type = "eth-networkd";
+        layer = "external";
+        ip = "45.136.141.133";
+        ip6 = "2a12:bec0:650:128::133/64";
+      };
+    };
+
   };
   apocalypse = {
     type = "desktop";
@@ -16,8 +36,24 @@
     nix-modules = [
       ./users/wilkuu.nix
     ];
-    interfaces = { };
+    monitoring = {
+      internal = [ "node" ];
+    };
+    interfaces = {
+      nix-laptop = {
+        type = "wireguard";
+        layer = "internal";
+        ip = "192.168.80.99";
+      };
+      wifi = {
+        type = "roaming";
+      };
+      eth = {
+        type = "roaming";
+      };
+    };
   };
+
   tacitus = {
     type = "desktop";
     system = "x86_64-linux";
@@ -25,7 +61,25 @@
     nix-modules = [
       ./users/wilkuu-server.nix
     ];
-    interfaces = { };
+    monitoring = {
+      local = [
+        "node"
+        "mikrotik"
+      ];
+    };
+    interfaces = {
+      enp7s0 = {
+        type = "eth-networkd";
+        layer = "internal";
+        ip = "192.168.88.5";
+      };
+      lo = {
+        # A little workaround for not needing to go over the net to get own stats
+        type = "roaming"; # TODO Set to something more sensible
+        layer = "local";
+        ip = "localhost";
+      };
+    };
 
   };
   # TODO: Support for live images as packages

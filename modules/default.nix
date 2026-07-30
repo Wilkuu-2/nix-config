@@ -17,6 +17,7 @@
     ./test_endpoint.nix
     ./prometheus.nix
     ./mjmap.nix
+    ./firewall.nix
   ];
 
   nixpkgs.overlays = [

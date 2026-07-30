@@ -1,5 +1,12 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  inventory,
+  self_name,
+  ...
+}:
 let
+  net = inventory.${self_name}.interfaces;
   wgHomePort = 16888;
   baseTCP = [
     20
@@ -23,16 +30,7 @@ let
 
   secureTCP = [
     # config.wilkuu.services.mysql.port
-  ]
-  ++ lib.mapAttrsToList (_: opt: opt.port) (
-    lib.filterAttrs (
-      _: e:
-      let
-        evaluated = builtins.tryEval e;
-      in
-      evaluated.success && e ? enable && e.enable
-    ) config.services.prometheus.exporters
-  );
+  ];
 
   secureUDP = [
   ];
@@ -63,7 +61,7 @@ in
     useNetworkd = true;
     interfaces = {
       wg-home = {
-        ips = [ "192.168.80.100/24" ];
+        ips = [ "${net.wg-home.ip}/24" ];
         extraOptions = {
           DNS = "192.168.88.1";
         };
@@ -113,24 +111,27 @@ in
     linkConfig.RequiredForOnline = "routable";
   };
 
-  networking.useDHCP = false;
-  networking.useNetworkd = true;
-  networking.nftables.enable = true;
-  networking.firewall = {
+  wilkuu.firewall = {
     enable = true;
-    checkReversePath = false;
-    allowedTCPPorts = baseTCP;
-    allowedUDPPorts = baseUDP;
-    allowedUDPPortRanges = baseUDPRanges;
-    allowedTCPPortRanges = baseTCPRanges;
-    interfaces = {
-      "wg-home" = {
+    defaultLayer = "external";
+    layers = {
+      external = {
+        allowedTCPPorts = baseTCP;
+        allowedUDPPorts = baseUDP;
+        allowedUDPPortRanges = baseUDPRanges;
+        allowedTCPPortRanges = baseTCPRanges;
+      };
+      internal = {
         allowedTCPPorts = secureTCP;
         allowedUDPPorts = secureUDP;
         allowedUDPPortRanges = secureUDPRanges;
         allowedTCPPortRanges = secureTCPRanges;
       };
     };
+  };
+  networking.useDHCP = false;
+  networking.useNetworkd = true;
+  networking.firewall = {
     trustedInterfaces = [
       "docker0"
       "br-*"

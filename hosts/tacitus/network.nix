@@ -48,27 +48,21 @@ in
       ];
     };
   };
-  networking = {
-    useNetworkd = true;
-    nftables.enable = true;
-    useDHCP = true;
-    firewall = {
-      # check  enable = true;
-      checkReversePath = false;
+
+  wilkuu.firewall = {
+    enable = true;
+    defaultLayer = "internal";
+    layers.internal = {
       allowedTCPPorts = baseTCP;
       allowedUDPPorts = baseUDP;
       allowedUDPPortRanges = baseUDPRanges;
       allowedTCPPortRanges = baseTCPRanges;
-      # TODO: Figure out how to do FW that allows only on the internal ip range
-      #interfaces = {
-      #  "wg-home" = {
-      #   allowedTCPPorts = secureTCP;
-      #   allowedUDPPorts = secureUDP;
-      #   allowedUDPPortRanges = secureUDPRanges;
-      #   allowedTCPPortRanges = secureTCPRanges;
-      # };
-      #};
     };
+  };
+  networking = {
+    useNetworkd = true;
+    nftables.enable = true;
+    useDHCP = true;
   };
 
 }

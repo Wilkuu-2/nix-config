@@ -3,4 +3,5 @@
 *.pass 
 *_ed25519.pub
 *_ed25519
-secrets/*.pem
+secrets/*.pem 
+.hidden 

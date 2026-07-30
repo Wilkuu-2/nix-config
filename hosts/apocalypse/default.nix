@@ -13,6 +13,8 @@
     "127.0.0.1" = [ "apocalypse.local" ];
   };
 
+  wilkuu.services.prometheus.enableExporters = true;
+
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
     HandleLidSwitchExternalPower = "lock";
