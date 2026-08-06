@@ -167,6 +167,7 @@ in
         configPlanPre = [ ];
         idempotentCreate = cfg.extraCreate;
         configPlanPost = cfg.extraConfig;
+        useMimalloc = true;
         credentials =
           (lib.genAttrs secrets toCredfilePath)
           // (builtins.foldl' (a: b: a // b) ({ }) (

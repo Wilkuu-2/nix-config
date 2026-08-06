@@ -215,8 +215,48 @@
     };
 
   networking.hostName = "omega-relay";
-  services.resolved = {
+  users.groups.unbound = {};
+  services.unbound = {
+    enable = true; 
+    group = "unbound";
+    localControlSocketPath = "/run/unbound/unbound.ctl";  
+    settings = {
+      server = let lan_domains = ["home" "home.arpa" "wilkuu" "lan"]; in {
+        qname-minimisation = true;  
+        private-domain = lan_domains; 
+        domain-insecure = lan_domains; 
+        unblock-lan-zones = true; 
+        insecure-lan-zones = true; 
+      };
+
+      forward-zone = [
+      # {
+      #  name = "home.wilkuu.xyz.";
+        # TODO: Maybe move the responsibility of home zones to omega-relay
+      #  forward-addr = [
+      #    "192.168.88.1"
+      #   ]; 
+      # } 
+      {
+        name = "."; 
+        forward-tls-upstream = true;
+        forward-addr = [
+          "1.1.1.1@853#cloudflare-dns.com"
+          "1.0.0.1@853#cloudflare-dns.com"
+          "8.8.8.8@853#dns.google"
+          "8.8.4.4@853#dns.google"
+        ];
+      }]; 
+
+    };  
+  }; 
+  services.prometheus.exporters.unbound = {
     enable = true;
+
+  };
+
+  services.resolved = {
+    enable = lib.mkForce false;
     settings.Resolve.DNSOverTLS = "opportunistic";
   };
 

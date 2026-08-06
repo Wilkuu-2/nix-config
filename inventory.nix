@@ -12,6 +12,8 @@
         "wireguard"
         "fail2ban"
         "node"
+        "systemd"
+        "unbound"
       ];
     };
     interfaces = {

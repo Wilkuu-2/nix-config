@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -22,9 +22,13 @@
   };
 
   wilkuu.mjmap = {
-    enable = true;
+    enable = false;
     # users = ["wilkuu"];
   };
+  environment.systemPackages = with pkgs; [
+    mjmap
+    freecad-wayland
+  ];
   ## Addons for this system
   addons = {
     desktop.hyprland.enable = false;

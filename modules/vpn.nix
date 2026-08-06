@@ -17,7 +17,10 @@ in
   };
 
   config = lib.mkMerge [
-    ({ services.mullvad-vpn.enable = opt-mullvad.enable; })
+    ({
+      services.mullvad-vpn.enable = opt-mullvad.enable;
+      services.mullvad-vpn.gui.enable = opt-mullvad.enable && desktop.enable;
+    })
     (lib.mkIf cfg.eduvpn.enable {
       networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
     })
@@ -33,9 +36,6 @@ in
     })
     (lib.mkIf desktop.enable (
       lib.mkMerge [
-        (lib.mkIf opt-mullvad.enable {
-          services.mullvad-vpn.package = pkgs.mullvad-vpn;
-        })
         (lib.mkIf cfg.eduvpn.enable {
           environment.systemPackages = with pkgs; [
             eduvpn-client
